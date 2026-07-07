@@ -7,6 +7,9 @@ const PUBLIC_PATHS = [
   "/legal-disclaimer", "/impressum", "/datenschutz", "/agb", "/ki-transparenz",
   "/passwort-vergessen", "/schulung", "/ki-kompetenz-review", "/themen",
   "/musterzertifikat", "/ueber-uns",
+  // SEO-Landingpages Phase 2 (SEO_GEO_TRUST_REPORT Kap. 7/11)
+  "/ki-kompetenz-nachweis", "/art-4-ai-act-erklaert", "/ki-fuehrerschein-vergleich",
+  "/chatgpt-schulung-mitarbeiter", "/ki-schulung-mitarbeiter",
 ];
 
 function isPublic(pathname: string): boolean {

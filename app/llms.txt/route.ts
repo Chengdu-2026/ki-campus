@@ -69,6 +69,11 @@ Teilnehmer nach ${appConfig.maxExamAttempts} inkludierten Versuchen weitere brau
 ## Wichtige Seiten
 - Alle Lerninhalte im Detail: ${appUrl}/schulung
 - Musterzertifikat und Verify-Demo: ${appUrl}/musterzertifikat
+- Art. 4 EU AI Act einfach erklärt (mit Fundstellen): ${appUrl}/art-4-ai-act-erklaert
+- „KI-Führerschein" ehrlich eingeordnet: ${appUrl}/ki-fuehrerschein-vergleich
+- KI-Kompetenz-Nachweis (was als Dokumentation entsteht): ${appUrl}/ki-kompetenz-nachweis
+- KI-Schulung für Mitarbeitende (Rollout und Ablauf): ${appUrl}/ki-schulung-mitarbeiter
+- ChatGPT-/Prompt-Schulung für Teams: ${appUrl}/chatgpt-schulung-mitarbeiter
 - Preise: ${appUrl}/pricing
 - FAQ mit Gesetzes-Fundstellen: ${appUrl}/faq
 - Über uns: ${appUrl}/ueber-uns

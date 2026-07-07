@@ -146,6 +146,12 @@ function gitSources(): ScanSource[] {
     ["CERTIFICATE_TEMPLATE", "i18n:certificate", dict["certificate"]],
     ["MARKETING_PAGE", "i18n:muster", dict["muster"]],
     ["MARKETING_PAGE", "i18n:about", dict["about"]],
+    // Phase-2-SEO-Seiten (V1.007)
+    ["MARKETING_PAGE", "i18n:art4", dict["art4"]],
+    ["MARKETING_PAGE", "i18n:fuehrerschein", dict["fuehrerschein"]],
+    ["MARKETING_PAGE", "i18n:nachweis", dict["nachweis"]],
+    ["MARKETING_PAGE", "i18n:chatgptLp", dict["chatgptLp"]],
+    ["MARKETING_PAGE", "i18n:mitarbeiterLp", dict["mitarbeiterLp"]],
   ];
   for (const [entityType, key, value] of i18nBlocks) {
     if (!value) continue;

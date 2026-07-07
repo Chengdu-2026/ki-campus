@@ -211,7 +211,9 @@ und 5 in einer Folgesession mit echten Zahlen füllen (Aufwand: ~1 Stunde).
 
 ## 5. Phase 3 — Keyword- und Suchintentionen (qualitativ)
 
-Volumina: nicht geprüft (s. o.). Intention/Funnel/Gewinner-Einschätzung basiert auf den
+Volumina: TEILWEISE GEPRÜFT — siehe Abschnitt 5a (SEMrush-Daten vom 2026-07-07,
+über eingeloggte Browser-Session gezogen; Free-Plan-Tageslimit nach 6 Kern-Keywords
+erreicht). Intention/Funnel/Gewinner-Einschätzung basiert auf den
 Live-SERP-Ergebnissen der Recherche (wer heute sichtbar ist) und Marktlogik.
 
 | Keyword | Intention | Zielgruppe | Funnel | Aktuell sichtbar (Recherche) | Empf. Zielseite | Content-Typ | Prio | Formulierungs-Risiko |
@@ -220,7 +222,7 @@ Live-SERP-Ergebnissen der Recherche (wer heute sichtbar ist) und Marktlogik.
 | KI-Kompetenz Art. 4 / Art. 4 AI Act Schulung | commercial | Compliance/DSB | Cons/Conv | BFI, Campus Wien, ai-act-law.eu | Kursseite + „Art. 4 einfach erklärt" | LP + Ratgeber | **hoch** | „Pflichtkurs"-Falle |
 | EU AI Act Schulung | commercial | DACH B2B | Cons | svg-akademie, softed, youknow | /eu-ai-act-schulung (neu) | LP | hoch | dito |
 | KI-Kompetenz Nachweis / KI Nachweis | **transactional** | GF/HR | **Conv** | aitraining.institute (!), Campus Wien | /ki-kompetenz-nachweis (neu) | LP mit Musterzertifikat | **hoch** | „Nachweis" ≠ Beweisgarantie klarstellen |
-| KI-Führerschein | commercial, hohes Volumen (n. g.) | GF/HR | Cons | WIFI, mITSM, IHK, der-ki-fuehrerschein.de, BWHW | Vergleichsseite „KI-Führerschein vs. Kompetenznachweis" | Vergleich | **hoch** | NIE als Eigenbezeichnung (Guard verbietet „offizieller KI-Führerschein" bereits) |
+| KI-Führerschein | commercial, hohes Volumen (n. g.) | GF/HR | Cons | WIFI, mITSM, IHK, der-ki-fuehrerschein.de, BWHW | Vergleichsseite „KI-Führerschein vs. Kompetenznachweis" | Vergleich | **hoch** | NIE als Eigenbezeichnung (die amtlich klingende Führerschein-Selbstbezeichnung steht bereits auf der Guard-Verbotsliste) |
 | KI Zertifikat | commercial | Einzelpersonen+Firmen | Cons | Mischmarkt | /ki-kompetenz-zertifikat (neu) | LP | mittel | „privat" immer dazu |
 | KI Schulung Mitarbeiter / AI Act Mitarbeiterschulung | commercial | HR | Cons/Conv | lawpilots (SEA!), elearning-werkstatt | /ki-schulung-mitarbeiter (neu) | LP | **hoch** | — |
 | ChatGPT Schulung Mitarbeiter | commercial | HR/Teams | Cons | gemischt, dünn | /chatgpt-schulung-mitarbeiter (Kurs 3!) | LP auf Kurs 3 | **hoch** | Markenrecht: beschreibend verwenden („Schulung für den Umgang mit ChatGPT") |
@@ -229,6 +231,49 @@ Live-SERP-Ergebnissen der Recherche (wer heute sichtbar ist) und Marktlogik.
 | KI Weiterbildung Unternehmen | informational | GF | Aw | jens.marketing, sensational (Vergleiche) | Blog/Ratgeber | Artikel | niedrig | — |
 | AI Literacy Training / EU AI Act Compliance Training (EN) | commercial | Int. Firmen in AT | Cons | IS-FOX u. a. | erst nach EN-Übersetzung | LP EN | niedrig (jetzt) | — |
 | Suchcluster „Übergangsfristen/Bußgelder AI Act" | informational | alle | Aw | Kanzleien, WKO | FAQ ausbauen/Artikel | Ratgeber | mittel | nur Fakten mit Fundstelle |
+
+### 5a. SEMrush-Keyword-Daten (gezogen 2026-07-07, Keyword Overview, DB Deutschland)
+
+Quelle: SEMrush Keyword Overview über eingeloggte Browser-Session (Free-Plan).
+Methodischer Befund vorab: **Die AT-Datenbank liegt für diese Nische fast durchgehend
+unter der Messschwelle** („n/v"; einzige Ausnahme: „KI Schulung" AT = 260/Monat).
+Deutschland ist daher der belastbare Proxy; AT-Realvolumen erfahrungsgemäß ~10 % der
+DE-Werte. Free-Plan-Tageslimit nach 6 Kern-Keywords erreicht — Rest offen (s. u.).
+
+| Keyword | Volumen DE/Monat | KD % | CPC | Intention (SEMrush) | Wichtigste Varianten (DE/Monat, KD %) |
+|---|---|---|---|---|---|
+| **KI Schulung** | **2.400** (AT: 260) | 57 — schwer (~119 Ref-Domains nötig) | 4,15 $ | informational | ki schulungen 590/57 · **ki schulung pflicht 390/26** |
+| **KI Führerschein** | **590** | **15 — leicht** | 1,86 $ | info/kommerziell | **ki führerschein pflicht 140/17** · ki führerschein kostenlos 70 · „was ist ein ki führerschein" 20 · 41 Varianten, Σ 1,4K |
+| **KI Kompetenz** | **390** | 27 — leicht | 1,99 $ | informational | **ki kompetenz schulung 390/31** · ki kompetenzen 320/21 · **ki kompetenz pflicht 110/20** · W-Frage „…Haftung der Geschäftsführung" · 102 Varianten, Σ 2,2K |
+| **EU AI Act Schulung** | **320** | **25 — leicht** | **8,28 $ (!)** | informational | eu ai act schulung mitarbeiter 20 · Σ 440 |
+| **ChatGPT Schulung** | **320** | 39 — möglich | 3,62 $ | Cluster „ChatGPT Schulung": **kommerziell 100 %** | chatgpt schulung online 40 · Σ 690 |
+| KI Kompetenz Nachweis | 10 | n/v | 2,96 $ | n/v | ki-kompetenz nachweis selbstständige 10 |
+| KI Schulung Mitarbeiter | 70 | n/v | n/v | n/v | AT: n/v |
+
+**Was die Zahlen strategisch bestätigen bzw. ändern:**
+
+1. **Führerschein-Vergleichsseite ist der beste Einzel-Hebel:** 590/Monat bei KD 15
+   ist das beste Volumen-zu-Aufwand-Verhältnis der ganzen Liste — und
+   „ki führerschein pflicht" (140/17) beantwortet exakt unsere Aufklärungs-These.
+2. **„Pflicht"-Suffix ist das Muster:** pflicht-Varianten bei Schulung (390/26),
+   Führerschein (140/17) und Kompetenz (110/20) — alle mit niedriger KD. Jede
+   Phase-2-Seite braucht eine sachliche „Ist das Pflicht?"-Sektion (Wording-Guard!).
+3. **EU AI Act Schulung: CPC 8,28 $** — der Markt zahlt hier die höchsten
+   Klickpreise, d. h. stärkste Kaufnähe. Die Art.-4-Seite muss dieses Keyword
+   mit abdecken (H2), nicht nur „Art. 4 AI Act".
+4. **„KI Schulung" solo (KD 57) ist als Haupt-Ziel unrealistisch** ohne
+   Backlink-Grundstock — bestätigt die Long-Tail-Strategie der Phase-2-Seiten.
+5. **/ki-kompetenz-nachweis ist eine reine Conversion-Seite** (10/Monat):
+   kein Traffic-Ziel, sondern Abschluss-Seite für interne Verlinkung — Erwartung
+   entsprechend setzen.
+6. Haftungs-W-Frage („warum führt fehlende KI-Kompetenz zur Haftung der
+   Geschäftsführung") existiert als Suchmuster → FAQ-Kandidat mit sauberer,
+   nicht panikmachender Antwort.
+
+**Noch offen (Tageslimit):** KI Zertifikat, Art 4 AI Act, AI Act Schulung, Copilot
+Schulung, KI Weiterbildung, KI Schulung Kosten/KMU — an einem Folgetag über dieselbe
+Browser-Session nachziehen (ca. 8–10 Abfragen/Tag im Free-Plan möglich; Bulk-Analyse
+ist Pro-only).
 
 **Wichtigste Lücke:** Ihr habt EINE öffentliche kommerzielle Seite (Start) + Kurskatalog.
 Für ~15 relevante Kaufintentionen fehlen dedizierte Seiten. Ohne sie rankt ihr nirgends —

@@ -104,9 +104,14 @@ export default async function HomePage() {
       <section className="mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-700 dark:bg-slate-900">
         <h2 className="text-xl font-semibold text-brand-900 dark:text-white">{t("home.legalTitle")}</h2>
         <p className="mt-2 text-slate-600 dark:text-slate-300">{t("home.legalText")}</p>
-        <Link href="/faq" className="mt-3 inline-block text-sm font-medium text-brand-700 underline-offset-4 hover:underline dark:text-accent-400">
-          {t("home.legalLink")} →
-        </Link>
+        <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1">
+          <Link href="/art-4-ai-act-erklaert" className="inline-block text-sm font-medium text-brand-700 underline-offset-4 hover:underline dark:text-accent-400">
+            {t("home.legalLinkArt4")} →
+          </Link>
+          <Link href="/faq" className="inline-block text-sm font-medium text-brand-700 underline-offset-4 hover:underline dark:text-accent-400">
+            {t("home.legalLink")} →
+          </Link>
+        </div>
       </section>
 
       {/* Muster-Teaser: das Kaufobjekt zeigen */}

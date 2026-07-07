@@ -626,7 +626,17 @@ async function main() {
       },
     });
   }
-  console.log("Versionsregister: ok (V1.003 + V1.004 + V1.005 + V1.006)");
+  const v1007 = await prisma.contentRevision.findFirst({ where: { versionLabel: "V1.007" } });
+  if (!v1007) {
+    await prisma.contentRevision.create({
+      data: {
+        entityType: "COURSE", entityId: course.id, versionLabel: "V1.007",
+        changeNote: "Fünf öffentliche SEO-/Ratgeberseiten (Phase 2 aus SEO_GEO_TRUST_REPORT): Art. 4 einfach erklärt (zitierfähige Definition, Quellenblock, Autorenblock), KI-Führerschein-Einordnung (FAQ-Schema), KI-Kompetenz-Nachweis, ChatGPT-/Prompt-Schulung (Kurs-3-Landingpage), KI-Schulung Mitarbeiter (FAQ-Schema). llms.txt und Footer/Startseite intern verlinkt.",
+        changedById: superadmin.id,
+      },
+    });
+  }
+  console.log("Versionsregister: ok (V1.003 + V1.004 + V1.005 + V1.006 + V1.007)");
 
   console.log("Seed abgeschlossen.");
   console.log("Logins: sascha.morocutti@gmail.com / Morocutti#Admin2026 | hr@musterfirma.example / Firmenadmin#2026 | anna.beispiel@musterfirma.example / Teilnehmer#2026");

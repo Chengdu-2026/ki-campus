@@ -17,16 +17,105 @@ Verbindliche Regeln: CLAUDE.md (Schreibstil, Recht, Versionierung, No-Touch).
   ist gesperrt. Nach npm-Installationsabbrüchen native Pakete prüfen
   (@next/swc, @prisma/client waren einmal trunkiert → Bus error/Typfehler).
 
-## SOFORT-KONTEXT für den nächsten Agenten (Stand 2026-07-08 früh)
-Session Teil 4 hat geliefert: Kurs 3 „Richtig Prompten" (V1.006) ·
-Leadmaschine /themen + /admin/leads · Roadmap-Seite /ki-kompetenz-review ·
-Konsistenz-Audit + neue CLAUDE.md-Regeln (KONSISTENZ-PFLICHT, ERST PRÜFEN
-DANN BAUEN) · CONTENT-AUDIT-SYSTEM Phase 1 komplett (0.7.0) · Kontaktdaten
-info@ki-nachweis.at + Telefon AT/CN · SMTP-Versand implementiert
-(nodemailer; Betrieb wartet auf Saschas Postfächer/DNS — siehe TODO
-„OFFEN — MAIL"). Verifikation zuletzt: Tests 106/106, tsc 0, Build grün.
-Sascha muss noch: npm install (nodemailer) + committen/pushen + db:generate
-+ db:init + db:seed. MERGE-ACHTUNG mit Teil-3-Session unverändert.
+## SOFORT-KONTEXT für den nächsten Agenten (CHAT-ÜBERGABE Teil 5 → Teil 6, Stand 2026-07-07)
+
+**Session Teil 5 hat geliefert (V0.9.0, Inhaltsstand V1.007):**
+1. SEMrush-Keyword-Daten: Report Kap. 5a NEU (6 Kern-Keywords, DB DE,
+   2026-07-07). Zugangs-Fakten: Semrush-MCP vom Plan NICHT abgedeckt,
+   Web-Bulk-Analyse Pro-only, Free-Plan-Tageslimit ~8–10 Einzelabfragen.
+   Kernbefunde: AT-DB unter Messschwelle (außer „KI Schulung" AT 260);
+   KI-Führerschein 590/Monat KD 15 = bester Hebel; „…pflicht"-Suffix ist
+   DAS Suchmuster (110–390/Monat, KD ≤ 26); EU AI Act Schulung CPC 8,28 $;
+   „KI Schulung" solo KD 57 ohne Backlinks unrealistisch;
+   /ki-kompetenz-nachweis = reine Conversion-Seite (10/Monat).
+2. Fünf Phase-2-Seiten (Report Kap. 7/11) GEBAUT: /art-4-ai-act-erklaert
+   (zitierfähiger Definitionsblock wortgleich llms.txt, Quellen EUR-Lex/
+   RTR/WKO, Autorenblock, Article-Schema), /ki-fuehrerschein-vergleich
+   (Begriffs-Aufklärung, FAQPage-Schema, Fairness-Hinweis),
+   /ki-kompetenz-nachweis, /chatgpt-schulung-mitarbeiter (Kurs-3-LP,
+   Module dynamisch aus DB, Markenhinweis), /ki-schulung-mitarbeiter
+   (Rollout + FAQPage). Alle: i18n-Sektionen art4/fuehrerschein/nachweis/
+   chatgptLp/mitarbeiterLp in de.ts, Glossar, ReadAloud, Disclaimer,
+   Muster-CTA, „Ist das Pflicht?"-Sektion, Breadcrumb-Schema.
+3. Integration: Middleware-PUBLIC_PATHS, Sitemap (5×0.8), llms.txt
+   („Wichtige Seiten" +5), Footer „Art. 4 erklärt", Startseiten-
+   Rechtskontext verlinkt Art.-4-Seite, Content-Audit-Registry
+   (scan.ts: i18n:art4 … i18n:mitarbeiterLp), ContentRevision V1.007.
+4. Wording-Guard-Fix: Report Kap. 5 Zeile enthielt die Verbotsphrase
+   wörtlich als Anmerkung → umformuliert (Test war dadurch rot).
+5. pdf-lib war im Sandbox-npm trunkiert (bekanntes Muster) → Neuinstall.
+
+**Letzte Verifikation (Teil 5):** Tests 106/106 · tsc 0 · Build EXIT=0
+(65 Routen inkl. der 5 neuen). Methode erneut bestätigt: frischer Git-Klon
+aus lokalem .git + Patch-Skripte über outputs/ — Mount liefert EDITIERTE
+Dateien abgeschnitten (de.ts kam 42 KB statt ~57 KB an), NEUE Dateien ok.
+
+**NÄCHSTE AUFTRÄGE (Reihenfolge):**
+1. Sascha: pushen (Kommandos unten), db:init + db:seed (V1.007-Revision),
+   Content-Audit-Scan starten und die 5 neuen i18n-Blöcke per TOTP freigeben.
+2. Semrush-Rest an einem Folgetag (Browser-Session, Free-Limit beachten):
+   KI Zertifikat, Art 4 AI Act, AI Act Schulung, Copilot Schulung,
+   KI Weiterbildung, KI Schulung Kosten/KMU → Kap. 5a ergänzen.
+3. Teil-3-MERGE (Superadmin-Paket): Berührpunkte config/app.ts, de.ts,
+   seed/index.ts, middleware, schema+init.sql — Versionslabel abstimmen
+   (Teil 5 = V1.007, nächstes = V1.008).
+4. Danach Queue wie gehabt: Praxistest beider Kurse, Grok-Fragenpaket,
+   Content-Audit Phase 1b, Zielgruppen-Seiten (HR/DSB/QM/KMU/Copilot).
+
+**VON SASCHA OFFEN:** Push V0.9.0, db:init+seed, Porträtfoto sascha.jpg,
+Modulbilder pr-*, All-Inkl-Postfächer + .env (TODO „OFFEN — MAIL"),
+AGB/Datenschutz beim Anwalt, Content-Audit-Charge + neue Blöcke freigeben,
+2FA fürs Owner-Approve.
+
+## VORHERIGE ÜBERGABE (Teil 4 → Teil 5, Stand 2026-07-08)
+
+**Session Teil 4 hat geliefert (chronologisch):**
+1. Kurs 3 „Richtig Prompten" komplett (V1.006): 10 Module/32 Lektionen/74
+   Fragen, Slugs pr-*, integriert inkl. Zertifikatstitel, Detailtexten, Tests.
+2. Roadmap-Seite /ki-kompetenz-review (Feature-Flags in config, „geplant").
+3. Konsistenz-Audit (u. a. /features war auf V0.1-Stand) + zwei neue
+   CLAUDE.md-Regeln: KONSISTENZ-PFLICHT und ERST PRÜFEN, DANN BAUEN.
+4. Leadmaschine /themen (InterestLead) + /admin/leads mit Themen-Ranking —
+   Kurs-Priorisierung läuft ab jetzt über diese Daten (ROADMAP §2).
+5. CONTENT-AUDIT-SYSTEM Phase 1 (0.7.0): hash-gebundene Freigaben,
+   konfigurierbare Checklisten (5 Seed-Templates), eigener Risk-Scanner,
+   /admin/content-audit + Detailseite mit Diff + TOTP-Owner-Freigabe,
+   CSV-Export, Scan erfasst 300+ Blöcke. Doku: CONTENT_AUDIT_SYSTEM.md,
+   CONTENT_REVIEW_WORKFLOW.md, LEGAL_WORDING_CHECK.md. Phase 1b offen (TODO).
+6. Kontaktdaten: info@ki-nachweis.at zentral, Telefon AT +43 699 10050220 /
+   CN +86 191 8217 7220 im Impressum; SMTP-Versand fertig implementiert
+   (nodemailer, MAIL_REPLY_TO) — Betrieb wartet auf Saschas All-Inkl-
+   Postfächer/DNS/DKIM (TODO „OFFEN — MAIL"; Host w0175bce.kasserver.com).
+7. SEO/GEO/Trust-ANALYSEREPORT: docs/SEO_GEO_TRUST_REPORT.md (13 Kapitel,
+   8 Wettbewerber live recherchiert, SEMrush nicht verfügbar → Plan ohne
+   MCP-Zugang, nichts erfunden).
+8. SEO-SOFORTMASSNAHMEN umgesetzt (0.8.0): /musterzertifikat + Muster-PDF-
+   API (echter Generator + MUSTER-Wasserzeichen, fester Demo-Verify-Code
+   demo1234… im Seed), /ueber-uns (Porträt-Slot public/images/sascha.jpg
+   OFFEN), /llms.txt dynamisch, Course-/Breadcrumb-JSON-LD, Startseite
+   (Problem/Rechtskontext/Muster-Teaser), Pricing-Pro-Kopf-Anker.
+
+**Letzte Verifikation:** Tests 106/106 · tsc 0 · Build grün (59 Routen inkl.
+aller neuen). Verifikationsmethode: frischer Git-Klon in Sandbox + Patch-
+Skripte (Mount-Sync für EDITIERTE Dateien unzuverlässig — neue Dateien ok).
+
+**NÄCHSTE AUFTRÄGE (Reihenfolge):**
+1. Phase-2-Seiten aus SEO_GEO_TRUST_REPORT Kap. 7/11 (fertig spezifiziert):
+   /ki-kompetenz-nachweis → /art-4-ai-act-erklaert →
+   /ki-fuehrerschein-vergleich → /chatgpt-schulung-mitarbeiter →
+   /ki-schulung-mitarbeiter. Jede: Schema, Quellenblock, Muster-CTA,
+   Wording-Guard beachten, danach Content-Audit-Scan.
+2. Semrush-Keyword-Zahlen: Sascha ist im Browser eingeloggt → via
+   Chrome-MCP aus dem Web-UI ziehen (Keyword Overview, DB Austria, Liste
+   in Report Kap. 5) und Report-Tabellen füllen. Alternativ Plan-Upgrade.
+3. Danach Queue wie gehabt: Superadmin-Paket-MERGE aus Teil 3 (Berührpunkte:
+   config/app.ts, de.ts, seed/index.ts, middleware, schema+init.sql!),
+   Praxistest, Grok-Fragenpaket, Content-Audit Phase 1b.
+
+**VON SASCHA OFFEN:** Push (V0.8.0-Kommandos hat er), npm install,
+db:generate+init+seed, Porträtfoto sascha.jpg, All-Inkl-Postfächer + .env,
+AGB/Datenschutz beim Anwalt, erste Content-Audit-Charge abarbeiten
+(CONTENT_REVIEW_WORKFLOW.md), 2FA fürs Owner-Approve aktivieren.
 
 ## Aktueller Stand (2026-07-07 Nacht, nach V1.006 — Parallel-Session Teil 4)
 Funktioniert: Registrierung, Einladungen, Login/2FA, Passwort-Reset, Lernpfad,

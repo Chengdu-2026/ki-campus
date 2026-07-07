@@ -14,6 +14,15 @@ Rechtstexte bewusst formal geblieben sind.
   Zertifikat-Disclaimer, Widerruf/Zahlungsbedingungen, AVV, Cookie-Hinweise,
   sonstige juristische Texte. QM-/Admin-Texte: sachlich, kurz, verständlich.
 
+## 0a. Im Praxisstil verfasst (2026-07-07, Teil 5 — V1.007)
+- Fünf neue öffentliche SEO-/Ratgeberseiten (lib/i18n/de.ts → art4,
+  fuehrerschein, nachweis, chatgptLp, mitarbeiterLp): du-Form, ehrliche
+  Einordnungen („kein eigener Bußgeldtatbestand", „Marketingbegriff — mehr
+  nicht"), Merksätze („Die Pflicht gilt der Maßnahme, nicht einem Produkt"),
+  Alltagsbeispiele (Vertrieb/Buchhaltung/Support als Betreiber). Disclaimer-
+  Blöcke je Seite formal gehalten. Muss noch durch den Content-Audit-Scan
+  (i18n:art4 usw.) und die TOTP-Owner-Freigabe.
+
 ## 1. Im Praxisstil verfasst/überarbeitet (2026-07-07)
 - Alle 12 neuen Lektionen der Basic-Module 12–16 (prisma/seed/content-lessons.ts):
   du-Form, konkrete Alltagssituationen, ehrliche Warnungen, Merksätze.

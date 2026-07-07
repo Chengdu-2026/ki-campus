@@ -1,7 +1,37 @@
 # Tagesabschluss
 
 ## Datum
-2026-07-08 (Nacht — Teil 4 Fortsetzung: Content-Audit-System Phase 1 GEBAUT)
+2026-07-07 (Teil 5: SEMrush-Keyword-Daten + Phase-2-SEO-Seiten, V0.9.0)
+
+## Heute erledigt (Teil 5)
+- SEMrush-Keyword-Daten gezogen (Browser-Session, Free-Plan; MCP vom Plan
+  nicht abgedeckt, Bulk-Analyse Pro-only, Tageslimit nach 6 Kern-Keywords):
+  Report Kap. 5a neu mit Zahlen + strategischen Ableitungen. Kernbefunde:
+  AT-DB unter Messschwelle (außer „KI Schulung" AT 260); KI-Führerschein
+  590/Monat bei KD 15 = bester Hebel; „…pflicht"-Suffix überall das
+  Suchmuster; „KI Schulung" solo (KD 57) ohne Backlinks unrealistisch.
+- Fünf Phase-2-Seiten gebaut (Report Kap. 7/11): /art-4-ai-act-erklaert,
+  /ki-fuehrerschein-vergleich, /ki-kompetenz-nachweis,
+  /chatgpt-schulung-mitarbeiter (Kurs-3-LP, Module dynamisch aus DB),
+  /ki-schulung-mitarbeiter — alle mit JSON-LD (Article/FAQPage/Breadcrumb),
+  Quellen-/Disclaimer-Blöcken, Glossar, ReadAloud, Muster-CTA,
+  „Ist das Pflicht?"-Sektionen (Semrush-Befund) und interner Verlinkung.
+- Integration: Middleware-Public-Paths, Sitemap, llms.txt, Footer-Link
+  „Art. 4 erklärt", Startseiten-Rechtskontext verlinkt Art.-4-Seite.
+- Versionierung: contentVersionLabel V1.007 + ContentRevision im Seed.
+- Verifikation in Sandbox über frischen Git-Klon + Patch-Skript
+  (Mount-Sync-Bug bestätigt: editierte Dateien kommen abgeschnitten an).
+
+## Offen nach Teil 5
+- Semrush-Rest (KI Zertifikat, Copilot, Kosten/KMU …) an einem Folgetag
+  über die Browser-Session nachziehen (~8–10 Abfragen/Tag frei).
+- Content-Audit-Scan über die neuen i18n-Blöcke laufen lassen (art4,
+  fuehrerschein, nachweis, chatgptLp, mitarbeiterLp) — Owner-Freigabe TOTP.
+- Danach Queue: Teil-3-Merge (Superadmin-Paket), Praxistest, Grok-Fragen.
+
+---
+
+## Vorheriger Abschluss: 2026-07-08 (Nacht — Teil 4 Fortsetzung: Content-Audit-System Phase 1 GEBAUT)
 
 ## Heute erledigt
 - Content-Audit-System Phase 1 komplett umgesetzt (Owner-Anweisung „baue

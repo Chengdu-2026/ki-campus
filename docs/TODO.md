@@ -1,5 +1,26 @@
 # TODO
 
+## Erledigt am 2026-07-07 (Teil 5: Semrush + Phase-2-SEO-Seiten, V0.9.0)
+- [x] SEMrush-Keyword-Daten (6 Kern-Keywords, DB DE) über Browser-Session →
+      Report Kap. 5a; Befund: MCP vom Semrush-Plan nicht abgedeckt,
+      Bulk-Analyse Pro-only, Free-Tageslimit ~8–10 Abfragen
+- [x] Phase-2-Seiten: /art-4-ai-act-erklaert, /ki-fuehrerschein-vergleich,
+      /ki-kompetenz-nachweis, /chatgpt-schulung-mitarbeiter,
+      /ki-schulung-mitarbeiter (JSON-LD, Quellen, Glossar, ReadAloud,
+      Muster-CTA, Pflicht-Sektionen, dynamische Kursdaten aus DB)
+- [x] Integration: Middleware, Sitemap, llms.txt, Footer, Startseiten-Link,
+      Content-Audit-Registry (i18n:art4 … i18n:mitarbeiterLp),
+      ContentRevision V1.007 + contentVersionLabel
+
+## OFFEN — Teil 5 Folgearbeiten
+- [ ] Semrush-Rest nachziehen (KI Zertifikat, Art 4 AI Act, AI Act Schulung,
+      Copilot Schulung, KI Weiterbildung, KI Schulung Kosten/KMU) —
+      Folgetag, Browser-Session, Report Kap. 5a ergänzen
+- [ ] Content-Audit-Scan ausführen → neue Blöcke i18n:art4/fuehrerschein/
+      nachweis/chatgptLp/mitarbeiterLp prüfen und per TOTP freigeben (Sascha)
+- [ ] Interne Verlinkung Ausbaustufe: /schulung-Modulseiten → Geld-Seiten
+      (Report Kap. 12.6), wenn erste Rankings sichtbar
+
 ## OFFEN — MAIL (wartet auf Sascha; Code ist fertig, Stand 2026-07-08)
 - [ ] All-Inkl (KAS): Postfächer anlegen — noreply@ki-nachweis.at (Versand)
       und info@ki-nachweis.at (Empfang: Impressum, Anfragen, DSGVO-Widerrufe)

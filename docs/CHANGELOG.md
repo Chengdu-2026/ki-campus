@@ -1,5 +1,40 @@
 # Changelog
 
+## [0.9.0] — 2026-07-07 (Teil 5: SEMrush-Daten + Phase-2-SEO-Seiten)
+
+### Hinzugefügt
+- Fünf öffentliche SEO-/Ratgeberseiten (Phase 2 aus SEO_GEO_TRUST_REPORT
+  Kap. 7/11, Inhaltsstand V1.007):
+  - /art-4-ai-act-erklaert: Ratgeber mit zitierfähigem Definitionsblock
+    (wortgleich mit /llms.txt), „Ist das Pflicht?"-Sektion, ehrlicher
+    Sanktions-Einordnung (kein eigener Bußgeldtatbestand), Umsetzungs-
+    Schritten, Quellenblock (EUR-Lex/RTR/WKO), Autorenblock; Article- +
+    Breadcrumb-JSON-LD
+  - /ki-fuehrerschein-vergleich: ehrliche Einordnung des Marketingbegriffs
+    „KI-Führerschein" (kein staatlich geregeltes Dokument), Pflicht-Frage,
+    4-Punkte-Seriositäts-Checkliste, FAQ; Article- + FAQPage- +
+    Breadcrumb-JSON-LD; Fairness-Hinweis zu Fremdanbietern
+  - /ki-kompetenz-nachweis: Conversion-Seite — was als Nachweis entsteht
+    (PDF+QR+CSV+Versionsstand), ehrliche „kann/kann nicht"-Sektion,
+    Ablauf, Muster-CTA
+  - /chatgpt-schulung-mitarbeiter: Landingpage auf Kurs 3 „Richtig
+    Prompten", Modulliste dynamisch aus DB (KONSISTENZ-PFLICHT),
+    Markenhinweis (beschreibende Nutzung ChatGPT/Copilot/Gemini/Claude)
+  - /ki-schulung-mitarbeiter: Rollout-Seite (4 Schritte), Pflicht-Sektion,
+    Kurskarten dynamisch aus DB, FAQ; FAQPage-JSON-LD
+- Alle 5 Seiten: Glossar über Überschriften, ReadAloud, Disclaimer,
+  Middleware-Public-Paths, Sitemap (0.8), interne Verlinkung
+- llms.txt: 5 neue „Wichtige Seiten"-Einträge; Footer-Link „Art. 4 erklärt";
+  Startseite: Rechtskontext-Sektion verlinkt zusätzlich auf die Art.-4-Seite
+- SEO_GEO_TRUST_REPORT Kap. 5a: SEMrush-Keyword-Daten (2026-07-07, DB DE,
+  über Browser-Session; AT unter Messschwelle): KI Schulung 2.400/KD57,
+  KI-Führerschein 590/KD15, KI Kompetenz 390/KD27, EU AI Act Schulung
+  320/KD25/CPC 8,28 $, ChatGPT Schulung 320/KD39, Nachweis 10 —
+  strategische Ableitungen dokumentiert („pflicht"-Suffix-Muster u. a.)
+
+### Geändert
+- contentVersionLabel → V1.007; Seed legt ContentRevision V1.007 an
+
 ## [0.8.0] — 2026-07-08 (SEO-/Trust-Sofortmaßnahmen aus dem Analysereport)
 
 ### Hinzugefügt

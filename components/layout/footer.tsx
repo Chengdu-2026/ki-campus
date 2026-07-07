@@ -18,6 +18,7 @@ export function Footer() {
           <Link className="hover:underline" href="/themen">{t("footer.topicWish")}</Link>
           <Link className="hover:underline" href="/ueber-uns">{t("footer.aboutUs")}</Link>
           <Link className="hover:underline" href="/musterzertifikat">{t("footer.sampleCertificate")}</Link>
+          <Link className="hover:underline" href="/art-4-ai-act-erklaert">{t("footer.art4Guide")}</Link>
         </nav>
         <p className="text-xs">
           © {new Date().getFullYear()} {appConfig.legalCompanyName} · {appConfig.legalCompanyNameZh}
