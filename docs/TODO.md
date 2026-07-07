@@ -1,5 +1,20 @@
 # TODO
 
+## OFFEN — MAIL (wartet auf Sascha; Code ist fertig, Stand 2026-07-08)
+- [ ] All-Inkl (KAS): Postfächer anlegen — noreply@ki-nachweis.at (Versand)
+      und info@ki-nachweis.at (Empfang: Impressum, Anfragen, DSGVO-Widerrufe)
+- [ ] DNS der Domain ki-nachweis.at abwarten/Registrierung anstoßen
+      (KAS-Warnung „keine DNS-Informationen", bis 24 h) + SSL aktivieren
+- [ ] .env befüllen: MAIL_PROVIDER=smtp, SMTP_HOST=w0175bce.kasserver.com,
+      SMTP_PORT=587, SMTP_USER=<KAS-Postfach-Login m…>, SMTP_PASS=<Passwort>,
+      MAIL_FROM="KI-Kompetenz Campus <noreply@ki-nachweis.at>",
+      MAIL_REPLY_TO=info@ki-nachweis.at — Passwort nur lokal (.env ist gitignored)
+- [ ] DKIM im KAS aktivieren (+ SPF prüfen), sonst Spam-Ordner
+- [ ] Testlauf: Passwort-Reset an eigene Adresse → MailLog muss SENT zeigen
+- [ ] HOSTING-ENTSCHEIDUNG vor Launch: All-Inkl-Webspace ist PHP-Hosting —
+      die Next.js-Plattform braucht Node-Hosting (Vercel/VPS). All-Inkl bleibt
+      Mail+DNS-Host (MX dort), Domain zeigt per DNS aufs App-Hosting.
+
 ## Erledigt am 2026-07-07 Nacht (Parallel-Session „KI Schulung Teil 4")
 - [x] Kurs 3 „Richtig Prompten — KI-Assistenten wirksam nutzen": 10 Module,
       32 Lektionen (Slug-Präfix pr-), 74 Fragen (43 % Praxisfälle, 10 neue
@@ -107,7 +122,11 @@
 - [ ] AGB juristisch erstellen lassen (Platzhalter /agb) — Anwalt
 - [ ] Datenschutzerklärung finalisieren: Hosting-Standort, AVV-Muster,
       Drittlandtransfer (Betreiber-Sitz VR China) — Anwalt
-- [ ] SMTP-Versand produktiv anbinden (lib/mail.ts, nodemailer) + Absender-Domain (SPF/DKIM)
+- [x] SMTP-Versand implementiert (lib/mail.ts, nodemailer, MAIL_PROVIDER=smtp,
+      MailLog SENT/FAILED; 2026-07-08). NOCH OFFEN als Betriebsschritt:
+      echte SMTP-Zugangsdaten des ki-nachweis.at-Hosters in .env eintragen
+      (SMTP_HOST/PORT/USER/PASS, MAIL_FROM) + SPF/DKIM-DNS-Einträge setzen,
+      dann MAIL_PROVIDER=smtp aktivieren und Testmail prüfen
 - [ ] Demo-Logins/Seed-Passwörter entfernen bzw. rotieren
 - [ ] Rate-Limiting auf /login und /verify (aktuell nur Audit-Protokollierung)
 - [ ] 2FA-Backup-Codes (Wiederherstellung bei Handyverlust — aktuell nur via DB-Reset durch Superadmin)

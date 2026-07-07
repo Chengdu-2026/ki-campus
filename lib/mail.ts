@@ -43,9 +43,42 @@ export async function sendMail(
     return;
   }
 
-  // SMTP-Anbindung (prod): bewusst als klar dokumentierte Erweiterungsstelle.
-  await prisma.mailLog.create({
-    data: { to, template, subject, body, status: "LOGGED" },
-  });
-  console.warn("MAIL_PROVIDER=smtp konfiguriert, aber kein SMTP-Client installiert. Siehe docs/DEPLOYMENT.md.");
+  if (provider === "smtp") {
+    // SMTP-Versand (prod): Konfiguration ausschließlich über .env —
+    // SMTP_HOST, SMTP_PORT (587=STARTTLS / 465=TLS), SMTP_USER, SMTP_PASS,
+    // MAIL_FROM (z. B. "KI-Kompetenz Campus <info@ki-nachweis.at>").
+    // Details: docs/DEPLOYMENT.md (inkl. SPF/DKIM-Pflicht für Zustellbarkeit).
+    const host = process.env.SMTP_HOST;
+    const user = process.env.SMTP_USER;
+    const pass = process.env.SMTP_PASS;
+    const from = process.env.MAIL_FROM ?? `${appConfig.appName} <${appConfig.contactEmail}>`;
+    if (!host || !user || !pass) {
+      await prisma.mailLog.create({ data: { to, template, subject, body, status: "FAILED" } });
+      console.error("MAIL_PROVIDER=smtp, aber SMTP_HOST/SMTP_USER/SMTP_PASS fehlen in .env — Mail nicht versendet.");
+      return;
+    }
+    try {
+      // Dynamischer Import: hält den Client aus Build/Edge-Bundles heraus.
+      const nodemailer = (await import("nodemailer")).default;
+      const port = Number(process.env.SMTP_PORT ?? 587);
+      const transporter = nodemailer.createTransport({
+        host,
+        port,
+        secure: port === 465, // 465 = implizites TLS; 587 = STARTTLS
+        auth: { user, pass },
+      });
+      // Optional MAIL_REPLY_TO: Versand von noreply@, Antworten landen bei info@.
+      const replyTo = process.env.MAIL_REPLY_TO || undefined;
+      await transporter.sendMail({ from, to, subject, text: body, replyTo });
+      await prisma.mailLog.create({ data: { to, template, subject, body, status: "SENT" } });
+    } catch (e) {
+      await prisma.mailLog.create({ data: { to, template, subject, body, status: "FAILED" } });
+      console.error("SMTP-Versand fehlgeschlagen:", e);
+    }
+    return;
+  }
+
+  // Unbekannter Provider: sicherer Fallback auf Log.
+  await prisma.mailLog.create({ data: { to, template, subject, body, status: "LOGGED" } });
+  console.warn(`Unbekannter MAIL_PROVIDER "${provider}" — Mail nur geloggt. Siehe docs/DEPLOYMENT.md.`);
 }

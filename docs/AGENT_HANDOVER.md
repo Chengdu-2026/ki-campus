@@ -17,6 +17,17 @@ Verbindliche Regeln: CLAUDE.md (Schreibstil, Recht, Versionierung, No-Touch).
   ist gesperrt. Nach npm-Installationsabbrüchen native Pakete prüfen
   (@next/swc, @prisma/client waren einmal trunkiert → Bus error/Typfehler).
 
+## SOFORT-KONTEXT für den nächsten Agenten (Stand 2026-07-08 früh)
+Session Teil 4 hat geliefert: Kurs 3 „Richtig Prompten" (V1.006) ·
+Leadmaschine /themen + /admin/leads · Roadmap-Seite /ki-kompetenz-review ·
+Konsistenz-Audit + neue CLAUDE.md-Regeln (KONSISTENZ-PFLICHT, ERST PRÜFEN
+DANN BAUEN) · CONTENT-AUDIT-SYSTEM Phase 1 komplett (0.7.0) · Kontaktdaten
+info@ki-nachweis.at + Telefon AT/CN · SMTP-Versand implementiert
+(nodemailer; Betrieb wartet auf Saschas Postfächer/DNS — siehe TODO
+„OFFEN — MAIL"). Verifikation zuletzt: Tests 106/106, tsc 0, Build grün.
+Sascha muss noch: npm install (nodemailer) + committen/pushen + db:generate
++ db:init + db:seed. MERGE-ACHTUNG mit Teil-3-Session unverändert.
+
 ## Aktueller Stand (2026-07-07 Nacht, nach V1.006 — Parallel-Session Teil 4)
 Funktioniert: Registrierung, Einladungen, Login/2FA, Passwort-Reset, Lernpfad,
 Prüfungs-Gate, Test mit Resume, Auswertung mit Kategorien-Analyse, adaptive

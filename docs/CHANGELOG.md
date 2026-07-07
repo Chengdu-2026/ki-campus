@@ -35,6 +35,16 @@
   (lib/content-audit/logic.ts) analog zur Guard-Liste selbst;
   Seed-Checklisten-Labels Guard-fest formuliert
 
+### Hinzugefügt (Nachtrag: Kontaktdaten + SMTP)
+- Offizielle Kontaktdaten hinterlegt: contactEmail info@ki-nachweis.at
+  (wirkt zentral über appConfig an allen 11 Stellen inkl. Zertifikats-
+  Aussteller-Kontakt und Verify), Telefon AT +43 699 10050220 und
+  Telefon China +86 191 8217 7220 (config + Impressum); Seed aktualisiert
+  bestehendes Rechtsprofil (E-Mail/Datenschutzkontakt) statt nur Neuanlage
+- SMTP-Versand implementiert (lib/mail.ts + nodemailer): MAIL_PROVIDER=smtp
+  mit SMTP_HOST/PORT/USER/PASS + MAIL_FROM aus .env, MailLog SENT/FAILED,
+  sicherer Log-Fallback; .env.example + DEPLOYMENT.md (SPF/DKIM-Pflicht)
+
 ### Offen (Phase 1b — TODO)
 - PDF-Einzelnachweis je Item, JSX-Rechtsseiten + E-Mail-Templates in die
   Registry, Prüfmodus-Overlay auf öffentlichen Seiten, Save-Hooks,

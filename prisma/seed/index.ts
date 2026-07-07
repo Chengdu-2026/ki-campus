@@ -54,6 +54,13 @@ async function main() {
 
   // ---------- Rechtsprofil (Quelle: hainan.at Impressum, geprüft 2026-07-06) ----------
   const existingProfile = await prisma.companyLegalProfile.findFirst();
+  if (existingProfile) {
+    // Kontaktdaten aktuell halten (offizielle Adresse info@ki-nachweis.at, 2026-07-08)
+    await prisma.companyLegalProfile.update({
+      where: { id: existingProfile.id },
+      data: { email: legalProfileSeed.email, privacyContactEmail: legalProfileSeed.privacyContactEmail },
+    });
+  }
   if (!existingProfile) {
     await prisma.companyLegalProfile.create({
       data: {

@@ -41,6 +41,8 @@ export default async function ImprintPage() {
           <div><dt className="font-medium text-slate-900 dark:text-slate-100">Registrierungsbehörde</dt><dd>{profile.registrationAuthority}</dd></div>
         )}
         <div><dt className="font-medium text-slate-900 dark:text-slate-100">Kontakt</dt><dd>{profile?.email ?? appConfig.contactEmail}</dd></div>
+        <div><dt className="font-medium text-slate-900 dark:text-slate-100">Telefon (Österreich)</dt><dd>{appConfig.contactPhone}</dd></div>
+        <div><dt className="font-medium text-slate-900 dark:text-slate-100">Telefon (China)</dt><dd>{appConfig.contactPhoneCn}</dd></div>
         <div><dt className="font-medium text-slate-900 dark:text-slate-100">Website</dt><dd>{profile?.website ?? appConfig.websiteUrl}</dd></div>
       </dl>
 

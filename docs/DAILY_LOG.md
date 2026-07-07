@@ -22,7 +22,28 @@
 - Verifikation: Tests 106/106 · tsc 0 · Build grün (55 Seiten) · db:init
   auf BESTEHENDER DB grün (Idempotenz) · Seed inkl. 5 Templates grün
 
+## Nachtrag: Kontaktdaten + SMTP (2026-07-08)
+- info@ki-nachweis.at als offizielle Kontaktadresse (config zentral, Seed
+  aktualisiert Bestands-Rechtsprofil), Telefon AT + China im Impressum
+- SMTP-Versand fertig implementiert (nodemailer, .env-konfiguriert,
+  MailLog SENT/FAILED) — Betrieb braucht nur noch Zugangsdaten des
+  Mail-Hosters in .env + SPF/DKIM-DNS (DEPLOYMENT.md)
+- Konsistenz-Hinweis: /ki-transparenz + Impressum-Block „Inhaltlich
+  verantwortlich" zeigen die neue Adresse automatisch (appConfig)
+
+## Nachtrag: Mail-Hoster geklärt (All-Inkl) + Session-Abschluss
+- Hoster = All-Inkl (Server w0175bce.kasserver.com laut KAS-Screenshot);
+  Setup-Empfehlung fixiert: noreply@ (Versand) + info@ (Empfang),
+  MAIL_REPLY_TO implementiert und verifiziert; Schritte in TODO
+  „OFFEN — MAIL" (Postfächer, DNS abwarten, SSL, DKIM, Testmail)
+- .gitignore geprüft: .env wird ignoriert — SMTP-Passwort kann nicht
+  versehentlich gepusht werden
+- Hosting-Blindfleck dokumentiert: All-Inkl-Webspace (PHP) trägt die
+  Next.js-App nicht → Node-Hosting-Entscheidung vor Launch (TODO)
+
 ## Bekannte Probleme / offen
+- MAIL OFFEN (wartet auf Sascha): Details in docs/TODO.md „OFFEN — MAIL"
+- E-Mail-Verifikation beim Login erzwingen bleibt eigenes TODO
 - Phase 1b offen (TODO.md): PDF-Einzelnachweis, JSX-Rechtsseiten +
   E-Mail-Templates in Registry, Prüfmodus-Overlay, Save-Hooks, Scan-Cron
 - Erste Charge fachlich abarbeiten = Saschas Part (CONTENT_REVIEW_WORKFLOW.md);

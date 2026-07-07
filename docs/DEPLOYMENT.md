@@ -42,12 +42,21 @@ libsql-Driver-Adapter) und braucht keine Binary-Downloads.
 4. `npx prisma migrate dev` (erste Migration erzeugen) · Seed ausführen.
 Das Schema enthält bewusst keine SQLite-Spezifika (keine Enums) — kompatibel.
 
-## SMTP anbinden
+## SMTP anbinden (implementiert seit 2026-07-08)
 
-`lib/mail.ts` ist die einzige Versandstelle. Für Produktion: `npm i nodemailer`,
-im `provider === "smtp"`-Zweig `nodemailer.createTransport({host, port, auth})`
-aufrufen und `MailLog.status` auf SENT/FAILED setzen. Templates liegen in der DB
-(`EmailTemplate`) und sind je Sprache pflegbar.
+`lib/mail.ts` ist die einzige Versandstelle; nodemailer ist als Dependency
+enthalten. Aktivierung rein über `.env` (siehe .env.example):
+`MAIL_PROVIDER=smtp`, `SMTP_HOST`, `SMTP_PORT` (587 STARTTLS / 465 TLS),
+`SMTP_USER`, `SMTP_PASS`, `MAIL_FROM` (z. B.
+"KI-Kompetenz Campus <info@ki-nachweis.at>"). Jeder Versand landet im MailLog
+mit Status SENT/FAILED; bei fehlender Konfiguration wird FAILED geloggt statt
+still verschluckt. Templates liegen in der DB (`EmailTemplate`) und sind je
+Sprache pflegbar.
+
+**Zustellbarkeits-Pflicht:** Für die Absenderdomain ki-nachweis.at beim
+DNS-Hoster SPF- und DKIM-Einträge setzen (Werte liefert der Mail-Hoster),
+sonst landen Einladungen im Spam. Empfehlung: zusätzlich DMARC (p=none zum
+Start). Zugangsdaten NIEMALS ins Repo — nur in .env / Server-Umgebung.
 
 ## Reverse Proxy / Host
 `trustHost: true` ist gesetzt — hinter Proxy `APP_URL` korrekt setzen und
