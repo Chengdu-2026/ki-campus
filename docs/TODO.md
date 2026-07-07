@@ -1,5 +1,26 @@
 # TODO
 
+## Erledigt am 2026-07-07 Abend (Auftrag „Modul-Detailseiten, Bilder, Vorlesen")
+- [x] Modul-Detailseiten /schulung/[modulSlug] für alle 27 Module (Praxisstil,
+      Beispiele, Glossar, Zurück-Button, Bild je Modul, Vorlesen, Teaser-CTA)
+- [x] 27 Modulbilder → public/modules/<slug>.png (17 Basic + 10 Officer)
+- [x] Homepage-Bugfix: Kurse getrennt, nummeriert, einklappbar (default zu)
+- [x] Middleware-Bugfix: /schulung(/**) öffentlich
+- [x] Kategorien-Anzeigenamen vervollständigt (15 Keys)
+- [x] Vorlesen auf Homepage//schulung/Detailseiten + Promo; nie Autoplay
+- [x] Inhaltsstand im Footer (V1.005); Versionsregeln + Schreibstil in CLAUDE.md
+- [x] Git-Repo github.com/Chengdu-2026/ki-campus; Verifikation via Klon
+      (Tests 81/81, tsc 0, Build grün)
+
+## Oberste Priorität (nächster Agent-Auftrag)
+- [ ] Superadmin-Verwaltung V2 + Tester-Freigabe (Spezifikation in
+      docs/AGENT_HANDOVER.md): Firmen/Nutzer bearbeiten, Plan-/Status-Wechsel,
+      Company.isTest + testExpiresAt, Tester-Zertifikate sichtbar als
+      TESTZUGANG, Test-Firmen raus aus QM-Statistiken, Ablauf-Cron, AuditLog
+- [ ] Danach: Praxistest beider Kurse (ChatGPT-Testplan; Reports in docs/)
+- [ ] Danach: Fragen-Ergänzungspaket aus Grok-Review (~12–15 Fragen:
+      Übergangsfristen, Rollenwechsel vertieft, Proxy-Bias, DSGVO/DSFA)
+
 ## Erledigt am 2026-07-07 (Auftrag „Lerninhalte erweitern und zweiten Kurs anlegen")
 - [x] Basic-Kurs auf 17 Module / 41 Lektionen erweitert (neu: Informationssicherheit
       & KI-Risiken, Transparenz & Kennzeichnung mit verschobener Lektion
@@ -11,15 +32,6 @@
 - [x] /courses echte Kursübersicht mit Empfehlungstext; /schulung zeigt beide Kurse
 - [x] Nachprüfungs-Modell: 3 Versuche inkl., danach € 99 (config: examRetakeFeeEur);
       Jahresrabatt-Anzeige (Basic −10 %, Business −15 %); Seeds, i18n, Tests, Doku
-
-## Oberste Priorität (nächster Agent-Auftrag)
-- [ ] Öffentliche Modul-Detailseiten /schulung/[modulSlug]: Klick auf Modul-Box öffnet
-      Erklärseite im Praxisstil (Sascha-Stil) mit Abkürzungs-Glossar (KI, LLM, Bias,
-      GPAI, DSGVO, AI Act …), Zurück-Button zur Ausgangsseite und Bild je Modul
-      (Fotos liegen bereits in public/images/ — 7 neue Themenbilder vom
-      2026-07-07 03:10 Uhr, „ChatGPT Image 7. Juli 2026, 03_10_2x (1–7).png";
-      beim Umsetzen thematisch zuordnen und nach public/modules/<slug>.png
-      umbenennen, Anzeige nur wenn Datei existiert). Homepage-Boxen verlinken.
 
 ## Priorität hoch (vor Produktivbetrieb)
 - [ ] Nachprüfungsgebühr € 99 online abwickeln: Zahlungsanbindung (Stripe) +
@@ -45,9 +57,8 @@
       Foto auf Zertifikat nur optional per Firmen-Einstellung und mit ausdrücklicher
       Einwilligung. Datenschutz, Löschkonzept und Zertifikatstemplate vorher prüfen.
       Details: docs/DATA_PROTECTION_TODO.md
-- [ ] Lektionen anhören (Vorlesefunktion): Web Speech API je Lektion (kostenlos,
-      clientseitig, kein Anbieter nötig); auf /schulung und Homepage bewerben,
-      sobald umgesetzt
+- [x] Lektionen anhören (Vorlesefunktion): umgesetzt inkl. Homepage//schulung/
+      Detailseiten + Bewerbung (2026-07-07)
 - [ ] Übungsmodus kursübergreifend: aktuell arbeitet /practice auf dem Basic-Kurs
       (ältester Kurs); Kursauswahl ergänzen
 - [ ] E2E-Tests (Playwright): Einladung→Kurs→Test→Zertifikat, Mandantentrennung, Verify

@@ -27,6 +27,15 @@ Rechtstexte bewusst formal geblieben sind.
 - Kursübersicht /courses (Empfehlungstexte), /schulung-Intro („Kein Katalog-Nebel …"),
   Preisseiten-Hinweise (Jahresrabatt, Nachweis-Download), home.benefit2Text.
 
+## 1b. Im Praxisstil verfasst (2026-07-07 Abend, V1.005)
+- Alle 27 öffentlichen Modul-Detailtexte (lib/module-details.de.ts): du-Form,
+  Intro-Absätze, je 2 Alltagsbeispiele mit Lerneffekt, „Danach kannst du"-Satz.
+- Abkürzungs-Glossar (lib/glossary.ts): 15 Einträge in einfacher Sprache.
+- Teaser-/CTA-Texte der Detailseiten, Vorlese-Promo („Lieber hören statt
+  lesen?"), einklappbare Kursboxen-Hinweise (lib/i18n/de.ts → moduleDetail,
+  readAloudPromo, home.*).
+- Plan-Feature-Text Nachprüfung entwirrt (prisma/seed/index.ts).
+
 ## 2. Rechtstexte bewusst NICHT im lockeren Stil geändert
 - certificate.disclaimer (lib/i18n/de.ts): juristisch fixierter Text. Einzige
   Änderung: formale Ergänzung der Verneinungsliste um „ISO-Zertifizierung" —
