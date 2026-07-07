@@ -509,7 +509,17 @@ async function main() {
       },
     });
   }
-  console.log("Versionsregister: ok (V1.003 + V1.004)");
+  const v1005 = await prisma.contentRevision.findFirst({ where: { versionLabel: "V1.005" } });
+  if (!v1005) {
+    await prisma.contentRevision.create({
+      data: {
+        entityType: "COURSE", entityId: course.id, versionLabel: "V1.005",
+        changeNote: "Öffentliche Modul-Detailseiten für alle 27 Module (Erklärtexte im Praxisstil mit Alltagsbeispielen, Abkürzungs-Glossar, Modulbilder). Kategorien-Anzeigenamen vervollständigt (15 fehlende Keys). Plan-Feature-Texte präzisiert (Nachprüfung). Inhaltsstand im Footer sichtbar.",
+        changedById: superadmin.id,
+      },
+    });
+  }
+  console.log("Versionsregister: ok (V1.003 + V1.004 + V1.005)");
 
   console.log("Seed abgeschlossen.");
   console.log("Logins: sascha.morocutti@gmail.com / Morocutti#Admin2026 | hr@musterfirma.example / Firmenadmin#2026 | anna.beispiel@musterfirma.example / Teilnehmer#2026");

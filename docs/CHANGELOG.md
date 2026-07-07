@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.5.0] — 2026-07-07
+
+### Hinzugefügt
+- Öffentliche Modul-Detailseiten `/schulung/[modulSlug]` für alle 27 Module:
+  ausführliche Erklärung im Praxisstil mit Alltagsbeispielen
+  (lib/module-details.de.ts), Lektionsliste mit Lernzielen als Teaser,
+  Abkürzungs-Glossar (lib/glossary.ts), Zurück-Button, Bild je Modul
+  (public/modules/<slug>.png via optionalImage), Vorlesen, Freischalt-CTA
+- 27 Modulbilder (17 Basic + 10 KI-Verantwortliche) thematisch zugeordnet
+- Vorlesefunktion auf Homepage, /schulung und Modul-Detailseiten (bestehende
+  ReadAloud-Komponente; Start nur per Klick, nie automatisch) + Bewerbung
+  („Lieber hören statt lesen?")
+- Homepage: Kurse als nummerierte, einklappbare Boxen (default eingeklappt);
+  /schulung: Kurse nummeriert („Kurs 1"/„Kurs 2")
+- Inhaltsstand im Footer (config contentVersionLabel, aktuell V1.005);
+  ContentRevision V1.005 im Seed
+- CLAUDE.md: verbindliche Projektregeln (Schreibstil, Recht, Versionierung)
+- Git-Repository github.com/Chengdu-2026/ki-campus
+
+### Behoben
+- Homepage mischte seit dem zweiten Kurs alle 27 Module in einem Raster mit
+  doppelten Nummern (findMany ohne Kursfilter)
+- Middleware: /schulung und /schulung/* erforderten Login — jetzt öffentlich
+- 15 fehlende Kategorie-Anzeigenamen (rohe Keys wie categories.AI_ACT_SYSTEMATIK
+  in Admin-Fragenliste und Auswertungen sichtbar)
+- Verwirrender Plan-Feature-Text zur Nachprüfung in zwei klare Punkte getrennt;
+  Betrag aus config statt hardcodiert
+
 ## [0.4.0] — 2026-07-07
 
 ### Hinzugefügt

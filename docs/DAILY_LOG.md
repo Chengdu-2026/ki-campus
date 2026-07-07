@@ -1,6 +1,49 @@
 # Tagesabschluss
 
 ## Datum
+2026-07-07 (Abend — Auftrag „Modul-Detailseiten, Bilder, Vorlesen, Bugfixes")
+
+## Heute erledigt
+- BUGFIX Homepage: Modulraster nach Kurs getrennt (statt 27 gemischte Module
+  mit doppelten Nummern) — jetzt „Kurs 1"/„Kurs 2" als nummerierte, einklappbare
+  Boxen (default eingeklappt), jede Modul-Kachel verlinkt
+- BUGFIX Middleware: /schulung und /schulung/* waren nie öffentlich (Redirect
+  auf Login ohne Session) — jetzt explizit public (Transparenz vor Buchung)
+- BUGFIX i18n: 15 fehlende Kategorie-Anzeigenamen ergänzt (AI_ACT_SYSTEMATIK,
+  INFORMATIONSSICHERHEIT, …) — vorher rohe Keys in Admin/Auswertung sichtbar
+- Öffentliche Modul-Detailseiten /schulung/[modulSlug] für alle 27 Module:
+  Erklärtexte im Praxisstil mit Alltagsbeispielen (lib/module-details.de.ts),
+  Lektionsliste mit Lernzielen (Teaser — volle Inhalte hinter Login),
+  Abkürzungs-Glossar (lib/glossary.ts, zeigt Begriffe aus den Überschriften),
+  Zurück-Button (components/back-button.tsx), Bild je Modul, Vorlesen, CTA
+- 27 Modulbilder zugeordnet: public/images/1–17.png → public/modules/<slug>.png
+  (Basic) + 10 Verantwortlichen-Bilder → off-*-Slugs; Anzeige via optionalImage
+- Vorlesefunktion (bestehende ReadAloud-Komponente) jetzt auch auf Homepage,
+  /schulung und Modul-Detailseiten; nie Autoplay, Start nur per Klick;
+  Bewerbung („Lieber hören statt lesen?") auf Homepage + /schulung
+- Inhaltsstand im Footer sichtbar (footer.contentVersion + config
+  contentVersionLabel); Versionsregeln in CLAUDE.md verankert; V1.005 im
+  Versionsregister (Seed)
+- Plan-Feature-Text entwirrt: „Abschlusstest: 3 Versuche pro Kurs inklusive" +
+  „Nur falls jemand mehr braucht: Nachprüfung € 99 pro Teilnehmer" (aus config)
+- CLAUDE.md neu: Schreibstil (Praxisstil/du-Form, Beispiele Pflicht), Rechts-
+  Leitplanken, Versionierung, No-Touch-Liste, Arbeitsweise
+- Git eingerichtet: github.com/Chengdu-2026/ki-campus (privat, Push durch Sascha)
+- Verifikation in Sandbox über Git-Klon: Tests 81/81, tsc 0 Fehler, Build grün
+
+## Bekannte Probleme
+- Sandbox-Dateisync unzuverlässig (Dateien abgeschnitten) — Workaround: Klon
+  von GitHub; Regel: Verifikation immer über frischen git pull
+- db:seed nötig, damit V1.005, neue Plan-Texte und 238 Fragen lokal ankommen
+- Nutzerwünsche offen: Superadmin-Paket (Firmen/Nutzer bearbeiten, Plan/Status
+  manuell, Tester-Freigabe mit Kennzeichnung), Praxistest beider Kurse,
+  Fragen-Ergänzungspaket (Übergangsfristen, Rollenwechsel, Proxy-Bias, DSFA)
+
+---
+
+# Tagesabschluss
+
+## Datum
 2026-07-07 (Nachmittag — Auftrag „Lerninhalte erweitern und zweiten Kurs anlegen")
 
 ## Heute erledigt

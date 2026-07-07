@@ -5,11 +5,13 @@ import { getToken } from "next-auth/jwt";
 const PUBLIC_PATHS = [
   "/", "/pricing", "/features", "/faq", "/login", "/register",
   "/legal-disclaimer", "/impressum", "/datenschutz", "/agb", "/ki-transparenz",
-  "/passwort-vergessen",
+  "/passwort-vergessen", "/schulung",
 ];
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_PATHS.includes(pathname)) return true;
+  // Öffentliche Lerninhalts-Übersicht inkl. Modul-Detailseiten (Transparenz vor Buchung)
+  if (pathname.startsWith("/schulung/")) return true;
   if (pathname.startsWith("/verify/")) return true;
   if (pathname.startsWith("/invite/")) return true;
   if (pathname.startsWith("/passwort-reset/")) return true;

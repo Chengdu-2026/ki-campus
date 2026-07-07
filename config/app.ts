@@ -7,7 +7,7 @@ export const appConfig = {
   // Inhalts-Versionsstand (Anzeige u. a. im Footer). Muss bei jeder inhaltlichen
   // Änderung an Kursen/Fragen zusammen mit dem ContentRevision-Register
   // (prisma/seed, /admin/versions) hochgezählt werden — Regel siehe CLAUDE.md.
-  contentVersionLabel: "V1.004",
+  contentVersionLabel: "V1.005",
   defaultLocale: "de",
   supportedLocales: ["de", "en"] as const,
   // Vorbereitet (Übersetzungen können ohne Codeänderung ergänzt werden):
