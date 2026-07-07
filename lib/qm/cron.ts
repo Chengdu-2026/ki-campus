@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { sendMail } from "@/lib/mail";
 import { appConfig } from "@/config/app";
+import { audit } from "@/lib/audit";
 import { runThresholdCheck, createQualityIssue } from "@/lib/qm/service";
 import { generateManagementReviewDraft, lastQuarter } from "@/lib/qm/review";
 
@@ -177,6 +178,28 @@ export async function cronWeeklyDigest(): Promise<CronResult> {
   return { job: "qm-weekly-digest", processed };
 }
 
+/** Cron 8: Abgelaufene Testzugaenge deaktivieren (Firma auf INACTIVE, auditiert). */
+export async function cronDeactivateExpiredTests(): Promise<CronResult> {
+  const now = new Date();
+  const expired = await prisma.company.findMany({
+    where: { isTest: true, status: "ACTIVE", testExpiresAt: { not: null, lt: now } },
+    select: { id: true, name: true },
+  });
+  for (const c of expired) {
+    await prisma.company.update({ where: { id: c.id }, data: { status: "INACTIVE" } });
+    await audit({
+      action: "COMPANY_UPDATED",
+      companyId: c.id,
+      entityType: "Company",
+      entityId: c.id,
+      metadata: { reason: "test_access_expired" },
+      oldValue: { status: "ACTIVE" },
+      newValue: { status: "INACTIVE" },
+    });
+  }
+  return { job: "deactivate-expired-tests", processed: expired.length, details: expired.map((c) => c.name) };
+}
+
 export const CRON_JOBS: Record<string, () => Promise<CronResult>> = {
   "qm-feedback-reminder": cronFeedbackReminder,
   "qm-threshold-check": cronThresholdCheck,
@@ -185,4 +208,5 @@ export const CRON_JOBS: Record<string, () => Promise<CronResult>> = {
   "qm-management-review-generator": cronManagementReviewGenerator,
   "qm-effectiveness-check-reminder": cronEffectivenessReminder,
   "qm-weekly-digest": cronWeeklyDigest,
+  "deactivate-expired-tests": cronDeactivateExpiredTests,
 };

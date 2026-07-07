@@ -27,6 +27,8 @@ model Company {
   status       String   @default("ACTIVE") // ACTIVE | INACTIVE
   planKey      String   @default("BASIC")
   plan         Plan     @relation(fields: [planKey], references: [key])
+  isTest        Boolean  @default(false) // Testzugang: kein gueltiger Nachweis; aus globaler Statistik ausgeschlossen
+  testExpiresAt DateTime? // Ablauf des Testzugangs; Cron deaktiviert die Firma danach
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

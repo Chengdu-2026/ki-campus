@@ -17,6 +17,66 @@ Verbindliche Regeln: CLAUDE.md (Schreibstil, Recht, Versionierung, No-Touch).
   ist gesperrt. Nach npm-Installationsabbrüchen native Pakete prüfen
   (@next/swc, @prisma/client waren einmal trunkiert → Bus error/Typfehler).
 
+## SOFORT-KONTEXT für den nächsten Agenten (CHAT-ÜBERGABE Teil 6 → Teil 7, Stand 2026-07-07)
+
+**WICHTIGE KORREKTUR zum „Teil-3-Merge":** Es gab NICHTS zu mergen. Das
+Superadmin-Paket (Superadmin-Verwaltung V2 + Tester-Freigabe) war nie gebaut —
+kein Branch, kein Commit, kein Code (per frischem Git-Klon + grep verifiziert:
+weder isTest/testExpiresAt noch Firmen-/Nutzer-Edit-Actions existierten). Die
+Formulierung „Teil-3-Merge" im alten Handover war ein Irrtum. Teil 6 hat das
+Paket daher NEU GEBAUT als V1.008 (Release V0.10.0).
+
+**Session Teil 6 hat geliefert (V0.10.0, Inhaltsstand V1.008):**
+1. Superadmin – Firmen bearbeiten: Stammdaten (Name, Ansprechpartner, UID,
+   E-Mail, Telefon, Adresse), Plan-Wechsel, Status ACTIVE/INACTIVE via Server
+   Action `updateCompany` (auditiert COMPANY_UPDATED, old/new). UI-Karte in
+   /admin/companies/[id].
+2. Superadmin – Nutzer bearbeiten: Rolle, Status, Name, E-Mail via
+   `updateUserAsSuperadmin` (auditiert USER_UPDATED). Neue Seite
+   /admin/users/[id] + Bearbeiten-Link in /admin/users. Selbst-Aussperr-Schutz,
+   E-Mail-Eindeutigkeit, KEINE Mandanten-Verschiebung (bewusst).
+3. Tester-Freigabe: Company.isTest (Boolean) + testExpiresAt (DateTime?) —
+   schema.prisma + init.sql synchron, inkl. idempotenter ALTER TABLE für
+   bestehende DBs. Toggle-Karte „Testzugang" in /admin/companies/[id]
+   (`setCompanyTestAccess`). Konsequenzen vollständig umgesetzt:
+   (a) Zertifikate von Test-Firmen: diagonaler „TESTZUGANG"-Stempel + Banner
+       „TESTZUGANG — kein gültiger Nachweis" (lib/certificate/pdf.ts, isTest-
+       Flag; Cert-Download-Route reicht company.isTest durch).
+   (b) Verify-Seite zeigt Test-Hinweis (verify.test/testHint).
+   (c) Statistik-Ausschluss: Superadmin-Dashboard-KPIs (Teilnehmer/bestanden/
+       Zertifikate) + QM `courseMetrics(companyId=null)` schließen Test-Firmen
+       aus (lib/test-companies.ts → `testCompanyIds()`).
+   (d) Cron `deactivate-expired-tests` (lib/qm/cron.ts, CRON_JOBS) setzt
+       abgelaufene Testzugänge auf INACTIVE (auditiert).
+   (e) UI-Banner „Testzugang bis {Datum}" für Nutzer einer Test-Firma
+       (components/layout/test-access-banner.tsx im Root-Layout).
+4. Versionierung (Zwei-Spuren, Eigentümer-Vorgabe 2026-07-07): globaler
+   Gesamtstand `contentVersionLabel` V1.008 im Footer („letzte höchste Version");
+   NEU pro-Feature-Versionen (config/feature-versions.ts) als `<VersionBadge>` auf
+   der Seite — superadmin-verwaltung V1.001, tester-freigabe V1.001 (ContentRevision
+   entityType FEATURE). 5 neue Tests (tests/test-access.test.ts).
+
+**Letzte Verifikation (Teil 6):** tsc 0 · Tests 111/111 · next build EXIT=0
+(90 Routen inkl. /admin/users/[id] und erweitertem /admin/companies/[id]).
+Methode: frischer Git-Klon aus lokalem .git, Entwicklung/Verifikation im Klon,
+Auslieferung an den Host über Read/Write/Edit (Mount weiterhin truncation-
+anfällig — bestätigt: de.ts kam 43 KB statt 61 KB an). SANDBOX-NPM-FALLE für
+den nächsten Agenten: lucide-react (dist/*.d.ts fehlte → tsc-Rauschen) und
+@pdf-lib/standard-fonts (lib/ fehlte → certificate.test rot) kamen aus dem
+npm-Proxy unvollständig an. Fix: `npm cache clean --force` + gezielter
+Reinstall (clean re-extract). Prisma generate weiter mit Dummy-Engine-Env.
+
+**NÄCHSTE AUFTRÄGE (Superadmin-Merge ENTFÄLLT — erledigt):**
+1. Sascha: pushen (Kommandos unten), `npm run db:init` + `npm run db:seed`
+   (bringt isTest/testExpiresAt via ALTER TABLE + V1.008-Revision). Im Browser
+   prüfen: Firma auf Testzugang stellen → Zertifikat-PDF trägt TESTZUGANG,
+   /verify zeigt Test-Hinweis, Banner erscheint; Firmen-/Nutzer-Edit auditiert.
+2. Semrush-Rest an einem Folgetag (Browser, Free-Limit): KI Zertifikat, Art 4
+   AI Act, AI Act Schulung, Copilot Schulung, KI Weiterbildung, KI Schulung
+   Kosten/KMU → Report Kap. 5a ergänzen.
+3. Praxistest beider Kurse (ChatGPT-Testplan), Grok-Fragenpaket (~12–15 Fragen),
+   Content-Audit Phase 1b, Zielgruppen-Seiten (HR/DSB/QM/KMU/Copilot).
+
 ## SOFORT-KONTEXT für den nächsten Agenten (CHAT-ÜBERGABE Teil 5 → Teil 6, Stand 2026-07-07)
 
 **Session Teil 5 hat geliefert (V0.9.0, Inhaltsstand V1.007):**

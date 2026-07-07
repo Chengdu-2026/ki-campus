@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/rbac";
 import { getT } from "@/lib/i18n";
@@ -28,6 +29,7 @@ export default async function AdminUsersPage() {
             <Th>{t("common.role")}</Th>
             <Th>{t("common.status")}</Th>
             <Th>{t("common.date")}</Th>
+            <Th>{t("common.actions")}</Th>
           </Tr>
         </THead>
         <TBody>
@@ -39,6 +41,11 @@ export default async function AdminUsersPage() {
               <Td><Badge variant="neutral">{t(`roles.${u.role}`)}</Badge></Td>
               <Td><Badge variant={u.status === "ACTIVE" ? "success" : "neutral"}>{u.status === "ACTIVE" ? t("common.active") : t("common.inactive")}</Badge></Td>
               <Td>{formatDate(u.createdAt)}</Td>
+              <Td>
+                <Link href={`/admin/users/${u.id}`} className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-medium hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800">
+                  {t("admin.editAction")}
+                </Link>
+              </Td>
             </Tr>
           ))}
         </TBody>

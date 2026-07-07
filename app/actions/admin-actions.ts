@@ -151,3 +151,166 @@ export async function updateLesson(_prev: ActionResult | null, formData: FormDat
   revalidatePath("/admin/lessons");
   return { ok: true };
 }
+
+// ===================== SUPERADMIN: Firmen- & Nutzerverwaltung (V1.008) =====================
+
+const STATUS_KEYS = ["ACTIVE", "INACTIVE"] as const;
+const ROLE_KEYS = ["SUPERADMIN", "COMPANY_ADMIN", "TRAINER", "PARTICIPANT"] as const;
+
+const companyUpdateSchema = z.object({
+  companyId: z.string().min(1),
+  name: z.string().min(2),
+  address: z.string().trim().optional(),
+  uid: z.string().trim().optional(),
+  contactName: z.string().trim().optional(),
+  email: z.union([z.string().email(), z.literal("")]).optional(),
+  phone: z.string().trim().optional(),
+  planKey: z.string().min(1),
+  status: z.enum(STATUS_KEYS),
+});
+
+/** Firmen-Stammdaten, Plan und Status bearbeiten (Superadmin, auditiert). */
+export async function updateCompany(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const admin = await requireRole("SUPERADMIN");
+  const parsed = companyUpdateSchema.safeParse({
+    companyId: formData.get("companyId"),
+    name: formData.get("name"),
+    address: formData.get("address") ?? undefined,
+    uid: formData.get("uid") ?? undefined,
+    contactName: formData.get("contactName") ?? undefined,
+    email: formData.get("email") ?? undefined,
+    phone: formData.get("phone") ?? undefined,
+    planKey: formData.get("planKey"),
+    status: formData.get("status"),
+  });
+  if (!parsed.success) return { ok: false, error: "common.requiredField" };
+  const d = parsed.data;
+
+  const [plan, before] = await Promise.all([
+    prisma.plan.findUnique({ where: { key: d.planKey } }),
+    prisma.company.findUnique({ where: { id: d.companyId } }),
+  ]);
+  if (!plan) return { ok: false, error: "Unbekannter Plan." };
+  if (!before) return { ok: false, error: "Firma nicht gefunden." };
+
+  const updated = await prisma.company.update({
+    where: { id: d.companyId },
+    data: {
+      name: d.name,
+      address: d.address || null,
+      uid: d.uid || null,
+      contactName: d.contactName || null,
+      email: d.email || null,
+      phone: d.phone || null,
+      planKey: d.planKey,
+      status: d.status,
+    },
+  });
+  await audit({
+    action: "COMPANY_UPDATED",
+    userId: admin.id,
+    companyId: d.companyId,
+    entityType: "Company",
+    entityId: d.companyId,
+    oldValue: { name: before.name, planKey: before.planKey, status: before.status, email: before.email },
+    newValue: { name: updated.name, planKey: updated.planKey, status: updated.status, email: updated.email },
+  });
+  revalidatePath("/admin/companies");
+  revalidatePath(`/admin/companies/${d.companyId}`);
+  return { ok: true };
+}
+
+const userUpdateSchema = z.object({
+  userId: z.string().min(1),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  email: z.string().email(),
+  role: z.enum(ROLE_KEYS),
+  status: z.enum(STATUS_KEYS),
+});
+
+/** Nutzer bearbeiten (Superadmin): Rolle, Status, Name, E-Mail — auditiert, KEINE Mandanten-Verschiebung. */
+export async function updateUserAsSuperadmin(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const admin = await requireRole("SUPERADMIN");
+  const parsed = userUpdateSchema.safeParse({
+    userId: formData.get("userId"),
+    firstName: formData.get("firstName"),
+    lastName: formData.get("lastName"),
+    email: formData.get("email"),
+    role: formData.get("role"),
+    status: formData.get("status"),
+  });
+  if (!parsed.success) return { ok: false, error: "common.requiredField" };
+  const d = parsed.data;
+
+  const before = await prisma.user.findUnique({ where: { id: d.userId } });
+  if (!before) return { ok: false, error: "Nutzer nicht gefunden." };
+
+  // Selbst-Aussperren verhindern: eigener Zugang darf Superadmin-Rolle/Aktiv-Status nicht verlieren.
+  if (d.userId === admin.id && (d.role !== "SUPERADMIN" || d.status !== "ACTIVE")) {
+    return { ok: false, error: "Der eigene Superadmin-Zugang kann nicht herabgestuft oder deaktiviert werden." };
+  }
+  const normEmail = d.email.trim().toLowerCase();
+  if (normEmail !== before.email.toLowerCase()) {
+    const clash = await prisma.user.findUnique({ where: { email: normEmail } });
+    if (clash) return { ok: false, error: "Diese E-Mail-Adresse ist bereits vergeben." };
+  }
+
+  const updated = await prisma.user.update({
+    where: { id: d.userId },
+    data: { firstName: d.firstName, lastName: d.lastName, email: normEmail, role: d.role, status: d.status },
+  });
+  await audit({
+    action: "USER_UPDATED",
+    userId: admin.id,
+    companyId: before.companyId,
+    entityType: "User",
+    entityId: d.userId,
+    oldValue: { role: before.role, status: before.status, email: before.email, name: `${before.firstName} ${before.lastName}` },
+    newValue: { role: updated.role, status: updated.status, email: updated.email, name: `${updated.firstName} ${updated.lastName}` },
+  });
+  revalidatePath("/admin/users");
+  revalidatePath(`/admin/users/${d.userId}`);
+  return { ok: true };
+}
+
+/**
+ * Testzugang einer Firma setzen/aufheben (Superadmin, auditiert).
+ * Konsequenzen greifen an anderer Stelle: Zertifikatskennzeichnung (lib/certificate/pdf.ts),
+ * Verify-Status, Statistik-Ausschluss (lib/test-companies.ts), Cron-Deaktivierung, UI-Banner.
+ */
+export async function setCompanyTestAccess(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const admin = await requireRole("SUPERADMIN");
+  const companyId = String(formData.get("companyId") ?? "");
+  if (!companyId) return { ok: false, error: "common.requiredField" };
+  const isTest = formData.get("isTest") === "on" || formData.get("isTest") === "true";
+  const rawExpiry = String(formData.get("testExpiresAt") ?? "").trim();
+
+  let testExpiresAt: Date | null = null;
+  if (isTest && rawExpiry) {
+    const parsedDate = new Date(`${rawExpiry}T23:59:59`);
+    if (Number.isNaN(parsedDate.getTime())) return { ok: false, error: "common.requiredField" };
+    testExpiresAt = parsedDate;
+  }
+
+  const before = await prisma.company.findUnique({ where: { id: companyId } });
+  if (!before) return { ok: false, error: "Firma nicht gefunden." };
+
+  await prisma.company.update({
+    where: { id: companyId },
+    data: { isTest, testExpiresAt: isTest ? testExpiresAt : null },
+  });
+  await audit({
+    action: "COMPANY_UPDATED",
+    userId: admin.id,
+    companyId,
+    entityType: "Company",
+    entityId: companyId,
+    metadata: { testAccess: true },
+    oldValue: { isTest: before.isTest, testExpiresAt: before.testExpiresAt },
+    newValue: { isTest, testExpiresAt: isTest ? testExpiresAt : null },
+  });
+  revalidatePath("/admin/companies");
+  revalidatePath(`/admin/companies/${companyId}`);
+  return { ok: true };
+}

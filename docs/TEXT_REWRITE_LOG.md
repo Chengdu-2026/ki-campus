@@ -4,6 +4,13 @@ Stand 2026-07-07. Dokumentiert, welche Texte im menschlichen Praxisstil
 („wie einem Kollegen erklären") verfasst bzw. überarbeitet wurden — und welche
 Rechtstexte bewusst formal geblieben sind.
 
+## Nachtrag 2026-07-07 (Teil 6): Testzugang-Texte
+- Neue UI-/PDF-Texte für den Testzugang, formal und klar (kein Marketing):
+  `certificate.testBanner` „TESTZUGANG — kein gültiger Nachweis" (PDF-Stempel),
+  `verify.test`/`verify.testHint` (Prüfseite), `company.testBanner`/
+  `company.testBannerUntil` (UI-Banner), `admin.testAccessHint` (Erklärung im
+  Superadmin). Wording-Guard grün (keine staatlich/behördlich klingenden Aussagen).
+
 ## Stilregeln (verbindlich)
 - Menschlicher Praxisstil: Homepage/Marketing, Kursübersichten, Modulbeschreibungen,
   Lektionen (Inhalt, Beispiele, Merksätze, Mini-Checks), Prüfungsfragen inkl.

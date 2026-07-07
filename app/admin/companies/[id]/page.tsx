@@ -9,6 +9,7 @@ import { formatDate } from "@/lib/utils";
 import {
   createInvitation, createParticipant, toggleUserStatus, deleteUserGdpr, resetAttempts, sendReminder,
 } from "@/app/actions/company-actions";
+import { updateCompany, setCompanyTestAccess } from "@/app/actions/admin-actions";
 import { buildErrorMap } from "@/lib/i18n/error-map";
 import { ActionForm } from "@/components/forms/action-form";
 import { ConfirmButton } from "@/components/forms/confirm-button";
@@ -19,8 +20,12 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { EmptyState } from "@/components/ui/empty-state";
+import { VersionBadge } from "@/components/ui/version-badge";
 
 export const metadata = { title: "Firma verwalten" };
+
+const SELECT_CLS =
+  "flex h-11 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100";
 
 /** Superadmin: Teilnehmerverwaltung einer beliebigen Firma (anlegen, einladen, bearbeiten). */
 export default async function AdminCompanyDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -36,16 +41,116 @@ export default async function AdminCompanyDetailPage({ params }: { params: Promi
 
   const [members, course] = await Promise.all([getCompanyProgress(company.id), getDefaultCourse()]);
   const appUrl = process.env.APP_URL ?? "";
+  const plans = await prisma.plan.findMany({ orderBy: { sortOrder: "asc" } });
 
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="text-2xl font-bold text-brand-900 dark:text-white">{company.name}</h1>
         <Badge variant="neutral">{company.plan.name}</Badge>
+        {company.isTest && <Badge variant="warning">{t("admin.testBadge")}</Badge>}
         <Link href="/admin/companies" className="text-sm text-brand-700 hover:underline dark:text-accent-400">
           {t("common.back")}
         </Link>
       </div>
+
+      <section className="grid gap-6 lg:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">{t("admin.editCompany")} <VersionBadge feature="superadmin-verwaltung" /></CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ActionForm
+              action={updateCompany}
+              submitLabel={t("common.save")}
+              successMessage={t("admin.saveDone")}
+              errorMap={buildErrorMap(user.locale)}
+              className="grid gap-4 sm:grid-cols-2"
+            >
+              <input type="hidden" name="companyId" value={company.id} />
+              <div className="sm:col-span-2">
+                <Label htmlFor="c-name">{t("common.name")}</Label>
+                <Input id="c-name" name="name" defaultValue={company.name} required minLength={2} />
+              </div>
+              <div>
+                <Label htmlFor="c-contact">{t("admin.companyContact")}</Label>
+                <Input id="c-contact" name="contactName" defaultValue={company.contactName ?? ""} />
+              </div>
+              <div>
+                <Label htmlFor="c-uid">{t("admin.companyUid")}</Label>
+                <Input id="c-uid" name="uid" defaultValue={company.uid ?? ""} />
+              </div>
+              <div>
+                <Label htmlFor="c-email">{t("common.email")}</Label>
+                <Input id="c-email" name="email" type="email" defaultValue={company.email ?? ""} />
+              </div>
+              <div>
+                <Label htmlFor="c-phone">{t("admin.companyPhone")}</Label>
+                <Input id="c-phone" name="phone" defaultValue={company.phone ?? ""} />
+              </div>
+              <div className="sm:col-span-2">
+                <Label htmlFor="c-address">{t("admin.companyAddress")}</Label>
+                <Input id="c-address" name="address" defaultValue={company.address ?? ""} />
+              </div>
+              <div>
+                <Label htmlFor="c-plan">{t("admin.companyPlan")}</Label>
+                <select id="c-plan" name="planKey" defaultValue={company.planKey} className={SELECT_CLS}>
+                  {plans.map((p) => (
+                    <option key={p.key} value={p.key}>{p.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <Label htmlFor="c-status">{t("common.status")}</Label>
+                <select id="c-status" name="status" defaultValue={company.status} className={SELECT_CLS}>
+                  <option value="ACTIVE">{t("common.active")}</option>
+                  <option value="INACTIVE">{t("common.inactive")}</option>
+                </select>
+              </div>
+            </ActionForm>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">{t("admin.testAccessTitle")} <VersionBadge feature="tester-freigabe" /></CardTitle>
+            <CardDescription>{t("admin.testAccessHint")}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ActionForm
+              action={setCompanyTestAccess}
+              submitLabel={t("common.save")}
+              successMessage={t("admin.saveDone")}
+              errorMap={buildErrorMap(user.locale)}
+            >
+              <input type="hidden" name="companyId" value={company.id} />
+              <label className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-200">
+                <input
+                  type="checkbox"
+                  name="isTest"
+                  defaultChecked={company.isTest}
+                  className="h-4 w-4 rounded border-slate-300 text-accent-600 focus:ring-accent-500"
+                />
+                {t("admin.enableTestAccess")}
+              </label>
+              <div>
+                <Label htmlFor="c-testexp">{t("admin.testExpiresAt")}</Label>
+                <Input
+                  id="c-testexp"
+                  name="testExpiresAt"
+                  type="date"
+                  defaultValue={company.testExpiresAt ? company.testExpiresAt.toISOString().slice(0, 10) : ""}
+                />
+              </div>
+              {company.isTest && (
+                <p className="rounded-lg bg-amber-50 p-2 text-xs text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+                  {t("admin.testActiveNote")}
+                </p>
+              )}
+            </ActionForm>
+          </CardContent>
+        </Card>
+      </section>
 
       <section className="grid gap-6 lg:grid-cols-2">
         <Card>

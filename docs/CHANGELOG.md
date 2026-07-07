@@ -1,5 +1,44 @@
 # Changelog
 
+## [0.10.0] — 2026-07-07 (Teil 6: Superadmin-Verwaltung V2 + Tester-Freigabe)
+
+### Wichtige Klarstellung
+- Der im Handover als „Teil-3-Merge des Superadmin-Pakets" angekündigte Schritt
+  war gegenstandslos: Das Paket war nie gebaut (kein Branch, kein Commit, kein
+  Code — per frischem Git-Klon verifiziert). Teil 6 hat es daher NEU gebaut
+  (Inhaltsstand V1.008).
+
+### Hinzugefügt
+- Superadmin – Firmen bearbeiten: Stammdaten (Name, Ansprechpartner, UID,
+  E-Mail, Telefon, Adresse), Plan-Wechsel (BASIC/BUSINESS/ENTERPRISE) und Status
+  (ACTIVE/INACTIVE) über Server Action `updateCompany`; jede Änderung ins
+  AuditLog (COMPANY_UPDATED, old/new).
+- Superadmin – Nutzer bearbeiten: Rolle, Status, Name, E-Mail über
+  `updateUserAsSuperadmin` (auditiert USER_UPDATED). Neue Seite /admin/users/[id],
+  Bearbeiten-Link in /admin/users. Schutz gegen Selbst-Aussperren,
+  E-Mail-Eindeutigkeit, KEINE Mandanten-Verschiebung.
+- Tester-Freigabe: Company.isTest + testExpiresAt (schema.prisma + init.sql
+  synchron, inkl. idempotenter ALTER TABLE für bestehende DBs). Konsequenzen:
+  - Zertifikate von Test-Firmen tragen sichtbar „TESTZUGANG — kein gültiger
+    Nachweis" (diagonaler Stempel + Klartext-Banner im PDF).
+  - Verify-Seite zeigt für Test-Firmen einen deutlichen Test-Hinweis.
+  - Test-Firmen sind aus der globalen Statistik ausgeschlossen (Superadmin-
+    Dashboard-KPIs und QM-courseMetrics: Bestehensquoten, Feedback, NPS, Abbruch).
+  - Neuer Cron-Job `deactivate-expired-tests` setzt abgelaufene Testzugänge auf
+    INACTIVE (auditiert).
+  - UI-Banner „Testzugang bis {Datum}" für Nutzer einer Test-Firma (Root-Layout).
+
+### Geändert
+- Zwei-Spuren-Versionierung eingeführt (Eigentümer-Vorgabe): globaler Gesamtstand
+  `contentVersionLabel` (Footer, „letzte höchste Version") auf V1.008; NEU
+  pro-Feature-Versionen in `config/feature-versions.ts` mit `<VersionBadge>` auf
+  der jeweiligen Seite. Die beiden neuen Features starten je bei V1.001
+  (ContentRevision entityType FEATURE: superadmin-verwaltung, tester-freigabe).
+
+### Verifikation
+- tsc 0 Fehler · Tests 111/111 (5 neue in test-access.test.ts) · next build
+  EXIT=0 (90 Routen inkl. /admin/users/[id]).
+
 ## [0.9.0] — 2026-07-07 (Teil 5: SEMrush-Daten + Phase-2-SEO-Seiten)
 
 ### Hinzugefügt

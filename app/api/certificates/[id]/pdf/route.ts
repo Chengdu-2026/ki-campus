@@ -15,7 +15,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     where: { id },
     include: {
       user: { select: { id: true, firstName: true, lastName: true, companyId: true, birthDate: true } },
-      company: { select: { id: true, name: true } },
+      company: { select: { id: true, name: true, isTest: true } },
       course: { include: { translations: true } },
     },
   });
@@ -48,6 +48,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     verifyUrl: `${process.env.APP_URL ?? ""}/verify/${certificate.verifyCode}`,
     moduleTitles: snapshot.moduleTitles ?? [],
     locale: certificate.locale,
+    isTest: certificate.company.isTest,
   });
 
   // Integrität: Hash beim ersten Download persistieren

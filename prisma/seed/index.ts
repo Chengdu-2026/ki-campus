@@ -636,7 +636,27 @@ async function main() {
       },
     });
   }
-  console.log("Versionsregister: ok (V1.003 + V1.004 + V1.005 + V1.006 + V1.007)");
+  const featSuperadmin = await prisma.contentRevision.findFirst({ where: { entityId: "superadmin-verwaltung", versionLabel: "V1.001" } });
+  if (!featSuperadmin) {
+    await prisma.contentRevision.create({
+      data: {
+        entityType: "FEATURE", entityId: "superadmin-verwaltung", versionLabel: "V1.001",
+        changeNote: "Superadmin-Verwaltung V2: Firmen bearbeiten (Stammdaten, Plan, Status) und Nutzer bearbeiten (Rolle, Status, Name/E-Mail), jeweils auditiert.",
+        changedById: superadmin.id,
+      },
+    });
+  }
+  const featTester = await prisma.contentRevision.findFirst({ where: { entityId: "tester-freigabe", versionLabel: "V1.001" } });
+  if (!featTester) {
+    await prisma.contentRevision.create({
+      data: {
+        entityType: "FEATURE", entityId: "tester-freigabe", versionLabel: "V1.001",
+        changeNote: "Tester-Freigabe: Company.isTest/testExpiresAt; in der Testphase ausgestellte Zertifikate tragen 'TESTZUGANG — kein gültiger Nachweis', Verify-Status, Ausschluss aus globaler Statistik, Cron 'deactivate-expired-tests', UI-Banner.",
+        changedById: superadmin.id,
+      },
+    });
+  }
+  console.log("Versionsregister: ok (Inhalt V1.003–V1.007 + Features superadmin-verwaltung/tester-freigabe V1.001)");
 
   console.log("Seed abgeschlossen.");
   console.log("Logins: sascha.morocutti@gmail.com / Morocutti#Admin2026 | hr@musterfirma.example / Firmenadmin#2026 | anna.beispiel@musterfirma.example / Teilnehmer#2026");

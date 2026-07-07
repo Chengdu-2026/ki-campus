@@ -13,9 +13,9 @@ export default async function AdminPage() {
 
   const [companies, participants, passedExams, certificates, activeCourses, openInvites, recent] = await Promise.all([
     prisma.company.count(),
-    prisma.user.count({ where: { role: "PARTICIPANT" } }),
-    prisma.examAttempt.count({ where: { passed: true } }),
-    prisma.certificate.count(),
+    prisma.user.count({ where: { role: "PARTICIPANT", company: { isTest: false } } }),
+    prisma.examAttempt.count({ where: { passed: true, user: { company: { isTest: false } } } }),
+    prisma.certificate.count({ where: { company: { isTest: false } } }),
     prisma.course.count({ where: { archivedAt: null } }),
     prisma.invitation.count({ where: { acceptedAt: null, expiresAt: { gt: new Date() } } }),
     prisma.auditLog.findMany({ orderBy: { createdAt: "desc" }, take: 10, include: { user: { select: { email: true } } } }),

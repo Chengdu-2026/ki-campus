@@ -1,6 +1,27 @@
 # Tagesabschluss
 
 ## Datum
+2026-07-07 (Teil 6: Superadmin-Verwaltung V2 + Tester-Freigabe, V0.10.0 / Inhalt V1.008)
+
+## Heute erledigt (Teil 6)
+- KLARSTELLUNG: „Teil-3-Merge" war gegenstandslos — das Superadmin-Paket war nie
+  gebaut (per Git verifiziert: kein Branch/Commit/Code). Daher Neubau als V1.008.
+- Superadmin: Firmen + Nutzer bearbeiten (auditiert), neue Seite /admin/users/[id].
+- Tester-Freigabe (Company.isTest/testExpiresAt) mit allen Konsequenzen:
+  Cert-Kennzeichnung „TESTZUGANG — kein gültiger Nachweis", Verify-Status,
+  Ausschluss aus globaler Statistik (Dashboard + QM courseMetrics), Cron
+  `deactivate-expired-tests`, UI-Banner für Test-Firmen.
+- Verifikation: tsc 0 · Tests 111/111 · Build EXIT=0. Sandbox-Fixes nötig:
+  lucide-react + @pdf-lib/standard-fonts kamen truncated aus dem npm-Proxy
+  (clean re-extract), Prisma generate mit Dummy-Engine-Env.
+
+## Offen für Sascha (Teil 6)
+- Push (Kommandos im Handover), `npm run db:init` + `npm run db:seed` (bringt
+  isTest/testExpiresAt via ALTER TABLE + V1.008-Revision), im Browser prüfen.
+
+---
+
+## Datum
 2026-07-07 (Teil 5: SEMrush-Keyword-Daten + Phase-2-SEO-Seiten, V0.9.0)
 
 ## Heute erledigt (Teil 5)

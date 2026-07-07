@@ -1,5 +1,16 @@
 # TODO
 
+## Erledigt am 2026-07-07 (Teil 6: Superadmin-Verwaltung V2 + Tester-Freigabe, V0.10.0)
+- [x] KLARSTELLUNG: „Teil-3-Merge Superadmin-Paket" war gegenstandslos — Paket war
+      nie gebaut (per Git verifiziert). Neu gebaut als V1.008.
+- [x] Superadmin: Firmen bearbeiten (Stammdaten, Plan, Status) + Nutzer bearbeiten
+      (Rolle, Status, Name/E-Mail), auditiert; neue Seite /admin/users/[id]
+- [x] Tester-Freigabe (Company.isTest + testExpiresAt): Cert-Kennzeichnung
+      „TESTZUGANG — kein gültiger Nachweis", Verify-Status, Statistik-Ausschluss
+      (Dashboard + QM), Cron `deactivate-expired-tests`, UI-Banner
+- [x] Schema + init.sql synchron (ALTER TABLE für bestehende DBs); Tests 111/111,
+      tsc 0, Build EXIT=0
+
 ## Erledigt am 2026-07-07 (Teil 5: Semrush + Phase-2-SEO-Seiten, V0.9.0)
 - [x] SEMrush-Keyword-Daten (6 Kern-Keywords, DB DE) über Browser-Session →
       Report Kap. 5a; Befund: MCP vom Semrush-Plan nicht abgedeckt,

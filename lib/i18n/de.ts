@@ -307,6 +307,8 @@ export const de = {
     statusExpired: "Abgelaufen",
     revoke: "Widerrufen",
     revokeReason: "Grund des Widerrufs",
+    testWatermark: "TESTZUGANG",
+    testBanner: "TESTZUGANG — kein gültiger Nachweis",
   },
   verify: {
     title: "Zertifikatsprüfung",
@@ -319,6 +321,8 @@ export const de = {
     checkedAt: "Geprüft am",
     issuer: "Aussteller",
     authenticityHint: "Echtheitsprüfung: Vergleichen Sie Name, Zertifikatsnummer, Kurs und Datum auf dem vorgelegten Zertifikat mit den Angaben auf dieser Seite. Diese Seite ist die maßgebliche Quelle — weicht das Dokument ab, ist es nicht echt.",
+    test: "Testzugang — kein gültiger Nachweis",
+    testHint: "Dieses Zertifikat stammt aus einem Testzugang und ist kein gültiger Schulungsnachweis. Es dient ausschließlich zu Demonstrations- und Prüfzwecken.",
   },
   company: {
     title: "Unternehmensübersicht",
@@ -367,6 +371,8 @@ export const de = {
     planLimitReached: "Teilnehmerlimit Ihres Pakets erreicht ({{limit}}). Bitte Upgrade wählen, um weitere Mitarbeitende einzuladen.",
     seatsUsed: "{{used}} von {{limit}} Plätzen belegt",
     seatsUnlimited: "{{used}} Plätze belegt (unbegrenzt)",
+    testBanner: "Testzugang aktiv: In dieser Testphase ausgestellte Zertifikate sind kein gültiger Nachweis.",
+    testBannerUntil: "Testzugang bis {{date}} — in dieser Testphase ausgestellte Zertifikate sind kein gültiger Nachweis.",
   },
   admin: {
     title: "Administration",
@@ -400,6 +406,22 @@ export const de = {
     maxAttempts: "Maximale Versuche",
     timeLimit: "Zeitlimit (Minuten, leer = keines)",
     saveDone: "Gespeichert.",
+    editCompany: "Firmendaten bearbeiten",
+    companyContact: "Ansprechpartner",
+    companyUid: "UID / USt-IdNr.",
+    companyPhone: "Telefon",
+    companyAddress: "Adresse",
+    companyPlan: "Plan",
+    testAccessTitle: "Testzugang",
+    testAccessHint:
+      "Test-Firmen sind aus der globalen Statistik (Bestehensquoten, Feedback, QM) ausgeschlossen. In der Testphase ausgestellte Zertifikate tragen sichtbar den Hinweis „TESTZUGANG — kein gültiger Nachweis“. Nach dem Ablaufdatum deaktiviert der Cron-Job „deactivate-expired-tests“ die Firma automatisch.",
+    enableTestAccess: "Als Testzugang markieren",
+    testExpiresAt: "Testzugang läuft ab am (optional)",
+    testActiveNote: "Testzugang ist aktiv — ausgestellte Zertifikate sind kein gültiger Nachweis.",
+    testBadge: "Test",
+    editUser: "Nutzer bearbeiten",
+    editUserNote: "Rolle, Status, Name und E-Mail werden auditiert. Eine Verschiebung in eine andere Firma ist bewusst nicht möglich.",
+    editAction: "Bearbeiten",
   },
   feature: {
     review: {

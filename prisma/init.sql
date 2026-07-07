@@ -25,6 +25,8 @@ CREATE TABLE IF NOT EXISTS "Company" (
   "logoUrl" TEXT,
   "status" TEXT NOT NULL DEFAULT 'ACTIVE',
   "planKey" TEXT NOT NULL DEFAULT 'BASIC',
+  "isTest" BOOLEAN NOT NULL DEFAULT false,
+  "testExpiresAt" DATETIME,
   "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY ("planKey") REFERENCES "Plan"("key")
@@ -428,6 +430,8 @@ CREATE TABLE IF NOT EXISTS "ContentRevision" (
 CREATE INDEX IF NOT EXISTS "ContentRevision_entity_idx" ON "ContentRevision"("entityType","entityId","createdAt");
 ALTER TABLE "AuditLog" ADD COLUMN "oldValue" TEXT;
 ALTER TABLE "AuditLog" ADD COLUMN "newValue" TEXT;
+ALTER TABLE "Company" ADD COLUMN "isTest" BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE "Company" ADD COLUMN "testExpiresAt" DATETIME;
 CREATE TABLE IF NOT EXISTS "MaterialDownload" (
   "id" TEXT PRIMARY KEY, "userId" TEXT NOT NULL, "courseId" TEXT NOT NULL,
   "downloadedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "pdfHash" TEXT

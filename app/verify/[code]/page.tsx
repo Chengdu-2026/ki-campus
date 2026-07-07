@@ -20,7 +20,7 @@ export default async function VerifyPage({ params }: { params: Promise<{ code: s
     where: { verifyCode: code },
     include: {
       user: { select: { firstName: true, lastName: true } },
-      company: { select: { name: true } },
+      company: { select: { name: true, isTest: true } },
       course: { include: { translations: true } },
     },
   });
@@ -44,12 +44,13 @@ export default async function VerifyPage({ params }: { params: Promise<{ code: s
   }
 
   const status = effectiveStatus(certificate);
+  const isTest = certificate.company.isTest;
   await audit({
     action: "CERTIFICATE_VERIFIED",
     companyId: certificate.companyId,
     entityType: "Certificate",
     entityId: certificate.id,
-    metadata: { status },
+    metadata: { status, isTest },
   });
 
   const courseTitle = pickTranslation(certificate.course.translations, certificate.locale)?.title ?? certificate.course.slug;
@@ -70,6 +71,12 @@ export default async function VerifyPage({ params }: { params: Promise<{ code: s
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          {isTest && (
+            <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-100">
+              <p className="font-semibold">{t("verify.test")}</p>
+              <p className="mt-1">{t("verify.testHint")}</p>
+            </div>
+          )}
           <dl className="space-y-3 text-sm">
             <div className="flex justify-between gap-4">
               <dt className="text-slate-500 dark:text-slate-400">{t("common.name")}</dt>

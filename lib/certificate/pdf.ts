@@ -1,4 +1,4 @@
-import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import { PDFDocument, StandardFonts, rgb, degrees } from "pdf-lib";
 import QRCode from "qrcode";
 import { createHash } from "crypto";
 import { appConfig } from "@/config/app";
@@ -21,6 +21,8 @@ export interface CertificatePdfData {
   verifyUrl: string;
   moduleTitles: string[];
   locale: string;
+  /** Testzugang: sichtbar als "TESTZUGANG — kein gueltiger Nachweis" kennzeichnen. */
+  isTest?: boolean;
 }
 
 const NAVY = rgb(0.043, 0.122, 0.25);
@@ -158,6 +160,19 @@ export async function generateCertificatePdf(data: CertificatePdfData): Promise<
   page.drawText(aiNote.length > 120 ? aiNote.slice(0, 118) + "…" : aiNote, {
     x: 50, y: 36, size: 6.5, font, color: GRAY,
   });
+
+  // Testzugang sichtbar kennzeichnen: diagonaler Stempel + Klartext-Banner unter dem Kopf.
+  if (data.isTest) {
+    const banner = t("certificate.testBanner");
+    assertCleanWording(banner);
+    page.drawText(t("certificate.testWatermark"), {
+      x: width * 0.13, y: height * 0.33, size: 100, font: bold,
+      color: rgb(0.85, 0.15, 0.15), opacity: 0.16, rotate: degrees(35),
+    });
+    const bw = bold.widthOfTextAtSize(banner, 11);
+    page.drawRectangle({ x: (width - bw) / 2 - 10, y: height - 132, width: bw + 20, height: 20, color: rgb(0.99, 0.9, 0.9) });
+    page.drawText(banner, { x: (width - bw) / 2, y: height - 127, size: 11, font: bold, color: rgb(0.7, 0.09, 0.09) });
+  }
 
   return doc.save();
 }

@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { testCompanyIds } from "@/lib/test-companies";
 import { audit } from "@/lib/audit";
 import { sendMail } from "@/lib/mail";
 import { appConfig } from "@/config/app";
@@ -167,9 +168,12 @@ export interface CourseQmMetrics {
 export async function courseMetrics(companyId: string | null, courseId: string, since?: Date): Promise<CourseQmMetrics> {
   const companyFilter = companyId ? { companyId } : {};
   const sinceFilter = since ? { gte: since } : undefined;
+  // Globale Auswertung (companyId === null): Test-Firmen ausschliessen.
+  const excludeIds = companyId ? [] : await testCompanyIds();
+  const excludeFilter = excludeIds.length ? { notIn: excludeIds } : undefined;
 
   const responses = await prisma.feedbackResponse.findMany({
-    where: { courseId, ...companyFilter, ...(sinceFilter ? { submittedAt: sinceFilter } : {}) },
+    where: { courseId, ...companyFilter, ...(excludeFilter ? { companyId: excludeFilter } : {}), ...(sinceFilter ? { submittedAt: sinceFilter } : {}) },
     select: { averageScore: true, npsScore: true },
   });
   const scored = responses.filter((r) => r.averageScore !== null);
@@ -181,7 +185,7 @@ export async function courseMetrics(companyId: string | null, courseId: string, 
   const nps = npsScores.length ? Math.round(((promoters - detractors) / npsScores.length) * 100) : null;
 
   const attempts = await prisma.examAttempt.findMany({
-    where: { courseId, status: "SUBMITTED", ...(companyId ? { user: { companyId } } : {}), ...(sinceFilter ? { submittedAt: sinceFilter } : {}) },
+    where: { courseId, status: "SUBMITTED", ...(companyId ? { user: { companyId } } : (excludeFilter ? { user: { companyId: excludeFilter } } : {})), ...(sinceFilter ? { submittedAt: sinceFilter } : {}) },
     select: { passed: true },
   });
   const failRatePercent = attempts.length
@@ -189,7 +193,7 @@ export async function courseMetrics(companyId: string | null, courseId: string, 
 
   // Abbruchquote: begonnen (irgendein Fortschritt), aber nach 30 Tagen weder fertig noch Test
   const participants = await prisma.user.findMany({
-    where: { role: "PARTICIPANT", status: "ACTIVE", ...(companyId ? { companyId } : {}) },
+    where: { role: "PARTICIPANT", status: "ACTIVE", ...(companyId ? { companyId } : (excludeFilter ? { companyId: excludeFilter } : {})) },
     select: {
       id: true,
       createdAt: true,

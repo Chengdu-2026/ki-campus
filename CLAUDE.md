@@ -43,11 +43,21 @@ Details und Historie: `docs/TEXT_REWRITE_LOG.md` (nach Textarbeit fortschreiben)
 - **Jede Frage trägt eine Versionsnummer** (`Question.version` + `contentHash`).
   Bei jeder inhaltlichen Änderung einer Frage: `version` hochzählen — nie
   still überschreiben.
-- **Jede Inhaltsänderung** (Fragen, Lektionen, Module) bekommt einen Eintrag im
-  ContentRevision-Register (versionLabel z. B. V1.005, sichtbar unter
-  /admin/versions) UND aktualisiert `config/app.ts → contentVersionLabel`.
-- **Der Inhaltsstand steht im Footer** (footer.contentVersion) — auf jeder Seite
-  sichtbar. Footer-Version, Register und Config müssen übereinstimmen.
+- **Zwei Versions-Spuren (Eigentümer-Vorgabe vom 2026-07-07):**
+  1. **Global (Footer):** `config/app.ts → contentVersionLabel` = die „letzte
+     höchste Version" = Summe aller Verbesserungen. Klettert bei jedem Release
+     weiter, geht nie zurück; sichtbar im Footer (footer.contentVersion) auf
+     jeder Seite.
+  2. **Pro Feature (Badge):** Jedes Feature hat eine eigene Version in
+     `config/feature-versions.ts`, startet bei **V1.001** und wird NUR
+     hochgezählt, wenn genau dieses Feature geändert wird. Angezeigt als
+     `<VersionBadge feature="…">` auf der jeweiligen Seite/Modul. **Alte Features
+     nicht neu nummerieren** („alte Sachen lassen").
+- **Jede Inhalts-/Feature-Änderung** bekommt einen Eintrag im ContentRevision-
+  Register (`/admin/versions`): Inhalte (Kurse/Module/Lektionen/Fragen) mit ihrem
+  Label; Features mit `entityType FEATURE`, `entityId` = Feature-Key und eigener
+  Feature-Version (V1.001…). Der globale `contentVersionLabel` wird beim Release
+  hochgezählt. Footer (global), Register und Config müssen zueinander passen.
 - Zertifikate speichern `courseVersion` + `issuedContentSnapshot` zum
   Ausstellungszeitpunkt — nicht anfassen, das ist die Audit-Grundlage.
 - Gilt auch für Bilder/Assets und alle öffentlichen Texte: jede Änderung

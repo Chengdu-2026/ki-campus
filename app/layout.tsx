@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/layout/header";
+import { TestAccessBanner } from "@/components/layout/test-access-banner";
 import { Footer } from "@/components/layout/footer";
 import { appConfig } from "@/config/app";
 
@@ -83,6 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <ThemeProvider>
           <Header />
+          <TestAccessBanner />
           <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
           <Footer />
         </ThemeProvider>
