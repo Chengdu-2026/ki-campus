@@ -1,0 +1,590 @@
+// Prisma Schema — SQLite (dev) / PostgreSQL (prod)
+// Umstellung auf Postgres: provider = "postgresql" + DATABASE_URL anpassen.
+// Bewusst KEINE DB-Enums (SQLite-Kompatibilität) — Werte werden in Zod/TS geprüft.
+
+generator client {
+  provider        = "prisma-client"
+  output          = "../lib/generated/prisma"
+  runtime         = "nodejs"
+  moduleFormat    = "cjs"
+  engineType      = "client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id           String   @id @default(cuid())
+  name         String
+  address      String?
+  uid          String?
+  contactName  String?
+  email        String?
+  phone        String?
+  logoUrl      String?
+  status       String   @default("ACTIVE") // ACTIVE | INACTIVE
+  planKey      String   @default("BASIC")
+  plan         Plan     @relation(fields: [planKey], references: [key])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  users        User[]
+  invitations  Invitation[]
+  certificates Certificate[]
+  auditLogs    AuditLog[]
+}
+
+model Plan {
+  id              String    @id @default(cuid())
+  key             String    @unique // BASIC | BUSINESS | ENTERPRISE
+  name            String
+  maxParticipants Int?      // null = unbegrenzt
+  priceMonthly    Int?      // Cent, null = auf Anfrage
+  features        String    @default("[]") // JSON string[]
+  sortOrder       Int       @default(0)
+  companies       Company[]
+}
+
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  passwordHash    String
+  firstName       String
+  lastName        String
+  role            String    @default("PARTICIPANT") // SUPERADMIN | COMPANY_ADMIN | TRAINER | PARTICIPANT
+  status          String    @default("ACTIVE") // ACTIVE | INACTIVE
+  locale          String    @default("de")
+  theme           String    @default("system")
+  companyId       String?
+  company         Company?  @relation(fields: [companyId], references: [id])
+  emailVerifiedAt DateTime?
+  birthDate       DateTime?
+  totpSecret      String?
+  totpEnabledAt   DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  lessonProgress  LessonProgress[]
+  attempts        ExamAttempt[]
+  certificates    Certificate[]
+  invitationsSent Invitation[]     @relation("InvitedBy")
+  resetTokens     PasswordResetToken[]
+  auditLogs       AuditLog[]
+}
+
+model Course {
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  version       Int       @default(1)
+  defaultLocale String    @default("de")
+  teachingUnits Int       @default(4)
+  certificateValidityMonths Int?
+  publishedAt   DateTime?
+  archivedAt    DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  translations CourseTranslation[]
+  modules      Module[]
+  questions    Question[]
+  exam         Exam?
+  attempts     ExamAttempt[]
+  certificates Certificate[]
+}
+
+model CourseTranslation {
+  id          String  @id @default(cuid())
+  courseId    String
+  course      Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  locale      String
+  title       String
+  subtitle    String?
+  description String?
+
+  @@unique([courseId, locale])
+}
+
+model Module {
+  id       String @id @default(cuid())
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  slug     String @unique
+  order    Int
+  version  Int    @default(1)
+
+  translations ModuleTranslation[]
+  lessons      Lesson[]
+}
+
+model ModuleTranslation {
+  id          String  @id @default(cuid())
+  moduleId    String
+  module      Module  @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  locale      String
+  title       String
+  description String?
+
+  @@unique([moduleId, locale])
+}
+
+model Lesson {
+  id              String  @id @default(cuid())
+  moduleId        String
+  module          Module  @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  slug            String  @unique
+  order           Int
+  durationMinutes Int     @default(5)
+  required        Boolean @default(true)
+  version         Int     @default(1)
+  contentHash     String?
+  videoUrl        String?
+  downloadUrl     String?
+
+  translations LessonTranslation[]
+  miniChecks   MiniCheck[]
+  progress     LessonProgress[]
+  questions    Question[]
+}
+
+model LessonTranslation {
+  id       String @id @default(cuid())
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  locale   String
+  title    String
+  goal     String
+  content  String
+  example  String
+  risk     String
+  memo     String
+
+  @@unique([lessonId, locale])
+}
+
+model MiniCheck {
+  id       String @id @default(cuid())
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  order    Int
+
+  translations MiniCheckTranslation[]
+}
+
+model MiniCheckTranslation {
+  id          String    @id @default(cuid())
+  miniCheckId String
+  miniCheck   MiniCheck @relation(fields: [miniCheckId], references: [id], onDelete: Cascade)
+  locale      String
+  question    String
+  answer      String
+
+  @@unique([miniCheckId, locale])
+}
+
+model LessonProgress {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lessonId    String
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  completedAt DateTime @default(now())
+
+  @@unique([userId, lessonId])
+}
+
+model Question {
+  id           String  @id @default(cuid())
+  courseId     String
+  course       Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessonId     String?
+  lesson       Lesson? @relation(fields: [lessonId], references: [id])
+  category     String
+  difficulty   String  @default("MITTEL") // LEICHT | MITTEL | SCHWER
+  practiceCase Boolean @default(false)
+  active       Boolean @default(true)
+  version      Int     @default(1)
+  tags         String  @default("[]") // JSON string[]
+  contentHash  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  translations QuestionTranslation[]
+  options      AnswerOption[]
+  answers      ExamAnswer[]
+}
+
+model QuestionTranslation {
+  id          String   @id @default(cuid())
+  questionId  String
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  locale      String
+  text        String
+  explanation String
+
+  @@unique([questionId, locale])
+}
+
+model AnswerOption {
+  id         String   @id @default(cuid())
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  order      Int
+  correct    Boolean  @default(false)
+
+  translations AnswerOptionTranslation[]
+}
+
+model AnswerOptionTranslation {
+  id             String       @id @default(cuid())
+  answerOptionId String
+  answerOption   AnswerOption @relation(fields: [answerOptionId], references: [id], onDelete: Cascade)
+  locale         String
+  text           String
+
+  @@unique([answerOptionId, locale])
+}
+
+model Exam {
+  id                 String @id @default(cuid())
+  courseId           String @unique
+  course             Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  questionCount      Int    @default(30)
+  passPercentage     Int    @default(75)
+  maxAttempts        Int    @default(3)
+  timeLimitMinutes   Int?
+  attemptResumeHours Int    @default(24)
+  version            Int    @default(1)
+}
+
+model ExamAttempt {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId      String
+  course        Course    @relation(fields: [courseId], references: [id])
+  courseVersion Int       @default(1)
+  locale        String    @default("de")
+  status        String    @default("IN_PROGRESS") // IN_PROGRESS | SUBMITTED | EXPIRED
+  questionIds   String    @default("[]") // JSON string[] — Reihenfolge der gezogenen Fragen
+  startedAt     DateTime  @default(now())
+  submittedAt   DateTime?
+  expiresAt     DateTime
+  scorePoints   Int?
+  scorePercent  Int?
+  passed        Boolean?
+  ip            String?
+  userAgent     String?
+
+  answers     ExamAnswer[]
+  certificate Certificate?
+}
+
+model ExamAnswer {
+  id                String      @id @default(cuid())
+  attemptId         String
+  attempt           ExamAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  questionId        String
+  question          Question    @relation(fields: [questionId], references: [id])
+  selectedOptionIds String      @default("[]") // JSON string[]
+  correct           Boolean?
+  answeredAt        DateTime    @default(now())
+
+  @@unique([attemptId, questionId])
+}
+
+model Certificate {
+  id                    String    @id @default(cuid())
+  certificateNumber     String    @unique // CERT-YYYY-NNNNNN — nur Anzeige
+  verifyCode            String    @unique // zufällig — QR/Verify-URL
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id])
+  companyId             String
+  company               Company   @relation(fields: [companyId], references: [id])
+  courseId              String
+  course                Course    @relation(fields: [courseId], references: [id])
+  courseVersion         Int
+  locale                String    @default("de")
+  attemptId             String    @unique
+  attempt               ExamAttempt @relation(fields: [attemptId], references: [id])
+  scorePercent          Int
+  issuedAt              DateTime  @default(now())
+  validUntil            DateTime?
+  status                String    @default("VALID") // VALID | REVOKED
+  revokedAt             DateTime?
+  revokeReason          String?
+  pdfHash               String?
+  issuedContentSnapshot String?   // JSON: Modultitel etc. zum Ausstellungszeitpunkt
+}
+
+model Invitation {
+  id          String    @id @default(cuid())
+  companyId   String
+  company     Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  email       String?
+  code        String    @unique
+  role        String    @default("PARTICIPANT")
+  invitedById String
+  invitedBy   User      @relation("InvitedBy", fields: [invitedById], references: [id])
+  acceptedAt  DateTime?
+  expiresAt   DateTime
+  createdAt   DateTime  @default(now())
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id])
+  companyId  String?
+  company    Company? @relation(fields: [companyId], references: [id])
+  action     String
+  entityType String?
+  entityId   String?
+  metadata   String   @default("{}") // JSON
+  oldValue   String?  // JSON
+  newValue   String?  // JSON
+  ip         String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  @@index([companyId, createdAt])
+  @@index([action, createdAt])
+}
+
+model MailLog {
+  id        String   @id @default(cuid())
+  to        String
+  template  String
+  subject   String
+  body      String
+  status    String   @default("LOGGED") // LOGGED | SENT | FAILED
+  createdAt DateTime @default(now())
+}
+
+model EmailTemplate {
+  id      String @id @default(cuid())
+  key     String // invitation | verify_email | password_reset | reminder_open | exam_failed | certificate_ready
+  locale  String
+  subject String
+  body    String // Platzhalter: {{firstName}}, {{link}}, {{companyName}}, ...
+
+  @@unique([key, locale])
+}
+
+model CompanyLegalProfile {
+  id                  String    @id @default(cuid())
+  legalName           String
+  chineseName         String?
+  address             String
+  country             String
+  registrationNumber  String?
+  organisationCode    String?
+  taxNumber           String?
+  registeredCapital   String?
+  foundingDate        String?
+  registrationAuthority String?
+  email               String
+  website             String
+  representativeName  String?
+  legalDisclaimer     String?
+  privacyContactEmail String?
+  imprintSourceUrl    String?
+  lastCheckedAt       DateTime?
+}
+
+// ===================== QM-MODUL (ISO-9001-Logik, keine Zertifizierungsgarantie) =====================
+
+model FeedbackSurvey {
+  id           String   @id @default(cuid())
+  companyId    String?  // null = globaler Standard-Fragebogen
+  courseId     String?
+  locale       String   @default("de")
+  title        String
+  description  String?
+  triggerEvent String   @default("CERTIFICATE_ISSUED") // COURSE_COMPLETED | CERTIFICATE_ISSUED | EXAM_FAILED | MANUAL
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  questions FeedbackQuestion[]
+  responses FeedbackResponse[]
+}
+
+model FeedbackQuestion {
+  id           String  @id @default(cuid())
+  surveyId     String
+  survey       FeedbackSurvey @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+  category     String  // CONTENT_QUALITY | UNDERSTANDABILITY | TECHNICAL_USABILITY | EXAM_FAIRNESS | PRACTICAL_RELEVANCE | SUPPORT | OVERALL_SATISFACTION | FREE_TEXT
+  questionText String
+  questionType String  // RATING_1_5 | RATING_1_10 | YES_NO | MULTIPLE_CHOICE | FREE_TEXT | YES_NO_TEXT
+  isRequired   Boolean @default(true)
+  sortOrder    Int     @default(0)
+  helpText     String?
+  options      String? // JSON bei MULTIPLE_CHOICE
+  isActive     Boolean @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  answers FeedbackAnswer[]
+}
+
+model FeedbackResponse {
+  id              String    @id @default(cuid())
+  companyId       String
+  courseId        String
+  userId          String
+  examAttemptId   String?
+  certificateId   String?
+  surveyId        String
+  survey          FeedbackSurvey @relation(fields: [surveyId], references: [id])
+  submittedAt     DateTime  @default(now())
+  averageScore    Float?
+  npsScore        Int?
+  sentiment       String    @default("NEUTRAL") // POSITIVE | NEUTRAL | NEGATIVE | CRITICAL
+  status          String    @default("RECEIVED") // RECEIVED | REVIEW_REQUIRED | ACTION_REQUIRED | CLOSED
+  needsRetraining Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  answers       FeedbackAnswer[]
+  qualityIssues QualityIssue[]
+
+  @@unique([userId, surveyId, courseId])
+  @@index([companyId, submittedAt])
+}
+
+model FeedbackAnswer {
+  id              String  @id @default(cuid())
+  responseId      String
+  response        FeedbackResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  questionId      String
+  question        FeedbackQuestion @relation(fields: [questionId], references: [id])
+  ratingValue     Int?
+  booleanValue    Boolean?
+  textValue       String?
+  selectedOptions String?
+  createdAt       DateTime @default(now())
+}
+
+model QMThreshold {
+  id                String   @id @default(cuid())
+  companyId         String?  // null bei GLOBAL
+  scope             String   @default("GLOBAL") // GLOBAL | COMPANY | COURSE
+  courseId          String?
+  metric            String   // AVERAGE_FEEDBACK_SCORE | CONTENT_SCORE | UNDERSTANDABILITY_SCORE | TECHNICAL_SCORE | EXAM_FAIRNESS_SCORE | NPS_SCORE | EXAM_FAIL_RATE | COURSE_DROPOUT_RATE | NEGATIVE_FREE_TEXT
+  warningThreshold  Float
+  criticalThreshold Float
+  actionRequired    Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@unique([scope, metric, companyId, courseId])
+}
+
+model QualityIssue {
+  id                 String    @id @default(cuid())
+  companyId          String
+  courseId           String?
+  userId             String?
+  feedbackResponseId String?
+  feedbackResponse   FeedbackResponse? @relation(fields: [feedbackResponseId], references: [id])
+  title              String
+  description        String
+  source             String    @default("FEEDBACK") // FEEDBACK | EXAM_RESULT | SUPPORT | ADMIN | SYSTEM | AUDIT
+  severity           String    @default("MEDIUM") // LOW | MEDIUM | HIGH | CRITICAL
+  category           String    @default("CONTENT") // CONTENT | UX | TECHNICAL | EXAM | LEGAL | DATA_PROTECTION | SUPPORT | PROCESS
+  status             String    @default("OPEN") // OPEN | IN_REVIEW | ACTION_DEFINED | IN_PROGRESS | EFFECTIVENESS_CHECK | CLOSED | REJECTED
+  ownerId            String?
+  dueDate            DateTime?
+  dedupeKey          String?   @unique // verhindert Cron-Dubletten
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  closedAt           DateTime?
+
+  correctiveActions CorrectiveAction[]
+
+  @@index([companyId, status])
+}
+
+model CorrectiveAction {
+  id                     String    @id @default(cuid())
+  companyId              String
+  qualityIssueId         String
+  qualityIssue           QualityIssue @relation(fields: [qualityIssueId], references: [id], onDelete: Cascade)
+  title                  String
+  rootCause              String?
+  immediateAction        String?
+  correctiveAction       String?
+  preventiveAction       String?
+  ownerId                String?
+  dueDate                DateTime?
+  status                 String    @default("PLANNED") // PLANNED | IN_PROGRESS | IMPLEMENTED | EFFECTIVENESS_PENDING | EFFECTIVE | NOT_EFFECTIVE | CLOSED
+  effectivenessCheckDate DateTime?
+  effectivenessResult    String?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+  closedAt               DateTime?
+
+  @@index([companyId, status])
+}
+
+model ManagementReview {
+  id                      String    @id @default(cuid())
+  companyId               String
+  periodStart             DateTime
+  periodEnd               DateTime
+  title                   String
+  summary                 String?
+  feedbackSummary         String?
+  complaintSummary        String?
+  examResultSummary       String?
+  certificateSummary      String?
+  correctiveActionSummary String?
+  riskSummary             String?
+  improvementActions      String?
+  decisions               String?
+  responsibleUserId       String?
+  status                  String    @default("DRAFT") // DRAFT | IN_REVIEW | APPROVED | ARCHIVED
+  approvedById            String?
+  approvedAt              DateTime?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  @@unique([companyId, periodStart, periodEnd])
+}
+
+/// Versionsregister: jede inhaltliche Änderung nachvollziehbar ab V1.003
+model ContentRevision {
+  id           String   @id @default(cuid())
+  entityType   String   // COURSE | LESSON | QUESTION | FAQ | SURVEY | PLAN | LEGAL
+  entityId     String
+  versionLabel String   // z. B. V1.003
+  changeNote   String
+  changedById  String?
+  snapshot     String?  // JSON optional
+  createdAt    DateTime @default(now())
+
+  @@index([entityType, entityId, createdAt])
+}
+
+/// Einmaliger Download der Lernunterlagen (personalisiertes PDF mit Wasserzeichen)
+model MaterialDownload {
+  id           String   @id @default(cuid())
+  userId       String
+  courseId     String
+  downloadedAt DateTime @default(now())
+  pdfHash      String?
+
+  @@unique([userId, courseId])
+}
