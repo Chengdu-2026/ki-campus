@@ -1,6 +1,41 @@
 # Tagesabschluss
 
 ## Datum
+2026-07-08 (Nacht — Teil 4 Fortsetzung: Content-Audit-System Phase 1 GEBAUT)
+
+## Heute erledigt
+- Content-Audit-System Phase 1 komplett umgesetzt (Owner-Anweisung „baue
+  los" — Queue-Vorrang aufgehoben): 5 neue Tabellen (init.sql synchron),
+  lib/content-audit/{logic,scan}.ts (Hash normalisiert SHA-256,
+  Statusmaschine, canApprove-Gate, Risk-Scanner mit Negationsregeln,
+  Zeilen-Diff, Quellen-Registry mit Coverage-Prinzip), 8 Server Actions
+  (auditiert, 9 neue CONTENT_AUDIT_*-Actions), /admin/content-audit
+  (KPI/Filter/Tabelle) + Detailseite (Snapshots, Diff, Scanner-Treffer,
+  Checkliste, TOTP-Owner-Freigabe, Historie), CSV-Export, 5 Seed-Templates,
+  13 neue Tests, 3 neue Doku-Dateien
+- Integrations-Smoke in Sandbox: Scan erfasst 300+ Blöcke (3 Kurse komplett
+  feldweise, 312 Fragen, Marketing-/i18n-Blöcke, Modulbilder), idempotent
+- Bugfix für Sascha: init-db.mjs idempotent (duplicate column oldValue)
+- Wording-Guard-Selbstfänger gelöst: Scanner-Liste als gezielte Test-
+  Ausnahme (wie Guard-Liste selbst); Seed-Labels Guard-fest umformuliert;
+  MARKETING_PAGES-Zitate durch Verweis auf die Verbotslisten ersetzt
+- Verifikation: Tests 106/106 · tsc 0 · Build grün (55 Seiten) · db:init
+  auf BESTEHENDER DB grün (Idempotenz) · Seed inkl. 5 Templates grün
+
+## Bekannte Probleme / offen
+- Phase 1b offen (TODO.md): PDF-Einzelnachweis, JSX-Rechtsseiten +
+  E-Mail-Templates in Registry, Prüfmodus-Overlay, Save-Hooks, Scan-Cron
+- Erste Charge fachlich abarbeiten = Saschas Part (CONTENT_REVIEW_WORKFLOW.md);
+  Owner-Freigabe erfordert aktivierte 2FA am Superadmin-Konto
+- QUESTION-Items referenzieren Question-IDs: nach db:init && db:seed
+  entstehen neue IDs → alte QUESTION-Items laufen als Karteileichen auf
+  (einmalig archivieren oder Scan nach Reset neu aufbauen)
+
+---
+
+# Tagesabschluss
+
+## Datum
 2026-07-07 (Nacht — Parallel-Session „Teil 4": Kurs 3 „Richtig Prompten" + Review-Roadmap)
 
 ## Heute erledigt

@@ -210,8 +210,9 @@ Geprüfte, stabile Kandidaten (Erstliste, Stand Juli 2026):
 - Deutschsprachige YouTube-Grundkurse zu Prompting existieren zahlreich,
   Qualität sehr gemischt — Auswahl erst nach Sichtung durch Sascha.
 
-## 4. Internes Content-Audit-System — Status: GEPLANT
-### (Phase 1 nach Superadmin-Paket + Praxistest; Entscheidung Sascha 2026-07-07)
+## 4. Internes Content-Audit-System — Status: PHASE 1 UMGESETZT (2026-07-08)
+### (Vorziehung auf Owner-Anweisung; Rest-Umfang = Phase 1b in docs/TODO.md)
+### Umsetzungs-Doku: CONTENT_AUDIT_SYSTEM.md · CONTENT_REVIEW_WORKFLOW.md · LEGAL_WORDING_CHECK.md
 
 **Ziel:** Jeder KI-generierte oder geänderte Inhalt ist intern sichtbar,
 prüfbar und freigebbar. Die Freigabe ist an den ContentHash der konkreten

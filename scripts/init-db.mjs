@@ -22,8 +22,22 @@ const statements = cleaned
   .map((s) => s.trim())
   .filter((s) => s.length > 0);
 
+let skipped = 0;
 for (const stmt of statements) {
-  await client.execute(stmt);
+  try {
+    await client.execute(stmt);
+  } catch (e) {
+    // Idempotenz für ALTER TABLE ADD COLUMN: Spalte existiert bereits -> überspringen.
+    // (CREATE TABLE/INDEX sind über IF NOT EXISTS abgesichert, ALTER kennt das in SQLite nicht.)
+    const msg = String(e?.cause?.message ?? e?.message ?? e);
+    if (/^ALTER TABLE/i.test(stmt) && /duplicate column name/i.test(msg)) {
+      skipped++;
+      continue;
+    }
+    throw e;
+  }
 }
-console.log(`DB initialisiert (${statements.length} Statements): ${url}`);
+console.log(
+  `DB initialisiert (${statements.length} Statements${skipped ? `, ${skipped} bereits vorhanden übersprungen` : ""}): ${url}`
+);
 client.close();

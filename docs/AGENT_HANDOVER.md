@@ -153,14 +153,14 @@ lib/module-details.de.ts ergänzen; Modulbilder liefert Sascha später
 ContentRevision + contentVersionLabel hochziehen.
 
 ## Danach (in dieser Reihenfolge)
-0. NEU ENTSCHIEDEN (Sascha, 2026-07-07): Internes CONTENT-AUDIT-SYSTEM
-   (Phase 1) nach Superadmin-Paket und Praxistest umsetzen — vollständige,
-   korrigierte Spezifikation in docs/ROADMAP.md Abschnitt 4 (maßgeblich;
-   enthält 3 Korrekturen gegenüber dem GPT-Entwurf: separater Risk-Scanner
-   statt wording-guard-Erweiterung, keine neuen Rollen in Phase 1,
-   getrennte Erkennung für DB- vs. Git-Inhalte). KEIN separates
-   Open-Source-Repo vor 2–3 Wochen interner Nutzung. Erste Charge mit dem
-   Praxistest verbinden. Entwurfsmaterial: Ordner "AUDIT Repo/".
+0. ERLEDIGT (2026-07-08 Nacht, auf Owner-Anweisung vorgezogen): CONTENT-
+   AUDIT-SYSTEM Phase 1 ist GEBAUT (Spez ROADMAP §4; Doku
+   CONTENT_AUDIT_SYSTEM.md + CONTENT_REVIEW_WORKFLOW.md +
+   LEGAL_WORDING_CHECK.md; Tests 106 grün, Build grün, Scan-Smoke 300+
+   Blöcke). OFFEN: Phase 1b (TODO.md — PDF-Nachweis, JSX-Rechtsseiten/
+   Mail-Templates in Registry, Prüfmodus-Overlay, Save-Hooks, Scan-Cron)
+   und das ABARBEITEN der ersten Charge durch Sascha (Workflow-Doku).
+   KEIN separates Open-Source-Repo vor 2–3 Wochen interner Nutzung.
 1. PRAXISTEST beider Kurse (ChatGPT-Testplan, von Sascha freigegeben):
    kompletter Teilnehmer-Durchlauf Basic + Officer, 30 Zufallsfragen je Kurs
    auf Qualität prüfen, Admin-Flows, Mandantentrennung (Firma A/B),

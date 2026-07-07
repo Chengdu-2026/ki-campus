@@ -578,6 +578,107 @@ model ContentRevision {
   @@index([entityType, entityId, createdAt])
 }
 
+/// Content-Audit: prüfungspflichtiger Inhaltsblock mit hash-gebundener Freigabe.
+/// ContentRevision bleibt die technische Versionsbasis (contentRevisionId optional);
+/// dieses Model verwaltet Prüfstatus, Risiko, Freigaben. Siehe docs/CONTENT_AUDIT_SYSTEM.md.
+model ContentAuditItem {
+  id                      String    @id @default(cuid())
+  contentRevisionId       String?
+  entityType              String    // MARKETING_PAGE|COURSE|MODULE|LESSON|QUESTION|ANSWER_OPTION|CERTIFICATE_TEMPLATE|QM_TEXT|LEGAL_PAGE|TRANSLATION|FEATURE_TEXT|UI_TEXT|ASSET|OTHER
+  entityId                String
+  blockKey                String?   // stabile Block-Adresse, z. B. lesson:<slug>#example
+  entitySlug              String?
+  title                   String
+  locale                  String    @default("de")
+  source                  String    @default("AI_ASSISTED") // AI_GENERATED|HUMAN_CREATED|AI_ASSISTED|IMPORTED|TRANSLATED|SYSTEM_GENERATED
+  status                  String    @default("NEEDS_REVIEW") // DRAFT|NEEDS_REVIEW|IN_REVIEW|CHANGES_REQUESTED|APPROVED|PUBLISHED|REJECTED|ARCHIVED
+  riskLevel               String    @default("LOW") // LOW|MEDIUM|HIGH|CRITICAL
+  requiresOwnerApproval   Boolean   @default(false)
+  contentHash             String
+  approvedContentHash     String?   // Hash der zuletzt freigegebenen Fassung (Freigabeanker)
+  version                 Int       @default(1)
+  currentContentSnapshot  String
+  previousContentSnapshot String?
+  changeSummary           String?
+  riskHits                String?   // JSON der Scanner-Treffer
+  aiGenerated             Boolean   @default(true)
+  reviewedById            String?
+  reviewedAt              DateTime?
+  approvedById            String?
+  approvedAt              DateTime?
+  ownerApprovedById       String?
+  ownerApprovedAt         DateTime?
+  publishedAt             DateTime?
+  notes                   String?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  checklistResults        ContentReviewChecklistResult[]
+
+  @@unique([entityType, entityId, blockKey, locale])
+  @@index([status, riskLevel])
+  @@index([updatedAt])
+}
+
+/// Konfigurierbare Review-Checkliste (generisch — keine campus-spezifischen Booleans)
+model ReviewChecklistTemplate {
+  id         String   @id @default(cuid())
+  name       String
+  entityType String?  // optional: Template gilt bevorzugt für diesen EntityType
+  locale     String?
+  isDefault  Boolean  @default(false)
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  items      ReviewChecklistItem[]
+  results    ContentReviewChecklistResult[]
+}
+
+model ReviewChecklistItem {
+  id                   String  @id @default(cuid())
+  templateId           String
+  template             ReviewChecklistTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  key                  String
+  label                String
+  description          String?
+  required             Boolean @default(true)
+  sortOrder            Int     @default(0)
+  riskLevelIfUnchecked String?
+  answers              ContentReviewChecklistAnswer[]
+
+  @@unique([templateId, key])
+}
+
+model ContentReviewChecklistResult {
+  id                      String    @id @default(cuid())
+  auditItemId             String
+  auditItem               ContentAuditItem @relation(fields: [auditItemId], references: [id], onDelete: Cascade)
+  templateId              String
+  template                ReviewChecklistTemplate @relation(fields: [templateId], references: [id])
+  reviewerId              String
+  completedAt             DateTime?
+  approvedForPublication  Boolean   @default(false)
+  notes                   String?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  answers                 ContentReviewChecklistAnswer[]
+
+  @@index([auditItemId])
+}
+
+model ContentReviewChecklistAnswer {
+  id                String   @id @default(cuid())
+  checklistResultId String
+  result            ContentReviewChecklistResult @relation(fields: [checklistResultId], references: [id], onDelete: Cascade)
+  checklistItemId   String
+  item              ReviewChecklistItem @relation(fields: [checklistItemId], references: [id], onDelete: Cascade)
+  checked           Boolean  @default(false)
+  comment           String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@unique([checklistResultId, checklistItemId])
+}
+
 /// Themenwunsch/Interessens-Lead von der öffentlichen /themen-Seite
 /// (Leadmaschine: welche Kursthemen wünschen sich Interessenten?)
 model InterestLead {

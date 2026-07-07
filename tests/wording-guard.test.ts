@@ -23,7 +23,10 @@ describe("Wording-Guard Repository-Scan", () => {
   const ROOT = join(__dirname, "..");
   const SCAN_DIRS = ["app", "components", "lib", "prisma/seed", "config", "docs"];
   const EXTENSIONS = [".ts", ".tsx", ".md"];
-  const EXCLUDED_FILES = ["wording-guard.ts", "wording-guard.test.ts"];
+  const EXCLUDED_FILES = ["wording-guard.ts", "wording-guard.test.ts", "content-audit.test.ts"];
+  // Der Content-Audit-Risk-Scanner enthält (wie der Guard selbst) die
+  // Risiko-Begriffe als Liste — nur diese eine Datei ist ausgenommen.
+  const EXCLUDED_PATH_PARTS = [join("lib", "content-audit", "logic.ts")];
 
   function collectFiles(dir: string): string[] {
     const result: string[] = [];
@@ -35,7 +38,11 @@ describe("Wording-Guard Repository-Scan", () => {
       if (stats.isDirectory()) {
         if (entry === "node_modules" || entry === "generated") continue;
         result.push(...collectFiles(full));
-      } else if (EXTENSIONS.some((ext) => entry.endsWith(ext)) && !EXCLUDED_FILES.includes(entry)) {
+      } else if (
+        EXTENSIONS.some((ext) => entry.endsWith(ext)) &&
+        !EXCLUDED_FILES.includes(entry) &&
+        !EXCLUDED_PATH_PARTS.some((p) => full.endsWith(p))
+      ) {
         result.push(full);
       }
     }

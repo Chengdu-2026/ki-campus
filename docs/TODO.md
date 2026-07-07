@@ -28,17 +28,24 @@
 - [ ] „Weiterführende Links" je Modul (zentral gepflegt) für Video-Policy
       laut ROADMAP.md Abschnitt 3
 
-## Geplant: Internes Content-Audit-System (Phase 1 — nach Superadmin + Praxistest)
-- [ ] Content-Audit-Modul im Campus: ContentAuditItem an ContentRevision
-      angedockt, hash-gebundene Freigaben (Änderung invalidiert Freigabe),
-      konfigurierbare Checklisten (5 Seed-Templates), eigener Risk-Word-
-      Scanner (NICHT wording-guard erweitern — Begründung in ROADMAP §4.4),
-      /admin/content-audit + Detailseite mit Diff, Owner-Freigabe über
-      Felder (keine neuen Rollen), Übersetzungs-Pflichtprüfung, CSV/PDF-
-      Export, 10+ Tests, erste Charge = alle Bestandsinhalte (mit Praxistest
-      verbinden). Vollspezifikation: docs/ROADMAP.md Abschnitt 4.
-- [x] Vorgezogen (2026-07-07): /ki-transparenz-Aussage präzisiert (keine
-      pauschale „sämtliche Inhalte geprüft"-Behauptung mehr)
+## Content-Audit-System — Phase 1 UMGESETZT (2026-07-08 Nacht, auf Owner-Anweisung vorgezogen)
+- [x] Datenmodell (5 Tabellen, init.sql synchron), Hash-Logik, Statusmaschine,
+      canApprove-Gate, Risk-Word-Scanner, Quellen-Registry + Scan (300+ Blöcke),
+      /admin/content-audit + Detailseite (Diff, Checkliste, Historie),
+      TOTP-Owner-Freigabe, CSV-Export, 5 Seed-Templates, 13 Tests, 3 Doku-Dateien
+- [x] init-db.mjs idempotent (duplicate-column-Fix)
+- [x] /ki-transparenz-Aussage präzisiert
+
+## Content-Audit Phase 1b (nächste Ausbaustufe)
+- [ ] PDF-Einzelnachweis je AuditItem (pdf-lib-Muster aus Zertifikaten/QM)
+- [ ] JSX-Rechtsseiten (/impressum, /datenschutz, /agb, /legal-disclaimer,
+      /ki-transparenz) + E-Mail-Templates in die Quellen-Registry (Extraktor)
+- [ ] Prüfmodus-Overlay auf öffentlichen Seiten (ROADMAP §4.6b Ebene 2)
+- [ ] Save-Hooks in Admin-Actions (sofortige Erkennung statt Scan-Lauf)
+- [ ] Scan als Cron-Route content-audit-scan (Muster CRON_JOBS.md)
+- [ ] ERSTE CHARGE ABARBEITEN: Scan ausführen, dann HIGH/CRITICAL und
+      Owner-Pflicht-Blöcke prüfen/freigeben (Workflow:
+      docs/CONTENT_REVIEW_WORKFLOW.md) — mit dem Praxistest verbinden
 
 ## Geplant: Jährliches KI-Kompetenz-Review & Auffrischungssystem
 - [ ] „Jährliches KI-Kompetenz-Review und Auffrischungssystem ergänzen. Das

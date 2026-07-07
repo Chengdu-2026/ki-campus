@@ -502,6 +502,81 @@ async function main() {
   }
   console.log("QM-Templates: ok");
 
+  // ---------- Content-Audit: Standard-Checklisten (konfigurierbar) ----------
+  const checklistTemplates: Array<{
+    name: string; entityType: string | null; isDefault: boolean;
+    items: Array<{ key: string; label: string; required?: boolean }>;
+  }> = [
+    {
+      name: "Allgemeiner Content-Review", entityType: null, isDefault: true,
+      items: [
+        { key: "read", label: "Inhalt vollständig gelesen" },
+        { key: "language", label: "Sprache und Rechtschreibung geprüft" },
+        { key: "plausible", label: "Sachlich plausibel" },
+        { key: "no-false-claims", label: "Keine offensichtlichen Falschaussagen" },
+        { key: "no-misleading", label: "Keine irreführenden Versprechen" },
+        { key: "feature-status", label: "Feature-Verfügbarkeit geprüft (nichts als live behauptet, was geplant ist)" },
+        { key: "no-hardcoded", label: "Keine hardcodierten Texte (i18n berücksichtigt)" },
+      ],
+    },
+    {
+      name: "AI-Act / Zertifikat / Compliance-Texte", entityType: "CERTIFICATE_TEMPLATE", isDefault: false,
+      items: [
+        { key: "no-state-claim", label: "Keine staatliche oder behördliche Anerkennung suggeriert" },
+        { key: "no-eu-cert", label: "Keine EU-Zertifizierungs-Behauptung" },
+        { key: "no-aiact-guarantee", label: "Keine Garantie vollständiger AI-Act-Compliance" },
+        { key: "no-legal-advice", label: "Keine Rechtsberatung behauptet" },
+        { key: "cert-effect", label: "Zertifikatswirkung korrekt beschrieben" },
+        { key: "private-proof", label: "Private Nachweiswirkung klar formuliert" },
+        { key: "feature-status", label: "Feature-Status geprüft" },
+      ],
+    },
+    {
+      name: "ISO / QM-Texte", entityType: "QM_TEXT", isDefault: false,
+      items: [
+        { key: "no-iso-cert", label: "Keine ISO-Zertifizierungs-Behauptung" },
+        { key: "no-iso-guarantee", label: "Keine Garantie ISO-9001-Konformität" },
+        { key: "no-audit-replace", label: "Audit wird nicht ersetzt" },
+        { key: "qm-support", label: "QM-Unterstützung korrekt beschrieben" },
+        { key: "improvement", label: "Kontinuierliche Verbesserung sachlich formuliert" },
+      ],
+    },
+    {
+      name: "Übersetzungen", entityType: "TRANSLATION", isDefault: false,
+      items: [
+        { key: "compared", label: "Übersetzung mit deutscher Fassung verglichen" },
+        { key: "meaning", label: "Sinn nicht verändert" },
+        { key: "legal-terms", label: "Rechtliche Begriffe nicht falsch übersetzt" },
+        { key: "german-authoritative", label: "Hinweis „Maßgeblich ist die deutsche Fassung“ geprüft" },
+        { key: "errors-reserved", label: "Hinweis „Übersetzungsfehler vorbehalten“ geprüft" },
+      ],
+    },
+    {
+      name: "Rechtstexte", entityType: "LEGAL_PAGE", isDefault: false,
+      items: [
+        { key: "formal-style", label: "Formaler Stil beibehalten (nicht im lockeren Lernstil)" },
+        { key: "no-risky-shortening", label: "Keine Verkürzung mit Rechtsrisiko" },
+        { key: "legal-review", label: "Juristische Prüfung empfohlen oder dokumentiert" },
+        { key: "german-authoritative", label: "Deutsche Fassung als maßgeblich gekennzeichnet (falls Übersetzung)" },
+      ],
+    },
+  ];
+  for (const tpl of checklistTemplates) {
+    const existingTpl = await prisma.reviewChecklistTemplate.findFirst({ where: { name: tpl.name } });
+    if (existingTpl) continue;
+    await prisma.reviewChecklistTemplate.create({
+      data: {
+        name: tpl.name, entityType: tpl.entityType, isDefault: tpl.isDefault, isActive: true,
+        items: {
+          create: tpl.items.map((item, idx) => ({
+            key: item.key, label: item.label, required: item.required ?? true, sortOrder: idx + 1,
+          })),
+        },
+      },
+    });
+  }
+  console.log("Content-Audit-Checklisten: ok (5 Templates)");
+
   // ---------- Versionsregister ----------
   const revisionCount = await prisma.contentRevision.count();
   if (revisionCount === 0) {

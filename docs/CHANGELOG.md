@@ -1,5 +1,45 @@
 # Changelog
 
+## [0.7.0] — 2026-07-08 (Nacht, Teil 4: Content-Audit-System Phase 1)
+
+### Hinzugefügt
+- Content-Audit-System (Spezifikation ROADMAP §4, Entscheidung Sascha):
+  hash-gebundene menschliche Freigaben für alle KI-generierten Inhalte.
+  Datenmodell ContentAuditItem + ReviewChecklistTemplate/Item +
+  ContentReviewChecklistResult/Answer (init.sql synchron); Kernlogik
+  lib/content-audit/logic.ts (normalisierter SHA-256-Hash, Statusmaschine,
+  canApprove-Gate, eigener Risk-Word-Scanner mit Negationsregeln,
+  Zeilen-Diff) — unit-getestet
+- Quellen-Registry + idempotenter Scan (lib/content-audit/scan.ts):
+  erfasst Kurse/Module/Lektionen je didaktischem Feld, alle Fragen,
+  Modul-Detailtexte, zentrale i18n-Blöcke (home/pricing/themen/
+  feature.review/certificate) und Modulbilder (Datei-Hash) — Coverage-
+  Prinzip: Registriertes kann nicht „vergessen" werden; Integrations-Smoke
+  in Sandbox: 300+ Blöcke erfasst, idempotent
+- /admin/content-audit: 6 KPI-Karten (rot bei „Live ohne aktuelle
+  Freigabe" > 0), Filter, Tabelle mit Hash-Status; Detailseite mit
+  Snapshots, Diff, Scanner-Treffern, Checkliste, Audit-Historie
+- Freigabe-Flow: Approve serverseitig gesperrt bis alle Pflicht-Items +
+  Publikationshaken grün; Owner-Freigabe mit TOTP-Re-Authentifizierung
+  (lib/totp.ts wiederverwendet); grünes Badge lebt am Hash (kippt bei
+  Änderung automatisch); 9 neue AuditLog-Actions (CONTENT_AUDIT_*)
+- 5 Seed-Checklisten-Templates (Allgemein/Compliance/QM/Übersetzung/
+  Rechtstexte), CSV-Export (auditiert), 13 neue Tests (gesamt 106)
+- Neue Doku: CONTENT_AUDIT_SYSTEM.md, CONTENT_REVIEW_WORKFLOW.md,
+  LEGAL_WORDING_CHECK.md
+
+### Behoben
+- scripts/init-db.mjs: idempotent gegenüber bereits vorhandenen ALTER-
+  TABLE-Spalten (Saschas „duplicate column name: oldValue"-Fehler)
+- Wording-Guard-Repo-Test: gezielte Ausnahme für die Scanner-Wortliste
+  (lib/content-audit/logic.ts) analog zur Guard-Liste selbst;
+  Seed-Checklisten-Labels Guard-fest formuliert
+
+### Offen (Phase 1b — TODO)
+- PDF-Einzelnachweis je Item, JSX-Rechtsseiten + E-Mail-Templates in die
+  Registry, Prüfmodus-Overlay auf öffentlichen Seiten, Save-Hooks,
+  Scan-Cron-Route
+
 ## [0.6.0] — 2026-07-07 (Nacht, Parallel-Session „Teil 4")
 
 ### Hinzugefügt

@@ -23,11 +23,13 @@ Leitplanken via Wording-Guard (npm test scannt das Repository).
    dargestellt. Status kommt aus `config/app.ts → featureFlags`
    („planned" | "beta" | "live") und wird über i18n-Status-Labels gerendert —
    nie automatisch „Verfügbar" schreiben.
-2. **Keine Zertifizierungs- oder Compliance-Garantien.** Verboten u. a.:
-   „ISO-zertifiziert", „garantiert ISO-9001-Konformität", „ersetzt ein Audit",
-   „garantiert AI-Act-Konformität", „automatische Compliance", „behördlich
-   anerkannt", „offiziell zertifiziert". Erlaubt: „unterstützt eine
-   ISO-9001-orientierte QM-Logik, ohne eine ISO-Zertifizierung zu ersetzen".
+2. **Keine Zertifizierungs- oder Compliance-Garantien.** Verboten sind alle
+   Behauptungen staatlicher/behördlicher Anerkennung, jeder Zertifizierungs-
+   oder Konformitäts-Garantie und jedes Audit-Ersatzes — die maßgeblichen
+   Verbotslisten stehen in `lib/wording-guard.ts` (repo-weites Test-Gate)
+   und `lib/content-audit/logic.ts → AUDIT_RISK_WORDS` (Inhalts-Scanner).
+   Erlaubt: „unterstützt eine ISO-9001-orientierte QM-Logik, ohne eine
+   ISO-Zertifizierung zu ersetzen".
 3. **i18n-Pflicht.** Keine hardcodierten Texte; Keys unter `feature.<name>.*`.
 4. **Rechtlicher Hinweis sichtbar** am Seitenende (siehe
    `feature.review.legalNotice` als Muster).

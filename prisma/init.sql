@@ -440,3 +440,43 @@ CREATE TABLE IF NOT EXISTS "InterestLead" (
   "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX IF NOT EXISTS "InterestLead_createdAt_idx" ON "InterestLead"("createdAt");
+CREATE TABLE IF NOT EXISTS "ContentAuditItem" (
+  "id" TEXT PRIMARY KEY, "contentRevisionId" TEXT, "entityType" TEXT NOT NULL, "entityId" TEXT NOT NULL,
+  "blockKey" TEXT, "entitySlug" TEXT, "title" TEXT NOT NULL, "locale" TEXT NOT NULL DEFAULT 'de',
+  "source" TEXT NOT NULL DEFAULT 'AI_ASSISTED', "status" TEXT NOT NULL DEFAULT 'NEEDS_REVIEW',
+  "riskLevel" TEXT NOT NULL DEFAULT 'LOW', "requiresOwnerApproval" BOOLEAN NOT NULL DEFAULT 0,
+  "contentHash" TEXT NOT NULL, "approvedContentHash" TEXT, "version" INTEGER NOT NULL DEFAULT 1,
+  "currentContentSnapshot" TEXT NOT NULL, "previousContentSnapshot" TEXT, "changeSummary" TEXT,
+  "riskHits" TEXT, "aiGenerated" BOOLEAN NOT NULL DEFAULT 1,
+  "reviewedById" TEXT, "reviewedAt" DATETIME, "approvedById" TEXT, "approvedAt" DATETIME,
+  "ownerApprovedById" TEXT, "ownerApprovedAt" DATETIME, "publishedAt" DATETIME, "notes" TEXT,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "ContentAuditItem_entity_block_locale_key" ON "ContentAuditItem"("entityType","entityId","blockKey","locale");
+CREATE INDEX IF NOT EXISTS "ContentAuditItem_status_risk_idx" ON "ContentAuditItem"("status","riskLevel");
+CREATE INDEX IF NOT EXISTS "ContentAuditItem_updatedAt_idx" ON "ContentAuditItem"("updatedAt");
+CREATE TABLE IF NOT EXISTS "ReviewChecklistTemplate" (
+  "id" TEXT PRIMARY KEY, "name" TEXT NOT NULL, "entityType" TEXT, "locale" TEXT,
+  "isDefault" BOOLEAN NOT NULL DEFAULT 0, "isActive" BOOLEAN NOT NULL DEFAULT 1,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS "ReviewChecklistItem" (
+  "id" TEXT PRIMARY KEY, "templateId" TEXT NOT NULL REFERENCES "ReviewChecklistTemplate"("id") ON DELETE CASCADE,
+  "key" TEXT NOT NULL, "label" TEXT NOT NULL, "description" TEXT,
+  "required" BOOLEAN NOT NULL DEFAULT 1, "sortOrder" INTEGER NOT NULL DEFAULT 0, "riskLevelIfUnchecked" TEXT
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "ReviewChecklistItem_template_key_key" ON "ReviewChecklistItem"("templateId","key");
+CREATE TABLE IF NOT EXISTS "ContentReviewChecklistResult" (
+  "id" TEXT PRIMARY KEY, "auditItemId" TEXT NOT NULL REFERENCES "ContentAuditItem"("id") ON DELETE CASCADE,
+  "templateId" TEXT NOT NULL REFERENCES "ReviewChecklistTemplate"("id"),
+  "reviewerId" TEXT NOT NULL, "completedAt" DATETIME, "approvedForPublication" BOOLEAN NOT NULL DEFAULT 0,
+  "notes" TEXT, "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS "ContentReviewChecklistResult_item_idx" ON "ContentReviewChecklistResult"("auditItemId");
+CREATE TABLE IF NOT EXISTS "ContentReviewChecklistAnswer" (
+  "id" TEXT PRIMARY KEY, "checklistResultId" TEXT NOT NULL REFERENCES "ContentReviewChecklistResult"("id") ON DELETE CASCADE,
+  "checklistItemId" TEXT NOT NULL REFERENCES "ReviewChecklistItem"("id") ON DELETE CASCADE,
+  "checked" BOOLEAN NOT NULL DEFAULT 0, "comment" TEXT,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "ContentReviewChecklistAnswer_result_item_key" ON "ContentReviewChecklistAnswer"("checklistResultId","checklistItemId");
