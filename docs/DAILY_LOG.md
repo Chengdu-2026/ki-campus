@@ -1,6 +1,46 @@
 # Tagesabschluss
 
 ## Datum
+2026-07-07 (Nacht — Parallel-Session „Teil 4": Kurs 3 „Richtig Prompten" + Review-Roadmap)
+
+## Heute erledigt
+- Kurs 3 „Richtig Prompten — KI-Assistenten wirksam nutzen" komplett:
+  10 Module / 32 Lektionen (Präfix pr-, prinzipienbasiert, Praxisstil laut
+  CLAUDE.md, je Lektion Lernziel/Erklärung/Beispiel/Risiko/Merksatz/
+  Mini-Checks), 74 Fragen (10 PR_-Kategorien, 43 % Praxisfälle), eigene
+  Prüfung 30/75 %, teachingUnits 6, in der Flatrate enthalten
+- Integration: seedCourse-Aufruf, Zertifikatstitel (certificate.titlePrompting
+  + config), 10 Modul-Detailtexte (lib/module-details.de.ts), 10 Kategorie-
+  Anzeigenamen, Plan-/Preistexte auf „Alle 3 Kurse", /schulung-Metadaten,
+  ContentRevision V1.006 + Footer-Versionslabel
+- Neue Tests: 2 Suites (Kursinhalte + Fragenpool Richtig Prompten, inkl.
+  pr-Präfix-Zwang und Slug-Kollisionsschutz gegen beide Bestandskurse)
+- Roadmap-Seite /ki-kompetenz-review (Auftrag „Codex"): geplantes Review-/
+  Auffrischungsmodul ausschließlich als geplante Erweiterung dargestellt —
+  Feature-Flag-System in config (featureFlags, planned/beta/live), i18n
+  feature.review.*, Hero + 6 Karten + Zielgruppen + QM-Hinweis + Workflow +
+  Roadmap-Tabelle (alle Zeilen „geplant") + rechtlicher Hinweis; Footer-Link;
+  Middleware-Public-Path ergänzt (geprüfte Minimaländerung)
+- TODO „Jährliches KI-Kompetenz-Review & Auffrischungssystem" dokumentiert:
+  ROADMAP.md (Vollspezifikation: Empfehlungslogik, Antwortzeit-Grenzwerte
+  20/45/90 s, Kategorie-Scores 70/60/50 %, Wiederholungsmodus,
+  Auffrischungstest 15–20 Fragen, Admin-Ampel, jährliches Management-Review,
+  4 Crons, 3 Datenmodelle, UI-Texte, Akzeptanzkriterien) + Einträge in
+  TODO/QM_SYSTEM/QM_WORKFLOW/MANAGEMENT_REVIEW/CRON_JOBS; MARKETING_PAGES.md neu
+
+## Bekannte Probleme
+- Läuft parallel zur Superadmin-Session (Teil 3): mögliche Merge-Berührpunkte
+  in config/app.ts, lib/i18n/de.ts, prisma/seed/index.ts, TODO/HANDOVER —
+  beim Zusammenführen Versionslabel prüfen (diese Session setzt V1.006)
+- Modulbilder für die 10 pr-Module fehlen noch (Seiten laufen ohne Bild;
+  Sascha liefert später → public/modules/pr-<slug>.png)
+- Lokale DB braucht npm run db:init && npm run db:seed für Kurs 3 + V1.006
+
+---
+
+# Tagesabschluss
+
+## Datum
 2026-07-07 (Abend — Auftrag „Modul-Detailseiten, Bilder, Vorlesen, Bugfixes")
 
 ## Heute erledigt

@@ -61,3 +61,16 @@ angekündigt (Template `qm_review_draft`).
   robust gegen verpasste oder wiederholte Ausführungen)
 - Firmenadmins sehen ausschließlich Reviews der eigenen Firma
   (assertCompanyScope), der Superadmin alle
+
+## GEPLANT: Jährliches KI-Kompetenz-Review (TODO — Spezifikation in ROADMAP.md)
+
+Zusätzlich zum Quartals-Review ist ein jährlicher Review-Typ vorgesehen
+(Modell AnnualCompetenceReview, Cron yearly-management-review-generator am
+02.01., 06:00): geschulte Teilnehmer, Zertifikate, Auffrischungen,
+Bestehensquote, Ø-Testergebnis, häufig falsch/langsam beantwortete
+Kategorien, Datenschutz-/Sicherheits-Schwächen, offene und abgeschlossene
+Nachschulungen, Wirksamkeit der Nachschulung, Feedback, Kursverbesserungen,
+neue Risiken/Tools/Rechtsänderungen, Maßnahmen fürs Folgejahr. Status wie
+Quartals-Review (DRAFT → IN_REVIEW → APPROVED → ARCHIVED); Export PDF, CSV
+und Audit-Paket. Keine ISO-Zertifizierungs-Behauptungen.
+Details: docs/ROADMAP.md Abschnitt 1.8.

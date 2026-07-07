@@ -7,7 +7,7 @@ export const appConfig = {
   // Inhalts-Versionsstand (Anzeige u. a. im Footer). Muss bei jeder inhaltlichen
   // Änderung an Kursen/Fragen zusammen mit dem ContentRevision-Register
   // (prisma/seed, /admin/versions) hochgezählt werden — Regel siehe CLAUDE.md.
-  contentVersionLabel: "V1.005",
+  contentVersionLabel: "V1.006",
   defaultLocale: "de",
   supportedLocales: ["de", "en"] as const,
   // Vorbereitet (Übersetzungen können ohne Codeänderung ergänzt werden):
@@ -44,7 +44,14 @@ export const appConfig = {
   courseCertificateTitleKeys: {
     "ki-kompetenz-basic": "certificate.title",
     "ki-verantwortliche-beauftragte": "certificate.titleOfficer",
+    "richtig-prompten": "certificate.titlePrompting",
   } as Record<string, string>,
+  // Feature-Flags für Roadmap-Funktionen: "planned" | "beta" | "live".
+  // Steuert Status-Badges auf öffentlichen Feature-Seiten — nie automatisch
+  // auf "live" setzen, solange die Funktion nicht implementiert ist.
+  featureFlags: {
+    kiKompetenzReview: "planned",
+  } as Record<string, "planned" | "beta" | "live">,
   weakCategoryThreshold: 60, // < 60 % je Kategorie => Nachschulung empfohlen
   enableDarkMode: true,
   enableCompanyLogoOnCertificates: true,

@@ -68,3 +68,12 @@ Der Abschluss einer CAPA wird serverseitig blockiert
 
 Abgeschlossene Fälle und Maßnahmen fließen in das quartalsweise
 Management-Review ein (MANAGEMENT_REVIEW.md).
+
+## 6. GEPLANT: Auffrischungs-Workflow (TODO — Spezifikation in ROADMAP.md)
+
+Vorgesehene Erweiterung des QM-Workflows um jährliche Auffrischung:
+Schulung → Test → Analyse falscher und langsamer Antworten → schwache Themen
+erkennen → Auffrischung empfehlen → Nachschulung durchführen → Verbesserung
+dokumentieren → jährliches Review erstellen. Eine Frage gilt als kritisch bei:
+falsch beantwortet, sehr langsam (> 90 s), mehrfach falsch oder Kategorie
+unter 70 %. Details, Grenzwerte und Datenmodelle: docs/ROADMAP.md Abschnitt 1.

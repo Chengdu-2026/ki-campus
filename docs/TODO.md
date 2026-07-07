@@ -1,5 +1,30 @@
 # TODO
 
+## Erledigt am 2026-07-07 Nacht (Parallel-Session „KI Schulung Teil 4")
+- [x] Kurs 3 „Richtig Prompten — KI-Assistenten wirksam nutzen": 10 Module,
+      32 Lektionen (Slug-Präfix pr-), 74 Fragen (43 % Praxisfälle, 10 neue
+      PR_-Kategorien), eigene Prüfung 30/75 %, in der Flatrate enthalten;
+      Modul-Detailtexte, Zertifikatstitel, Plan-/Preistexte auf 3 Kurse,
+      ContentRevision V1.006, neue Tests
+- [x] Öffentliche Roadmap-Seite /ki-kompetenz-review für das GEPLANTE
+      Review-/Auffrischungsmodul (Feature-Flag "planned", i18n feature.review.*,
+      Footer-Link, keine Verfügbarkeits- oder ISO-Behauptungen)
+
+## Geplant: Jährliches KI-Kompetenz-Review & Auffrischungssystem
+- [ ] „Jährliches KI-Kompetenz-Review und Auffrischungssystem ergänzen. Das
+      System soll falsch und langsam beantwortete Fragen auswerten, schwache
+      Kategorien erkennen, gezielte Nachschulung empfehlen und jährliche
+      Management-Review-Nachweise erzeugen. Ziel ist dokumentierte
+      Wirksamkeitsprüfung und kontinuierliche Verbesserung im Sinne einer
+      ISO-9001-orientierten QM-Logik."
+      Vollständige Spezifikation (Empfehlungslogik, Antwortzeit-Grenzwerte,
+      Kategorie-Scores, Wiederholungsmodus, Auffrischungstest 15–20 Fragen,
+      Firmenadmin-Ampel, jährliches Management-Review, 4 neue Crons, Modelle
+      QuestionPerformance / CompetenceRefreshRecommendation /
+      AnnualCompetenceReview, UI-Texte, Akzeptanzkriterien): docs/ROADMAP.md.
+      Wichtig: keine ISO-Zertifizierungs-Behauptungen; Nachweis heißt
+      „Auffrischungsnachweis KI-Kompetenz".
+
 ## Erledigt am 2026-07-07 Abend (Auftrag „Modul-Detailseiten, Bilder, Vorlesen")
 - [x] Modul-Detailseiten /schulung/[modulSlug] für alle 27 Module (Praxisstil,
       Beispiele, Glossar, Zurück-Button, Bild je Modul, Vorlesen, Teaser-CTA)

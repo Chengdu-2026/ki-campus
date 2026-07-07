@@ -77,3 +77,17 @@ Weitere Zeilen analog zur Übersichtstabelle.
 Bewusst kein `node-cron` im Prozess: gesicherte HTTP-Routen bleiben auch
 in serverless Umgebungen (Vercel) lauffähig und sind extern testbar
 (z. B. per curl mit gültigem Secret).
+
+## GEPLANT: Cron-Jobs des Review-/Auffrischungssystems (TODO)
+
+Für das geplante „Jährliche KI-Kompetenz-Review & Auffrischungssystem"
+(Spezifikation: docs/ROADMAP.md Abschnitt 1) sind vier weitere Jobs im
+selben Muster (GET /api/cron/<name>, Bearer CRON_SECRET, idempotent)
+vorgesehen — noch NICHT implementiert:
+
+| Job | Zeitplan | Aufgabe |
+|---|---|---|
+| annual-competence-review-check | täglich 03:00 | Zertifikate älter als 11 Monate → „Auffrischung bald fällig"; informiert Firmenadmin, Teilnehmer optional |
+| annual-refresh-overdue-check | täglich 04:00 | Älter als 12 Monate → „Auffrischung empfohlen"; älter als 13 Monate → „Auffrischung überfällig" |
+| weak-question-analysis | wöchentlich Mo 02:30 | Analysiert falsch/langsam beantwortete Fragen, berechnet schwache Kategorien, erstellt Nachschulungsempfehlungen |
+| yearly-management-review-generator | jährlich 02.01., 06:00 | Erstellt Management-Review-Draft fürs Vorjahr, befüllt Kennzahlen automatisch, weist Firmenadmin auf Review hin |

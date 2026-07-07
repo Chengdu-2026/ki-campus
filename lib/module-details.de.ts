@@ -516,4 +516,187 @@ export const moduleDetailsDe: Record<string, ModuleDetail> = {
     ],
     outcome: "Du führst eine auditfeste KI-Governance mit Kennzahlensteuerung und bestehst Prüfungen von Kunden und Behörden souverän.",
   },
+
+  // ========================================================================
+  // Kurs 3: Richtig Prompten (10 Module)
+  // ========================================================================
+  "pr-wie-ki-tickt": {
+    intro: [
+      "Warum bekommt deine Kollegin brauchbare KI-Antworten und du nur Durchschnittsware? Die Antwort liegt selten am Tool — sie liegt am Prompt. Dieses Modul zeigt dir, was beim Prompten wirklich passiert: Ein Sprachmodell berechnet die wahrscheinlichste Fortsetzung deines Textes. Es beantwortet nicht deine Absicht, sondern deine Worte.",
+      "Wer das verstanden hat, weiß auch, warum die KI dein Unternehmen nicht kennt, warum sie bei aktuellen Themen danebenliegen kann und warum eine überzeugende Antwort trotzdem falsch sein darf. Das ist kein Grund zur Panik — es ist die Grundlage für jedes gute Prompting.",
+    ],
+    examples: [
+      {
+        situation: "Zwei Kollegen bitten dasselbe Tool um dieselbe Kundenmail — einer vage, einer präzise. Die Ergebnisse liegen Welten auseinander.",
+        point: "Du verstehst, warum deine Eingabe der größte Hebel ist — und hörst auf, dem Tool die Schuld zu geben.",
+      },
+      {
+        situation: "Du fragst nach eurer internen Urlaubsregelung und bekommst eine flüssige, komplett erfundene Antwort.",
+        point: "Du erkennst, was das Modell nicht wissen kann — und lieferst es künftig selbst mit.",
+      },
+    ],
+    outcome: "Du verstehst, wie KI-Assistenten Eingaben verarbeiten, was sie wissen können und warum die Formulierung das Ergebnis bestimmt.",
+  },
+
+  "pr-prompt-formel": {
+    intro: [
+      "Schluss mit Prompten nach Gefühl: Dieses Modul gibt dir die Formel, die sich in der Praxis bewährt hat — Rolle, Ziel, Kontext, Format, Ton. Fünf Bausteine, mit denen aus „Schreib mal was“ ein präziser Arbeitsauftrag wird.",
+      "Du lernst, Rollen gezielt einzusetzen (der strenge Lektor findet mehr Fehler als der nette Assistent), Ziele messbar zu machen, den richtigen Kontext mitzugeben, Formate vorzubestellen und den Ton zu treffen — bis hin zur Stilvorlage, mit der KI-Texte nach dir klingen statt nach Maschine.",
+    ],
+    examples: [
+      {
+        situation: "Deine Zahlungserinnerung an einen treuen Stammkunden soll verbindlich, aber wertschätzend sein — mit der Formel steht sie in zwei Minuten.",
+        point: "Du baust Prompts, deren Ergebnisse fast versandfertig sind, statt lange nachzubessern.",
+      },
+      {
+        situation: "Deine Newsletter-Entwürfe klingen nach Roboter. Mit zwei eigenen E-Mails als Stilvorlage klingen sie plötzlich nach dir.",
+        point: "Du steuerst den Ton in drei Stufen: Tonwörter, Referenzen, Stilvorlagen.",
+      },
+    ],
+    outcome: "Du beherrschst die Prompt-Formel und nutzt sie als Checkliste, wenn ein Ergebnis nicht passt.",
+  },
+
+  "pr-iterieren": {
+    intro: [
+      "Der größte Prompt-Irrtum: dass die erste Antwort perfekt sein müsste. Profis arbeiten anders — sie behandeln die erste Antwort als Rohfassung und steuern in zwei, drei Runden gezielt nach. Das ist kein Umweg, das ist die Methode.",
+      "Du lernst, Feedback zu geben, das wirkt („Struktur bleibt, Absatz 2 sachlicher, Preis ergänzen“ statt „mach's besser“), Varianten zu bestellen, die KI Rückfragen stellen zu lassen — und zu erkennen, wann ein Chatverlauf „verschmutzt“ ist und ein Neustart schneller zum Ziel führt.",
+    ],
+    examples: [
+      {
+        situation: "Dein Statusbericht ist nach Runde eins zu technisch, nach Runde zwei zu lang — nach Runde drei sitzt er. Gesamtzeit: sieben Minuten.",
+        point: "Du planst Iterationen ein, statt am perfekten Erst-Prompt zu verzweifeln.",
+      },
+      {
+        situation: "Nach einer Stunde im selben Chat baut die KI plötzlich Urlaubsnotizen in deinen Angebotstext ein.",
+        point: "Du erkennst Kontextverschmutzung und weißt, wann ein frischer Chat die bessere Wahl ist.",
+      },
+    ],
+    outcome: "Du kommst in zwei bis drei gezielten Runden zu brauchbaren Ergebnissen — und weißt, wann Nachsteuern endet und Neustarten beginnt.",
+  },
+
+  "pr-kontext-fuettern": {
+    intro: [
+      "Die KI kann nur mit dem arbeiten, was sie sieht. Dieses Modul zeigt dir, wie du ihr dein Material richtig mitgibst: Dokumente sauber vom Auftrag getrennt, mit der wichtigsten Anweisung der Dokumentarbeit — „antworte nur auf Basis des Dokuments, benenne Lücken“.",
+      "Dazu die stärkste Technik für wiederkehrende Aufgaben: Beispiele. Zwei, drei gute Muster definieren Format und Ton präziser als jede Beschreibung. Und du lernst die Grenzen kennen: das Kontextfenster, in dem lange Dokumente Details verlieren können — und die Strategien dagegen.",
+    ],
+    examples: [
+      {
+        situation: "Du brauchst 80 einheitliche Produkttexte. Mit zwei Bestandstexten als Beispiel liefert die KI Serienqualität statt Zufallsergebnisse.",
+        point: "Du nutzt Few-Shot-Prompting: Zeigen schlägt Beschreiben.",
+      },
+      {
+        situation: "Die Zusammenfassung des 90-Seiten-Berichts wirkt komplett — aber die Rückzahlungsklausel von Seite 43 fehlt.",
+        point: "Du kennst die Grenzen des Kontextfensters und sicherst dich mit Zerlegen und Stichproben ab.",
+      },
+    ],
+    outcome: "Du gibst der KI Material statt Beschreibungen, arbeitest mit Beispielen und Quellenbindung — und prüfst lange Dokumente systematisch.",
+  },
+
+  "pr-textarbeit": {
+    intro: [
+      "Hier wird es konkret: die vier häufigsten Textaufgaben im Büro, mit erprobten Prompt-Mustern. E-Mails und heikle Korrespondenz (Original mitgeben, Beziehung benennen, Zusagen prüfen). Angebote (du lieferst die Fakten, die KI die Sprache — nichts erfinden lassen). Protokolle (Chronistenpflicht: Lücken markieren statt füllen). Und Übersetzen, Kürzen, Vereinfachen mit Erhaltungsliste.",
+      "Der rote Faden: Die KI beschleunigt deine Textarbeit gewaltig — aber jede Zahl, jede Zusage und jede rechtliche Nuance bleibt deine Verantwortung. Genau dafür bekommst du die passenden Kontroll-Handgriffe mit.",
+    ],
+    examples: [
+      {
+        situation: "Die KI-Mail an den verärgerten Kunden verspricht „verbindlich Freitag“ — den Termin hat nie jemand geprüft.",
+        point: "Du prüfst KI-Zusagen wie eigene, bevor sie das Haus verlassen.",
+      },
+      {
+        situation: "Aus deinen Meeting-Stichworten wird ein Protokoll mit [KLÄREN]-Markierungen genau dort, wo Zuständiger oder Datum fehlen.",
+        point: "Du lässt Lücken sichtbar machen, statt sie von der KI plausibel übertünchen zu lassen.",
+      },
+    ],
+    outcome: "Du erledigst E-Mails, Angebote, Protokolle und Textverwandlungen doppelt so schnell — mit Kontrollroutinen, die Fehler abfangen.",
+  },
+
+  "pr-analysieren": {
+    intro: [
+      "KI als Lesehilfe: Statt „Fasse zusammen“ lernst du die Profi-Varianten — Zusammenfassen mit Blickwinkel („aus Mietersicht“), das Frage-Antwort-Muster mit Zitatpflicht und den kritischen Lesemodus, der offene Fragen und Widersprüche aufdeckt.",
+      "Bei Zahlen gilt eine unbequeme Wahrheit: Ein Sprachmodell ist keine Rechenmaschine. Du lernst die Arbeitsteilung, die funktioniert — Struktur und Auffälligkeiten von der KI, Arithmetik vom Tabellenprogramm — und nutzt die KI als Vergleichswerkzeug, das sogar findet, was in einem Vertrag fehlt.",
+    ],
+    examples: [
+      {
+        situation: "60 Seiten Ausschreibung, vier Tage Zeit: Mit gezielten Fragen und Zitatpflicht findest du das kritische Ausschlusskriterium am ersten Tag.",
+        point: "Du erschließt lange Dokumente mit Fragen statt mit Hoffnungs-Zusammenfassungen.",
+      },
+      {
+        situation: "Die KI-Quartalssummen sehen sauber aus — die Stichprobe in der Tabellenkalkulation zeigt: eine Position doppelt gezählt.",
+        point: "Du weißt, welche Zahlen-Aufgaben die KI kann und welche dein Tabellenprogramm übernimmt.",
+      },
+    ],
+    outcome: "Du nutzt KI für Dokumente, Tabellen und Vergleiche — mit Blickwinkel, Zitatpflicht und der richtigen Arbeitsteilung bei Zahlen.",
+  },
+
+  "pr-kreativ-marketing": {
+    intro: [
+      "Marketing ist das Lieblingsfeld der KI — und ihr größtes Klischee-Risiko. Du lernst, wie du Floskel-Brei verhinderst (echte Fakten füttern, spitze Zielgruppen, Varianten kuratieren), wie Bild-Prompts funktionieren (Motiv, Stil, Aufbau, Zweck) und wo die rechtlichen Leitplanken verlaufen: keine realen Personen ohne Zustimmung, keine fremden Marken, keine erfundenen Werbeversprechen.",
+      "Dazu das Kennzeichnungs-Recap aus der Prompt-Praxis: Täuschung ist die rote Linie. Was vorgibt, echt zu sein, wird gekennzeichnet — oder besser gar nicht gemacht. Erfundene Kundenstimmen bleiben auch mit KI-Hinweis irreführend.",
+    ],
+    examples: [
+      {
+        situation: "Statt „langjährige Erfahrung im Bereich Lösungen“ liefert dein Prompt mit echten Fakten (dritte Generation, eigenes Sägewerk) einen Text mit Charakter.",
+        point: "Du fütterst Substanz und bekommst Texte, die nach deinem Unternehmen klingen statt nach jedem.",
+      },
+      {
+        situation: "Eine Kundin wünscht „authentische” KI-generierte Kundenstimmen — du kennst die saubere Alternative: echte Stimmen einholen, KI nur redigieren lassen.",
+        point: "Du ziehst die Grenze zwischen Werkzeug-Nutzung und Täuschung sicher.",
+      },
+    ],
+    outcome: "Du erstellst Marketing-Texte und Bilder mit KI, die auffallen statt austauschbar zu sein — rechtlich sauber und korrekt gekennzeichnet.",
+  },
+
+  "pr-tool-kunde": {
+    intro: [
+      "ChatGPT, Copilot, Claude, Gemini — die Namen ändern sich, die Prinzipien bleiben. Deshalb lernst du hier keine Produkttabellen, sondern Urteilsvermögen: Was kann ein Tool? Wohin laufen die Daten? Was regelt der Vertrag? Ist es freigegeben? Vier Fragen, die jedes Tool einordnen — auch das von übermorgen.",
+      "Dazu der wichtigste unsichtbare Unterschied (Privatkonto gegen Firmenvertrag: gleiche Oberfläche, andere Datenwelt), der Umgang mit eingebetteten Assistenten in Office-Programmen und der Umzugs-Trick, mit dem deine Prompts jeden Tool-Wechsel überleben.",
+    ],
+    examples: [
+      {
+        situation: "Ein Kollege will Kundendaten im privaten ChatGPT verarbeiten — „funktioniert doch genauso“. Du kannst erklären, warum der Firmenvertrag den Unterschied macht.",
+        point: "Du beurteilst Tools nach Vertrag und Datenweg, nicht nach Logo und Bedienkomfort.",
+      },
+      {
+        situation: "Beim Anbieterwechsel überträgst du deine acht Standard-Prompts an einem Vormittag — dein Kollege ohne Dokumentation braucht Wochen.",
+        point: "Du machst deine Prompt-Kompetenz tool-unabhängig und damit zukunftssicher.",
+      },
+    ],
+    outcome: "Du ordnest jedes KI-Tool anhand von vier Kriterien ein, nutzt eingebettete Assistenten regelkonform und wechselst Tools ohne Kompetenzverlust.",
+  },
+
+  "pr-sicher-prompten": {
+    intro: [
+      "Je besser du promptest, desto mehr Kontext gibst du mit — und desto wichtiger wird die Sicherheitsseite. Dieses Modul verbindet drei Themen: Datenschutz beim Prompten (die Dienstleister-Regel, echtes Anonymisieren mit Kollegen-Test), Prompt-Injection (versteckte Befehle in fremden Mails und Dokumenten, die deine KI kapern können) und das gestufte Prüfsystem gegen Halluzinationen.",
+      "Das Prüfsystem ist der Kern: Nicht alles gleich streng kontrollieren, sondern nach Risiko — Plausibilitätsblick bei Kleinkram, Stichprobe im Alltag, Vollprüfung vor allem, was Folgen hat. Und die Quellen-Regel: Ein Beleg zählt erst, wenn du ihn geöffnet hast.",
+    ],
+    examples: [
+      {
+        situation: "Die KI-Zusammenfassung einer Lieferantenmail drängt plötzlich auf Zahlung an ein „neues Konto“ — im Original steckt versteckter Anweisungstext.",
+        point: "Du erkennst Prompt-Injection-Alarmsignale und weißt, wie du reagierst: Original prüfen, melden.",
+      },
+      {
+        situation: "Die Marktübersicht kommt mit beeindruckenden Quellen — die erste stützt die Zahl nicht, die zweite existiert nicht.",
+        point: "Du prüfst nach System: Fällt eine Stichprobe durch, ist die ganze Antwort verdächtig.",
+      },
+    ],
+    outcome: "Du promptest datenschutzkonform, erkennst Manipulationsversuche über fremde Inhalte und fängst Halluzinationen mit dem gestuften Prüfsystem ab.",
+  },
+
+  "pr-prompt-bibliothek": {
+    intro: [
+      "Der letzte Schritt: aus deinem Können Teamnutzen machen. Eine Prompt-Bibliothek verhindert, dass jeder dieselben Prompts neu erfindet — mit fünf Bausteinen je Eintrag (Name, Prompt mit Platzhaltern, Einsetz-Anleitung, Beispiel, Grenzen) und Platzhaltern, die Datenschutz automatisch mitdenken.",
+      "Du lernst, Vorlagen zu pflegen (versionieren, aus Nacharbeit lernen, nach Modell-Updates testen) und ziehst die Verantwortungslinie klar: Die Vorlage spart Formulierungsarbeit, die Prüfung bleibt beim Nutzer. Den Abschluss bildet deine persönliche Prompt-Checkliste — und der Blick auf den Abschlusstest.",
+    ],
+    examples: [
+      {
+        situation: "Nach einem Modell-Update produziert der Team-Prompt plötzlich Vorreden — eine zentrale Korrektur mit Versionsvermerk statt zwanzig Einzelreparaturen.",
+        point: "Du hältst Team-Vorlagen aktuell, statt sie verstauben oder wildwuchern zu lassen.",
+      },
+      {
+        situation: "Die zögerlichsten Kollegen bekommen mit fertigen, geprüften Vorlagen zum ersten Mal sichere Ergebnisse — und wachsen darüber ins Prompten hinein.",
+        point: "Du machst KI-Kompetenz zur Teamfähigkeit statt zum Einzelkönnen.",
+      },
+    ],
+    outcome: "Du baust und pflegst eine Prompt-Bibliothek fürs Team, kennst deine Abschluss-Checkliste und bist bereit für den Test.",
+  },
 };

@@ -17,14 +17,38 @@ Verbindliche Regeln: CLAUDE.md (Schreibstil, Recht, Versionierung, No-Touch).
   ist gesperrt. Nach npm-Installationsabbrüchen native Pakete prüfen
   (@next/swc, @prisma/client waren einmal trunkiert → Bus error/Typfehler).
 
-## Aktueller Stand (2026-07-07 Abend, nach V1.005)
+## Aktueller Stand (2026-07-07 Nacht, nach V1.006 — Parallel-Session Teil 4)
 Funktioniert: Registrierung, Einladungen, Login/2FA, Passwort-Reset, Lernpfad,
 Prüfungs-Gate, Test mit Resume, Auswertung mit Kategorien-Analyse, adaptive
 Nachschulung, Übungsmodus, automatische Zertifikate (PDF+Hash, QR-Verify,
 Widerruf), Firmen-Dashboard, CSV-Export, Superadmin-CRUD (lesend + Kurs/Fragen),
 AuditLog, QM-Modul, Cron, Versionsregister, Dark Mode, i18n.
-Zwei Kurse: Basic 17 Module / 41 Lektionen / 154 Fragen · KI-Verantwortliche
-10 Module / 37 Lektionen / 84 Fragen (Slugs off-*). Gesamt 238 Fragen.
+DREI Kurse: Basic 17 Module / 41 Lektionen / 154 Fragen · KI-Verantwortliche
+10 Module / 37 Lektionen / 84 Fragen (Slugs off-*) · Richtig Prompten
+10 Module / 32 Lektionen / 74 Fragen (Slugs pr-*). Gesamt 312 Fragen.
+
+## Neu in V1.006 (Parallel-Session „Teil 4", 2026-07-07 Nacht)
+- Kurs 3 „Richtig Prompten" (Slug richtig-prompten, 6 UE, Flatrate inklusive):
+  content-lessons-prompting.ts + content-questions-prompting-1/2.ts,
+  10 PR_-Kategorien mit Anzeigenamen, certificate.titlePrompting,
+  10 Modul-Detailtexte, Plan-/Preistexte „Alle 3 Kurse", 11 neue Tests.
+  Modulbilder pr-* fehlen noch (Sascha liefert; Seiten laufen ohne Bild).
+- Roadmap-Seite /ki-kompetenz-review (GEPLANTES Review-/Auffrischungsmodul):
+  Feature-Flag-System config featureFlags (planned/beta/live), i18n
+  feature.review.*, Footer-Link, Middleware-Public-Path. Regeln für solche
+  Seiten: docs/MARKETING_PAGES.md — NIE Verfügbarkeit/ISO-Konformität
+  behaupten, solange nicht gebaut.
+- TODO „Jährliches KI-Kompetenz-Review & Auffrischungssystem" vollständig
+  spezifiziert in docs/ROADMAP.md Abschnitt 1 (Empfehlungslogik, Antwortzeit-
+  Grenzwerte, Kategorie-Scores 70/60/50, Wiederholungsmodus, Auffrischungstest,
+  Admin-Ampel, jährliches Management-Review, 4 Crons, Modelle
+  QuestionPerformance/CompetenceRefreshRecommendation/AnnualCompetenceReview,
+  Akzeptanzkriterien) + Einträge in TODO/QM_SYSTEM/QM_WORKFLOW/
+  MANAGEMENT_REVIEW/CRON_JOBS. Noch NICHT bauen ohne expliziten Auftrag.
+- ACHTUNG Merge: Diese Session lief parallel zur Superadmin-Session (Teil 3).
+  Berührpunkte: config/app.ts, lib/i18n/de.ts, prisma/seed/index.ts,
+  middleware.ts, TODO/HANDOVER/DAILY_LOG/CHANGELOG. Beim Zusammenführen:
+  Versionslabel abstimmen (diese Session = V1.006).
 
 ## Neu in V1.005 (dieser Auftrag)
 - Öffentliche Modul-Detailseiten /schulung/[modulSlug] (alle 27 Module):
@@ -91,10 +115,12 @@ npm test + npm run build grün, Doku pflegen, Commit von Sascha pushen lassen.
    Testzugänge, (d) Banner „Testzugang bis {Datum}" im UI der Test-Firma.
 4. i18n, Tests (inkl. Tester-Zertifikat-Kennzeichnung), Doku, Versionierung.
 
-## PARALLEL-AUFTRAG (von Sascha am 2026-07-07 entschieden): Kurs 3 „Richtig Prompten"
-Läuft in eigener Session parallel zum Superadmin-Paket/Praxistest.
-Entscheidungen: SOFORT bauen · in der FLATRATE enthalten (kein Add-on) ·
-Führungskräfte-Kurs nur als Grobkonzept hinten anstellen.
+## PARALLEL-AUFTRAG: Kurs 3 „Richtig Prompten" — ERLEDIGT (V1.006, Teil 4)
+Umgesetzt wie spezifiziert (10 Module / 32 Lektionen / 74 Fragen, pr-Präfix,
+seedCourse, Zertifikatstitel, Modul-Detailtexte, Tests, Versionierung).
+Offen daraus: Modulbilder pr-* (Sascha), en-Übersetzung wie bei allen Kursen.
+Ursprüngliche Entscheidungen: SOFORT bauen · in der FLATRATE enthalten
+(kein Add-on) · Führungskräfte-Kurs nur als Grobkonzept hinten anstellen.
 Spezifikation: 10 Module / ~30–35 Lektionen im bewährten Muster
 (SeedModule/SeedLesson aus prisma/seed/content-lessons.ts; Praxisstil laut
 CLAUDE.md; Mini-Checks; ~70–80 Fragen mit hohem Praxisfall-Anteil, eigene

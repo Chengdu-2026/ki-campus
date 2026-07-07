@@ -1,6 +1,6 @@
 # Kursinhalte & Didaktik
 
-Zwei Kurse (Stand 2026-07-07):
+Drei Kurse (Stand 2026-07-07, V1.006):
 
 1. **„KI-Kompetenz Basic nach Art. 4 EU AI Act"** — ca. 6 Unterrichtseinheiten,
    17 Module, 41 Lektionen, alle Pflicht. Quelle: `prisma/seed/content-lessons.ts`.
@@ -8,8 +8,13 @@ Zwei Kurse (Stand 2026-07-07):
 2. **„KI-Verantwortliche & KI-Beauftragte im Unternehmen"** — ca. 8 Unterrichtseinheiten,
    10 Module, 37 Lektionen, alle Pflicht. Quelle: `prisma/seed/content-lessons-officer.ts`.
    Fragenpool: 84, davon 48 % Praxisfälle (content-questions-officer-1/2.ts).
+3. **„Richtig Prompten — KI-Assistenten wirksam nutzen"** — ca. 6 Unterrichtseinheiten,
+   10 Module, 32 Lektionen, alle Pflicht. Quelle: `prisma/seed/content-lessons-prompting.ts`.
+   Fragenpool: 74, davon 43 % Praxisfälle (content-questions-prompting-1/2.ts).
+   Bewusst prinzipienbasiert (keine Klick-Anleitungen, keine Versionsnummern),
+   damit Inhalte nicht mit jedem Tool-Update altern.
 
-## Didaktisches Schema jeder Lektion (beide Kurse)
+## Didaktisches Schema jeder Lektion (alle Kurse)
 
 1. Lernziel → 2. Erklärung in einfacher Sprache → 3. Praxisbeispiel (Arbeitsalltag)
 → 4. Risiko/Warnhinweis → 5. Merksatz → 6. Mini-Check (1–3 Verständnisfragen,
@@ -64,12 +69,41 @@ Rechtstexte bleiben formal — siehe TEXT_REWRITE_LOG.md.
 Lektions-Slugs des Officer-Kurses sind mit `off-` geprefixt (globale
 Slug-Eindeutigkeit; Test erzwingt Kollisionfreiheit).
 
+## Module Richtig Prompten (10)
+
+1. Wie KI-Assistenten ticken — warum Prompts wirken (3 — Wahrscheinlichkeits-
+   maschine, Modellwissen/Cutoff, Formulierungs-Hebel)
+2. Die Prompt-Formel: Rolle, Ziel, Kontext, Format, Ton (4)
+3. Iterieren: in zwei, drei Runden zum Ergebnis (3 — Rohfassung, Nachsteuern,
+   Chat-Neustart/Kontextverschmutzung)
+4. Kontext füttern: Dokumente, Beispiele, Stilvorlagen (3 — Quellenbindung,
+   Few-Shot, Kontextfenster-Grenzen)
+5. Textarbeit im Alltag (4 — E-Mails/heikle Post, Angebote, Protokolle/
+   Berichte, Übersetzen/Kürzen/Vereinfachen)
+6. Analysieren & Zusammenfassen (3 — Blickwinkel/Zitatpflicht, Tabellen &
+   Zahlen, Vergleichen/Prüfen)
+7. Kreativ- und Marketing-Prompts (3 — Substanz statt Floskeln, Bild-Prompts,
+   Kennzeichnungs-Recap)
+8. Tool-Kunde: ChatGPT, Copilot, Claude, Gemini & Co. (3 — Kriterien statt
+   Marken, eingebettete Assistenten, Prinzipien übertragen)
+9. Sicher prompten (3 — Datenschutz/Anonymisierung, Prompt-Injection,
+   Halluzinations-Prüfsystem)
+10. Die Prompt-Bibliothek fürs Team (3 — Dokumentieren, Pflegen/Versionieren,
+    Abschluss-Checkliste + Test)
+
+Lektions-Slugs mit `pr-` geprefixt; Test erzwingt Präfix und
+Kollisionsfreiheit gegen beide Bestandskurse. Fragen-Kategorien: PR_GRUNDLAGEN,
+PR_FORMEL, PR_ITERATION, PR_KONTEXT, PR_TEXTARBEIT, PR_ANALYSE, PR_KREATIV,
+PR_TOOLS, PR_SICHERHEIT, PR_BIBLIOTHEK (Anzeigenamen in lib/i18n/de.ts).
+Modulbilder: public/modules/pr-<slug>.png (liefert Sascha später; Seiten
+laufen ohne Bild).
+
 ## Zertifikate
 
 Zertifikatstitel je Kurs (config/app.ts → courseCertificateTitleKeys, i18n
-certificate.title / certificate.titleOfficer). Disclaimer verneint ausdrücklich
-staatliche Zulassung, behördliche Zertifizierung, EU-Akkreditierung und
-ISO-Zertifizierung.
+certificate.title / certificate.titleOfficer / certificate.titlePrompting).
+Disclaimer verneint ausdrücklich staatliche Zulassung, behördliche
+Zertifizierung, EU-Akkreditierung und ISO-Zertifizierung.
 
 ## Pflege
 

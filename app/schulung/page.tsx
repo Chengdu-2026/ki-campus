@@ -10,9 +10,9 @@ import { ReadAloud } from "@/components/read-aloud";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
-  title: "Lerninhalte im Detail — beide Kurse mit allen Modulen und Lektionen",
+  title: "Lerninhalte im Detail — alle Kurse mit allen Modulen und Lektionen",
   description:
-    "Alle Lerninhalte transparent im Detail: „KI-Kompetenz Basic nach Art. 4 EU AI Act“ (17 Module) und der Aufbaukurs „KI-Verantwortliche & KI-Beauftragte“ (10 Module) — mit Lernzielen und Dauer je Lektion.",
+    "Alle Lerninhalte transparent im Detail: „KI-Kompetenz Basic nach Art. 4 EU AI Act“ (17 Module), der Aufbaukurs „KI-Verantwortliche & KI-Beauftragte“ (10 Module) und der Praxiskurs „Richtig Prompten“ (10 Module) — mit Lernzielen und Dauer je Lektion.",
 };
 
 export default async function CurriculumPage() {
@@ -39,7 +39,7 @@ export default async function CurriculumPage() {
       <div className="mx-auto max-w-3xl text-center">
         <h1 className="text-3xl font-bold text-brand-900 dark:text-white">Lerninhalte im Detail</h1>
         <p className="mt-2 text-slate-600 dark:text-slate-300">
-          Kein Katalog-Nebel: Hier sehen Sie vor der Buchung jede Lektion beider Kurse — mit Lernziel und Dauer.
+          Kein Katalog-Nebel: Hier sehen Sie vor der Buchung jede Lektion aller Kurse — mit Lernziel und Dauer.
         </p>
         <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
           Jede Lektion folgt demselben didaktischen Aufbau: Lernziel, Erklärung in einfacher Sprache,

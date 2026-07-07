@@ -36,6 +36,19 @@ Rechtstexte bewusst formal geblieben sind.
   readAloudPromo, home.*).
 - Plan-Feature-Text Nachprüfung entwirrt (prisma/seed/index.ts).
 
+## 1c. Im Praxisstil verfasst (2026-07-07 Nacht, V1.006 — Kurs 3 + Roadmap-Seite)
+- Alle 32 Lektionen des Kurses „Richtig Prompten" (content-lessons-prompting.ts):
+  du-Form, Alltagsbeispiele, ehrliche Warnungen, Merksätze, Mini-Checks;
+  prinzipienbasiert ohne Klick-Anleitungen.
+- 74 Prüfungsfragen (content-questions-prompting-1/2.ts): situative Praxisfälle,
+  Erklärungen in Alltagssprache.
+- 10 Modul-Detailtexte (lib/module-details.de.ts, pr-*-Keys) im bewährten Muster.
+- Roadmap-Seite /ki-kompetenz-review (feature.review.*): menschlich-praxisnah,
+  aber sachlich; QM-Hinweis und rechtlicher Hinweis bewusst formal-präzise
+  („keine ISO-Zertifizierung", „geplante Erweiterung" — keine Verfügbarkeits-
+  oder Garantieversprechen).
+- Plan-/Preistexte auf drei Kurse aktualisiert (Seeds + pricing.*).
+
 ## 2. Rechtstexte bewusst NICHT im lockeren Stil geändert
 - certificate.disclaimer (lib/i18n/de.ts): juristisch fixierter Text. Einzige
   Änderung: formale Ergänzung der Verneinungsliste um „ISO-Zertifizierung" —

@@ -78,3 +78,20 @@ CAPA-Abschluss-Sperre, NPS, Ampellogik, Versionslabels) als Teil der
 insgesamt 69 Tests. Der Wording-Guard-Test scannt das gesamte Repository
 inklusive einer ISO-Verbotsliste, damit keine irreführenden
 Zertifizierungsaussagen entstehen.
+
+## GEPLANT: Jährliches KI-Kompetenz-Review & Auffrischungssystem (TODO)
+
+„Jährliches KI-Kompetenz-Review und Auffrischungssystem ergänzen. Das System
+soll falsch und langsam beantwortete Fragen auswerten, schwache Kategorien
+erkennen, gezielte Nachschulung empfehlen und jährliche Management-Review-
+Nachweise erzeugen. Ziel ist dokumentierte Wirksamkeitsprüfung und
+kontinuierliche Verbesserung im Sinne einer ISO-9001-orientierten QM-Logik."
+
+Erweitert das QM-System um: Fragen-Performance-Erfassung (inkl. Antwortzeiten),
+Kategorie-Scores mit Schwellen (70/60/50 %), Auffrischungsempfehlungen nach
+12 Monaten, Firmenadmin-Ampel, jährliches Management-Review und 3 neue
+Datenmodelle (QuestionPerformance, CompetenceRefreshRecommendation,
+AnnualCompetenceReview). KEINE ISO-Zertifizierung, kein Audit-Ersatz —
+erlaubte Formulierung: „Unterstützt dokumentierte Auffrischung,
+Wirksamkeitsprüfung und kontinuierliche Verbesserung."
+Vollständige Spezifikation: docs/ROADMAP.md Abschnitt 1.

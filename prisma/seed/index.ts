@@ -2,6 +2,7 @@
  * Seed: Pläne, Rechtsprofil, E-Mail-Templates, Superadmin, Demo-Unternehmen,
  * Kurs 1 „KI-Kompetenz Basic" (17 Module, 41 Lektionen, 154 Fragen),
  * Kurs 2 „KI-Verantwortliche & KI-Beauftragte" (10 Module, 37 Lektionen, 84 Fragen),
+ * Kurs 3 „Richtig Prompten" (10 Module, 32 Lektionen, 74 Fragen),
  * Prüfungskonfigurationen, 1 bestandener Test, 1 Demo-Zertifikat.
  *
  * Hinweis: bewusst nur relative Imports (tsx ohne Pfad-Aliase).
@@ -19,6 +20,9 @@ import { seedQuestions2 } from "./content-questions-2";
 import { seedQuestions3 } from "./content-questions-3";
 import { seedQuestionsOfficer1 } from "./content-questions-officer-1";
 import { seedQuestionsOfficer2 } from "./content-questions-officer-2";
+import { seedModulesPrompting } from "./content-lessons-prompting";
+import { seedQuestionsPrompting1 } from "./content-questions-prompting-1";
+import { seedQuestionsPrompting2 } from "./content-questions-prompting-2";
 
 const rawUrl = process.env.DATABASE_URL ?? "file:./dev.db";
 const dbUrl = rawUrl.startsWith("file:./")
@@ -33,9 +37,9 @@ async function main() {
   // ---------- Pläne ----------
   const plans = [
     { key: "BASIC", name: "Basic", maxParticipants: 10, priceMonthly: 12900, sortOrder: 1,
-      features: ["Bis 10 Teilnehmende — Flatrate", "Beide Kurse für alle: Basic (17 Module) & KI-Verantwortliche (10 Module)", "Zertifikate mit QR-Verifikation", "Übungsmodus unbegrenzt · Nachschulung inklusive", "Abschlusstest: 3 Versuche pro Kurs inklusive", `Nur falls jemand mehr braucht: Nachprüfung € ${appConfig.examRetakeFeeEur} pro Teilnehmer`, "Bei Jahreszahlung −10 %"] },
+      features: ["Bis 10 Teilnehmende — Flatrate", "Alle 3 Kurse für alle: Basic (17 Module), KI-Verantwortliche (10 Module) & Richtig Prompten (10 Module)", "Zertifikate mit QR-Verifikation", "Übungsmodus unbegrenzt · Nachschulung inklusive", "Abschlusstest: 3 Versuche pro Kurs inklusive", `Nur falls jemand mehr braucht: Nachprüfung € ${appConfig.examRetakeFeeEur} pro Teilnehmer`, "Bei Jahreszahlung −10 %"] },
     { key: "BUSINESS", name: "Business", maxParticipants: 50, priceMonthly: 29900, sortOrder: 2,
-      features: ["Bis 50 Teilnehmende — Flatrate", "Beide Kurse für alle: Basic (17 Module) & KI-Verantwortliche (10 Module)", "CSV-Export & Nachweisliste für die Personalakte", "Fortschritts- und Lückenanalyse", "Firmenlogo auf Zertifikat", "Abschlusstest: 3 Versuche pro Kurs inklusive", `Nur falls jemand mehr braucht: Nachprüfung € ${appConfig.examRetakeFeeEur} pro Teilnehmer`, "Bei Jahreszahlung −15 %"] },
+      features: ["Bis 50 Teilnehmende — Flatrate", "Alle 3 Kurse für alle: Basic (17 Module), KI-Verantwortliche (10 Module) & Richtig Prompten (10 Module)", "CSV-Export & Nachweisliste für die Personalakte", "Fortschritts- und Lückenanalyse", "Firmenlogo auf Zertifikat", "Abschlusstest: 3 Versuche pro Kurs inklusive", `Nur falls jemand mehr braucht: Nachprüfung € ${appConfig.examRetakeFeeEur} pro Teilnehmer`, "Bei Jahreszahlung −15 %"] },
     { key: "ENTERPRISE", name: "Enterprise", maxParticipants: null, priceMonthly: null, sortOrder: 3,
       features: ["Unbegrenzte Teilnehmende — Flatrate", "Eigene Inhalte & Richtlinien", "Individuelle Zertifikatsvorlagen", "Persönlicher Ansprechpartner", "API (optional)"] },
   ];
@@ -321,6 +325,16 @@ async function main() {
     modules: seedModulesOfficer,
     questions: [...seedQuestionsOfficer1, ...seedQuestionsOfficer2],
   });
+
+  await seedCourse({
+    slug: "richtig-prompten",
+    teachingUnits: 6,
+    title: "Richtig Prompten — KI-Assistenten wirksam nutzen",
+    subtitle: "Praxiskurs für alle Mitarbeitenden: bessere Ergebnisse mit ChatGPT, Copilot, Claude & Co. — sicher und effizient",
+    description: "Anwendungskurs: wie KI-Assistenten ticken, die Prompt-Formel (Rolle, Ziel, Kontext, Format, Ton), Iterieren statt Neuwürfeln, Kontext und Dokumente richtig mitgeben, Textarbeit im Alltag (E-Mails, Angebote, Protokolle), Analysieren und Zusammenfassen, Kreativ- und Bild-Prompts inkl. Kennzeichnung, Tool-Kunde nach Prinzipien, sicher prompten (Datenschutz, Prompt-Injection, Halluzinations-Kontrolle) und die Prompt-Bibliothek fürs Team.",
+    modules: seedModulesPrompting,
+    questions: [...seedQuestionsPrompting1, ...seedQuestionsPrompting2],
+  });
   console.log("Kurse & Prüfungen: ok");
 
   // ---------- Demo: Anna hat alle Lektionen abgeschlossen + Test bestanden + Zertifikat ----------
@@ -519,7 +533,17 @@ async function main() {
       },
     });
   }
-  console.log("Versionsregister: ok (V1.003 + V1.004 + V1.005)");
+  const v1006 = await prisma.contentRevision.findFirst({ where: { versionLabel: "V1.006" } });
+  if (!v1006) {
+    await prisma.contentRevision.create({
+      data: {
+        entityType: "COURSE", entityId: course.id, versionLabel: "V1.006",
+        changeNote: "Neuer Kurs 3 'Richtig Prompten — KI-Assistenten wirksam nutzen' (10 Module, 32 Lektionen, 74 Fragen, ≥ 40 % Praxisfälle, eigene Prüfung 30 Fragen / 75 %). In der Flatrate enthalten; Plan-Feature-Texte auf 3 Kurse aktualisiert. Modul-Detailtexte und Kategorien-Anzeigenamen ergänzt.",
+        changedById: superadmin.id,
+      },
+    });
+  }
+  console.log("Versionsregister: ok (V1.003 + V1.004 + V1.005 + V1.006)");
 
   console.log("Seed abgeschlossen.");
   console.log("Logins: sascha.morocutti@gmail.com / Morocutti#Admin2026 | hr@musterfirma.example / Firmenadmin#2026 | anna.beispiel@musterfirma.example / Teilnehmer#2026");

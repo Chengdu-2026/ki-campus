@@ -14,6 +14,7 @@ export function Footer() {
           <Link className="hover:underline" href="/agb">{t("footer.terms")}</Link>
           <Link className="hover:underline" href="/legal-disclaimer">{t("footer.legalDisclaimer")}</Link>
           <Link className="hover:underline" href="/ki-transparenz">{t("footer.aiTransparency")}</Link>
+          <Link className="hover:underline" href="/ki-kompetenz-review">{t("footer.reviewRoadmap")}</Link>
         </nav>
         <p className="text-xs">
           © {new Date().getFullYear()} {appConfig.legalCompanyName} · {appConfig.legalCompanyNameZh}

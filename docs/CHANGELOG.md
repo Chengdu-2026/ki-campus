@@ -1,5 +1,42 @@
 # Changelog
 
+## [0.6.0] — 2026-07-07 (Nacht, Parallel-Session „Teil 4")
+
+### Hinzugefügt
+- Kurs 3 „Richtig Prompten — KI-Assistenten wirksam nutzen" (Slug
+  richtig-prompten, 6 UE): 10 Module, 32 Lektionen (Präfix pr-,
+  prisma/seed/content-lessons-prompting.ts) — prinzipienbasiert ohne
+  Klick-Anleitungen; Themen laut Spezifikation: Funktionsweise, Prompt-Formel
+  (Rolle/Ziel/Kontext/Format/Ton), Iterieren, Kontext & Dokumente, Textarbeit,
+  Analyse & Zahlen, Kreativ/Bild-Prompts inkl. Kennzeichnungs-Recap,
+  Tool-Kunde, Sicherheit (Datenschutz, Prompt-Injection, Halluzinations-
+  Prüfsystem), Prompt-Bibliothek
+- Fragenpool Kurs 3: 74 Fragen in 10 neuen PR_-Kategorien, 43 % Praxisfälle
+  (content-questions-prompting-1/2.ts); eigene Prüfung 30 Fragen / 75 %
+- 10 öffentliche Modul-Detailtexte (lib/module-details.de.ts) für die
+  pr-Module; Kategorien-Anzeigenamen (10 PR_-Keys) in lib/i18n/de.ts
+- Zertifikatstitel Kurs 3 (config courseCertificateTitleKeys +
+  certificate.titlePrompting)
+- Öffentliche Roadmap-Seite /ki-kompetenz-review für das GEPLANTE Modul
+  „Jährliches KI-Kompetenz-Review & Auffrischung": Status-Badge aus
+  Feature-Flag (config featureFlags.kiKompetenzReview = "planned"), Hero,
+  Warum-Abschnitt, 6 Funktionskarten, Zielgruppen, QM-Hinweis ohne
+  Zertifizierungsversprechen, 8-Schritte-Workflow, Roadmap-Tabelle (alles
+  „geplant"), rechtlicher Hinweis; alle Texte i18n (feature.review.*);
+  Footer-Link; Middleware-Public-Path
+- Neue Doku: ROADMAP.md (vollständige Spezifikation Review-/Auffrischungs-
+  system inkl. Grenzwerte, Datenmodelle, 4 geplante Crons, Akzeptanz-
+  kriterien), MARKETING_PAGES.md (Regeln für Feature-/Roadmap-Seiten)
+- 11 neue Tests (Kurs-3-Module/Lektionen/Präfix/Kollisionen; Fragenpool
+  Menge/Praxisquote/Kategorien/Modulabdeckung)
+
+### Geändert
+- Plan-Features und Preistexte: „Beide Kurse" → „Alle 3 Kurse" (Seeds,
+  pricing.subtitle/flatrateNote); /schulung-Metadaten auf drei Kurse
+- ContentRevision V1.006 + config contentVersionLabel V1.006 (Footer)
+- QM_SYSTEM/QM_WORKFLOW/MANAGEMENT_REVIEW/CRON_JOBS/TODO: TODO-Einträge für
+  das geplante jährliche Review-/Auffrischungssystem (Verweis ROADMAP.md)
+
 ## [0.5.0] — 2026-07-07
 
 ### Hinzugefügt

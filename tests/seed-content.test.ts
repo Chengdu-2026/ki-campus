@@ -6,11 +6,15 @@ import { seedQuestions2 } from "@/prisma/seed/content-questions-2";
 import { seedQuestions3 } from "@/prisma/seed/content-questions-3";
 import { seedQuestionsOfficer1 } from "@/prisma/seed/content-questions-officer-1";
 import { seedQuestionsOfficer2 } from "@/prisma/seed/content-questions-officer-2";
+import { seedModulesPrompting } from "@/prisma/seed/content-lessons-prompting";
+import { seedQuestionsPrompting1 } from "@/prisma/seed/content-questions-prompting-1";
+import { seedQuestionsPrompting2 } from "@/prisma/seed/content-questions-prompting-2";
 import type { SeedModule } from "@/prisma/seed/content-lessons";
 import type { SeedQuestion } from "@/prisma/seed/content-questions-1";
 
 const basicQuestions = [...seedQuestions1, ...seedQuestions2, ...seedQuestions3];
 const officerQuestions = [...seedQuestionsOfficer1, ...seedQuestionsOfficer2];
+const promptingQuestions = [...seedQuestionsPrompting1, ...seedQuestionsPrompting2];
 
 function lessonSlugsOf(modules: SeedModule[]): Set<string> {
   return new Set(modules.flatMap((m) => m.lessons.map((l) => l.slug)));
@@ -127,6 +131,60 @@ describe("Fragenpool KI-Verantwortliche & KI-Beauftragte", () => {
   it("jedes Modul ist im Fragenpool vertreten", () => {
     const bySlug = new Set(officerQuestions.map((q) => q.lessonSlug));
     for (const mod of seedModulesOfficer) {
+      const covered = mod.lessons.some((l) => bySlug.has(l.slug));
+      expect(covered, `Modul ${mod.slug} ohne Fragen`).toBe(true);
+    }
+  });
+});
+
+describe("Kursinhalte Richtig Prompten", () => {
+  it("hat 10 Module", () => {
+    expect(seedModulesPrompting).toHaveLength(10);
+  });
+  it("hat mindestens 30 Lektionen", () => {
+    const count = seedModulesPrompting.reduce((sum, m) => sum + m.lessons.length, 0);
+    expect(count).toBeGreaterThanOrEqual(30);
+  });
+  it("Modul-Reihenfolge ist lückenlos 1..10", () => {
+    expect(seedModulesPrompting.map((m) => m.order)).toEqual(Array.from({ length: 10 }, (_, i) => i + 1));
+  });
+  it("alle Modul- und Lektions-Slugs tragen das Präfix pr-", () => {
+    for (const mod of seedModulesPrompting) {
+      expect(mod.slug.startsWith("pr-"), mod.slug).toBe(true);
+      for (const lesson of mod.lessons) {
+        expect(lesson.slug.startsWith("pr-"), lesson.slug).toBe(true);
+      }
+    }
+  });
+  it("jede Lektion hat alle didaktischen Elemente", () => {
+    checkLessons(seedModulesPrompting);
+  });
+  it("Lektions-Slugs kollidieren nicht mit Basic- oder Officer-Kurs", () => {
+    const existing = new Set([...lessonSlugsOf(seedModules), ...lessonSlugsOf(seedModulesOfficer)]);
+    for (const slug of lessonSlugsOf(seedModulesPrompting)) {
+      expect(existing.has(slug), slug).toBe(false);
+    }
+  });
+});
+
+describe("Fragenpool Richtig Prompten", () => {
+  it("enthält mindestens 70 Fragen", () => {
+    expect(promptingQuestions.length).toBeGreaterThanOrEqual(70);
+  });
+  it("mindestens 40 % Praxisfälle", () => {
+    const share = promptingQuestions.filter((q) => q.practiceCase).length / promptingQuestions.length;
+    expect(share).toBeGreaterThanOrEqual(0.4);
+  });
+  it("Fragen sind formal korrekt und verweisen auf existierende Lektionen", () => {
+    checkQuestions(promptingQuestions, lessonSlugsOf(seedModulesPrompting));
+  });
+  it("deckt mindestens 10 Kategorien ab", () => {
+    const categories = new Set(promptingQuestions.map((q) => q.category));
+    expect(categories.size).toBeGreaterThanOrEqual(10);
+  });
+  it("jedes Modul ist im Fragenpool vertreten", () => {
+    const bySlug = new Set(promptingQuestions.map((q) => q.lessonSlug));
+    for (const mod of seedModulesPrompting) {
       const covered = mod.lessons.some((l) => bySlug.has(l.slug));
       expect(covered, `Modul ${mod.slug} ohne Fragen`).toBe(true);
     }
