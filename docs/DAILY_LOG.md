@@ -1,7 +1,7 @@
 # Tagesabschluss
 
 ## Datum
-2026-07-07 (Teil 6: Superadmin-Verwaltung V2 + Tester-Freigabe, V0.10.0 / Inhalt V1.008)
+2026-07-07 (Teil 6: Superadmin-Verwaltung V2 + Tester-Freigabe + Zwei-Spuren-Versionierung, V0.10.0 / Gesamtstand V1.008)
 
 ## Heute erledigt (Teil 6)
 - KLARSTELLUNG: „Teil-3-Merge" war gegenstandslos — das Superadmin-Paket war nie
@@ -11,6 +11,11 @@
   Cert-Kennzeichnung „TESTZUGANG — kein gültiger Nachweis", Verify-Status,
   Ausschluss aus globaler Statistik (Dashboard + QM courseMetrics), Cron
   `deactivate-expired-tests`, UI-Banner für Test-Firmen.
+- Versionierung auf Eigentümer-Vorgabe umgestellt (Zwei-Spuren): globaler
+  Gesamtstand V1.008 bleibt im Footer („letzte höchste Version"); NEU pro-Feature-
+  Versionen (config/feature-versions.ts + `<VersionBadge>`), superadmin-verwaltung
+  V1.001 und tester-freigabe V1.001 (ContentRevision entityType FEATURE).
+  CLAUDE.md-Versionierungsregel entsprechend aktualisiert.
 - Verifikation: tsc 0 · Tests 111/111 · Build EXIT=0. Sandbox-Fixes nötig:
   lucide-react + @pdf-lib/standard-fonts kamen truncated aus dem npm-Proxy
   (clean re-extract), Prisma generate mit Dummy-Engine-Env.
