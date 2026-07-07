@@ -6,6 +6,7 @@ import { getT } from "@/lib/i18n";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Clock, BookOpen, ClipboardCheck, Award, Volume2 } from "lucide-react";
+import { ReadAloud } from "@/components/read-aloud";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -51,9 +52,20 @@ export default async function CurriculumPage() {
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{t("readAloudPromo.text")}</p>
           </div>
         </div>
+        <div className="mt-4 flex justify-center">
+          <ReadAloud
+            text={courses
+              .map((course, i) => {
+                const courseTr = pickTranslation(course.translations, appConfig.defaultLocale);
+                return `${t("home.courseNumber", { number: i + 1 })}: ${courseTr?.title}. ${courseTr?.subtitle ?? ""}`;
+              })
+              .join(". ")}
+            label={t("moduleDetail.readAloud")}
+          />
+        </div>
       </div>
 
-      {courses.map((course) => {
+      {courses.map((course, courseIndex) => {
         const courseTr = pickTranslation(course.translations, appConfig.defaultLocale);
         const totalLessons = course.modules.reduce((sum, m) => sum + m.lessons.length, 0);
         const totalMinutes = course.modules.reduce(
@@ -69,7 +81,10 @@ export default async function CurriculumPage() {
         return (
           <section key={course.id} className="space-y-6" aria-label={courseTr?.title}>
             <div className="mx-auto max-w-3xl text-center">
-              <h2 className="text-2xl font-bold text-brand-900 dark:text-white">{courseTr?.title}</h2>
+              <p className="text-sm font-semibold text-accent-600 dark:text-accent-400">
+                {t("home.courseNumber", { number: courseIndex + 1 })}
+              </p>
+              <h2 className="mt-1 text-2xl font-bold text-brand-900 dark:text-white">{courseTr?.title}</h2>
               <p className="mt-2 text-slate-600 dark:text-slate-300">{courseTr?.subtitle}</p>
             </div>
 

@@ -33,9 +33,9 @@ async function main() {
   // ---------- Pläne ----------
   const plans = [
     { key: "BASIC", name: "Basic", maxParticipants: 10, priceMonthly: 12900, sortOrder: 1,
-      features: ["Bis 10 Teilnehmende — Flatrate", "Beide Kurse für alle: Basic (17 Module) & KI-Verantwortliche (10 Module)", "Zertifikate mit QR-Verifikation", "Übungsmodus unbegrenzt · Nachschulung inklusive", "3 Testversuche je Kurs inklusive — danach € 99 Nachprüfung je Teilnehmer (schaltet weitere Versuche frei)", "Bei Jahreszahlung −10 %"] },
+      features: ["Bis 10 Teilnehmende — Flatrate", "Beide Kurse für alle: Basic (17 Module) & KI-Verantwortliche (10 Module)", "Zertifikate mit QR-Verifikation", "Übungsmodus unbegrenzt · Nachschulung inklusive", "Abschlusstest: 3 Versuche pro Kurs inklusive", `Nur falls jemand mehr braucht: Nachprüfung € ${appConfig.examRetakeFeeEur} pro Teilnehmer`, "Bei Jahreszahlung −10 %"] },
     { key: "BUSINESS", name: "Business", maxParticipants: 50, priceMonthly: 29900, sortOrder: 2,
-      features: ["Bis 50 Teilnehmende — Flatrate", "Beide Kurse für alle: Basic (17 Module) & KI-Verantwortliche (10 Module)", "CSV-Export & Nachweisliste für die Personalakte", "Fortschritts- und Lückenanalyse", "Firmenlogo auf Zertifikat", "3 Testversuche je Kurs inklusive — danach € 99 Nachprüfung je Teilnehmer (schaltet weitere Versuche frei)", "Bei Jahreszahlung −15 %"] },
+      features: ["Bis 50 Teilnehmende — Flatrate", "Beide Kurse für alle: Basic (17 Module) & KI-Verantwortliche (10 Module)", "CSV-Export & Nachweisliste für die Personalakte", "Fortschritts- und Lückenanalyse", "Firmenlogo auf Zertifikat", "Abschlusstest: 3 Versuche pro Kurs inklusive", `Nur falls jemand mehr braucht: Nachprüfung € ${appConfig.examRetakeFeeEur} pro Teilnehmer`, "Bei Jahreszahlung −15 %"] },
     { key: "ENTERPRISE", name: "Enterprise", maxParticipants: null, priceMonthly: null, sortOrder: 3,
       features: ["Unbegrenzte Teilnehmende — Flatrate", "Eigene Inhalte & Richtlinien", "Individuelle Zertifikatsvorlagen", "Persönlicher Ansprechpartner", "API (optional)"] },
   ];

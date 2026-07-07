@@ -5,8 +5,9 @@ import { appConfig } from "@/config/app";
 import { getT } from "@/lib/i18n";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ShieldCheck, BookOpen, QrCode, Volume2 } from "lucide-react";
+import { ShieldCheck, BookOpen, QrCode, Volume2, ChevronDown } from "lucide-react";
 import { optionalImage } from "@/lib/assets";
+import { ReadAloud } from "@/components/read-aloud";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +32,16 @@ export default async function HomePage() {
     { icon: QrCode, title: t("home.benefit3Title"), text: t("home.benefit3Text") },
   ];
 
+  // Vorlese-Text der Startseite (Barrierefreiheit — Start nur per Klick, nie automatisch)
+  const readAloudText = [
+    t("home.heroTitle"),
+    t("home.heroText"),
+    t("home.heroDisclaimer"),
+    ...benefits.flatMap((b) => [b.title, b.text]),
+    t("home.forWhomTitle"),
+    t("home.forWhomText"),
+  ].join(". ");
+
   return (
     <div className="space-y-16 py-6">
       <section className="mx-auto max-w-3xl text-center">
@@ -47,6 +58,9 @@ export default async function HomePage() {
           <Link href="/login" className="inline-flex h-12 items-center justify-center rounded-lg border border-slate-300 px-8 text-base font-medium hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800">
             {t("home.ctaLogin")}
           </Link>
+        </div>
+        <div className="mt-6 flex justify-center">
+          <ReadAloud text={readAloudText} label={t("moduleDetail.readAloud")} />
         </div>
       </section>
 
@@ -76,23 +90,31 @@ export default async function HomePage() {
       <section>
         <h2 className="mb-2 text-center text-2xl font-semibold text-brand-900 dark:text-white">{t("home.modulesTitle")}</h2>
         <p className="mb-8 text-center text-sm text-slate-500 dark:text-slate-400">{t("home.modulesHint")}</p>
-        <div className="space-y-12">
-          {courses.map((course) => {
+        <div className="space-y-5">
+          {courses.map((course, courseIndex) => {
             const courseTr = pickTranslation(course.translations, appConfig.defaultLocale);
             return (
-              <div key={course.id}>
-                <h3 className="mb-1 text-lg font-semibold text-brand-900 dark:text-white">{courseTr?.title}</h3>
-                <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
-                  {t("home.moduleCount", { modules: course.modules.length })}
-                </p>
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <details key={course.id} className="group rounded-2xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 [&::-webkit-details-marker]:hidden">
+                  <span>
+                    <span className="block text-sm font-semibold text-accent-600 dark:text-accent-400">
+                      {t("home.courseNumber", { number: courseIndex + 1 })}
+                    </span>
+                    <span className="mt-0.5 block text-lg font-semibold text-brand-900 dark:text-white">{courseTr?.title}</span>
+                    <span className="mt-0.5 block text-sm text-slate-500 dark:text-slate-400">
+                      {t("home.moduleCount", { modules: course.modules.length })}
+                    </span>
+                  </span>
+                  <ChevronDown className="h-6 w-6 shrink-0 text-slate-400 transition-transform group-open:rotate-180" aria-hidden="true" />
+                </summary>
+                <div className="grid gap-3 p-5 pt-1 sm:grid-cols-2 lg:grid-cols-3">
                   {course.modules.map((mod) => {
                     const tr = pickTranslation(mod.translations, appConfig.defaultLocale);
                     return (
                       <Link
                         key={mod.id}
                         href={`/schulung/${mod.slug}`}
-                        className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 transition hover:border-accent-500 hover:shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:hover:border-accent-500"
+                        className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 transition hover:border-accent-500 hover:shadow-sm dark:border-slate-700 dark:bg-slate-950 dark:hover:border-accent-500"
                       >
                         <span aria-hidden="true" className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-100 text-sm font-semibold text-brand-800 dark:bg-brand-800 dark:text-brand-100">
                           {mod.order}
@@ -106,7 +128,7 @@ export default async function HomePage() {
                     );
                   })}
                 </div>
-              </div>
+              </details>
             );
           })}
         </div>

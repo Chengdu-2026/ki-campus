@@ -121,6 +121,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
           <BookOpen className="h-5 w-5 text-accent-500" aria-hidden="true" />
           {t("moduleDetail.lessonsTitle")}
         </h2>
+        <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">{t("moduleDetail.lessonsTeaser")}</p>
         <ul className="divide-y divide-slate-100 rounded-xl border border-slate-200 bg-white px-5 dark:divide-slate-800 dark:border-slate-700 dark:bg-slate-900">
           {lessonEntries.map((lesson) => (
             <li key={lesson.id} className="py-4">
