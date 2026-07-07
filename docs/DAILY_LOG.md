@@ -41,8 +41,30 @@
 - Hosting-Blindfleck dokumentiert: All-Inkl-Webspace (PHP) trägt die
   Next.js-App nicht → Node-Hosting-Entscheidung vor Launch (TODO)
 
+## Nachtrag: SEO-Sofortmaßnahmen UMGESETZT (Freigabe Sascha)
+- Report-Kap.-11-Sofortpaket gebaut und verifiziert (Tests 106/106, tsc 0,
+  Build grün mit allen 4 neuen Routen): /musterzertifikat + Muster-PDF-API
+  (echter Generator + MUSTER-Wasserzeichen, fester Demo-Verify-Code im Seed),
+  /ueber-uns (V1, Porträt-Slot public/images/sascha.jpg offen), /llms.txt
+  dynamisch, Course-/Breadcrumb-JSON-LD, Startseite Problem/Rechtskontext/
+  Muster-Teaser, Pricing-Pro-Kopf-Anker, Footer/Sitemap/Middleware/
+  Audit-Registry nachgezogen
+- OFFEN für Sascha: Porträtfoto sascha.jpg liefern; Phase-2-Seiten
+  (Nachweis/Art.-4/Führerschein-Vergleich/ChatGPT-LP) nach AGB/Datenschutz;
+  Semrush-Zahlen via Browser-Session oder Plan-Upgrade nachziehen
+
+## Nachtrag: SEO/GEO/Trust-Analysereport erstellt (nur Analyse, nichts gebaut)
+- docs/SEO_GEO_TRUST_REPORT.md: 13 Kapitel — Schwachstellen (Trust = Bremse
+  Nr. 1), 8 Wettbewerber live recherchiert (Gratis-Funnel aitraining.institute
+  bis WIFI 990 €/TN), Keyword-Gap qualitativ, GEO-Maßnahmen (llms.txt,
+  Course-Schema, Definitionsblöcke), 23-Seiten-Struktur, Trust-/Conversion-
+  Analyse, Rechtsrisiken-Wording, priorisierte Roadmap, Bauen/Nicht-bauen.
+  SEMrush-Zahlen: nicht verfügbar (Plan ohne MCP-Zugang) — nichts erfunden.
+  Umsetzung erst nach Freigabe durch Sascha.
+
 ## Bekannte Probleme / offen
 - MAIL OFFEN (wartet auf Sascha): Details in docs/TODO.md „OFFEN — MAIL"
+- SEMrush-MCP ohne Plan-Zugang → Keyword-/Traffic-Zahlen offen (Report Kap. 4)
 - E-Mail-Verifikation beim Login erzwingen bleibt eigenes TODO
 - Phase 1b offen (TODO.md): PDF-Einzelnachweis, JSX-Rechtsseiten +
   E-Mail-Templates in Registry, Prüfmodus-Overlay, Save-Hooks, Scan-Cron

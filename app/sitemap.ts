@@ -11,6 +11,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/faq", priority: 0.8 },
     { path: "/ki-kompetenz-review", priority: 0.6 },
     { path: "/themen", priority: 0.7 },
+    { path: "/musterzertifikat", priority: 0.8 },
+    { path: "/ueber-uns", priority: 0.6 },
     { path: "/register", priority: 0.7 },
     { path: "/login", priority: 0.3 },
     { path: "/legal-disclaimer", priority: 0.3 },

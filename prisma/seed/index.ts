@@ -406,7 +406,8 @@ async function main() {
     const certificate = await prisma.certificate.create({
       data: {
         certificateNumber: `${appConfig.certificateNumberPrefix}-${year}-000001`,
-        verifyCode: randomUUID().replace(/-/g, ""),
+        // Fester Code: /verify/demo... dient als öffentliche Demo-Prüfseite (/musterzertifikat)
+        verifyCode: "demo1234demo1234demo1234demo1234",
         userId: anna.id,
         companyId: demoCompany.id,
         courseId: course.id,

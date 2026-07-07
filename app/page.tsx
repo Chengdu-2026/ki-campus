@@ -87,6 +87,40 @@ export default async function HomePage() {
         ))}
       </section>
 
+      {/* Problem: Schmerz vor Lösung (SEO-/Conversion-Report Kap. 9) */}
+      <section className="mx-auto max-w-3xl">
+        <h2 className="text-center text-2xl font-semibold text-brand-900 dark:text-white">{t("home.problemTitle")}</h2>
+        <ul className="mt-6 space-y-3">
+          {[t("home.problem1"), t("home.problem2"), t("home.problem3")].map((p) => (
+            <li key={p} className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+              <span aria-hidden="true" className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-accent-500" />
+              <span>{p}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Rechtskontext: Art. 4 in drei Zeilen, sachlich */}
+      <section className="mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-700 dark:bg-slate-900">
+        <h2 className="text-xl font-semibold text-brand-900 dark:text-white">{t("home.legalTitle")}</h2>
+        <p className="mt-2 text-slate-600 dark:text-slate-300">{t("home.legalText")}</p>
+        <Link href="/faq" className="mt-3 inline-block text-sm font-medium text-brand-700 underline-offset-4 hover:underline dark:text-accent-400">
+          {t("home.legalLink")} →
+        </Link>
+      </section>
+
+      {/* Muster-Teaser: das Kaufobjekt zeigen */}
+      <section className="mx-auto max-w-3xl rounded-2xl border border-accent-500/40 bg-white p-6 text-center dark:bg-slate-900">
+        <h2 className="text-xl font-semibold text-brand-900 dark:text-white">{t("home.musterTitle")}</h2>
+        <p className="mx-auto mt-2 max-w-xl text-slate-600 dark:text-slate-300">{t("home.musterText")}</p>
+        <Link
+          href="/musterzertifikat"
+          className="mt-5 inline-flex h-11 items-center rounded-lg border border-slate-300 px-6 text-sm font-medium hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800"
+        >
+          {t("home.musterCta")} →
+        </Link>
+      </section>
+
       <section>
         <h2 className="mb-2 text-center text-2xl font-semibold text-brand-900 dark:text-white">{t("home.modulesTitle")}</h2>
         <p className="mb-8 text-center text-sm text-slate-500 dark:text-slate-400">{t("home.modulesHint")}</p>

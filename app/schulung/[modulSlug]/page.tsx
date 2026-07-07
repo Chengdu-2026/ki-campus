@@ -74,8 +74,24 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
     .join(". ")
     .replace(/\n\n/g, ". ");
 
+  // Breadcrumb-Schema (GEO/SEO): Entitäts-Hierarchie Start → Schulung → Modul
+  const appUrl = process.env.APP_URL ?? "http://localhost:3000";
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: appConfig.appName, item: appUrl },
+      { "@type": "ListItem", position: 2, name: "Lerninhalte", item: `${appUrl}/schulung` },
+      { "@type": "ListItem", position: 3, name: tr?.title ?? mod.slug, item: `${appUrl}/schulung/${mod.slug}` },
+    ],
+  };
+
   return (
     <article className="mx-auto max-w-3xl space-y-10 py-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div>
         <BackButton label={t("moduleDetail.back")} fallbackHref="/schulung" />
         <div className="mt-6 flex flex-wrap items-center gap-3">

@@ -32,6 +32,11 @@ export default async function PricingPage() {
                   <span className="text-sm font-normal text-slate-500">{t("pricing.perMonth")}</span>
                 )}
               </p>
+              {plan.priceMonthly !== null && plan.maxParticipants !== null && (
+                <p className="mt-1 text-sm font-medium text-accent-600 dark:text-accent-400">
+                  {t("pricing.perPerson", { amount: (plan.priceMonthly / 100 / plan.maxParticipants).toFixed(2).replace(".", ",") })}
+                </p>
+              )}
             </CardHeader>
             <CardContent>
               <ul className="space-y-2">

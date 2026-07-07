@@ -144,6 +144,8 @@ function gitSources(): ScanSource[] {
     ["MARKETING_PAGE", "i18n:home", dict["home"]],
     ["MARKETING_PAGE", "i18n:pricing", dict["pricing"]],
     ["CERTIFICATE_TEMPLATE", "i18n:certificate", dict["certificate"]],
+    ["MARKETING_PAGE", "i18n:muster", dict["muster"]],
+    ["MARKETING_PAGE", "i18n:about", dict["about"]],
   ];
   for (const [entityType, key, value] of i18nBlocks) {
     if (!value) continue;

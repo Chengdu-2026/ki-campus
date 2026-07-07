@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.8.0] — 2026-07-08 (SEO-/Trust-Sofortmaßnahmen aus dem Analysereport)
+
+### Hinzugefügt
+- /musterzertifikat: öffentliche Muster-Seite (Bestandteile erklärt, Demo-
+  Prüfseite verlinkt) + /api/musterzertifikat: layoutidentisches Muster-PDF
+  über den echten Generator mit diagonalem MUSTER-Wasserzeichen; Seed setzt
+  festen Demo-Verify-Code (demo1234…) für die öffentliche Verify-Demo
+- /ueber-uns: Person (Sascha, Pram/OÖ), Motiv, Firmenkonstrukt transparent
+  erklärt, 4 Messbarkeits-Prinzipien, Kontakt; AboutPage/Person-JSON-LD;
+  Porträt via optionalImage (public/images/sascha.jpg — liefert Sascha)
+- GEO-Paket: /llms.txt (dynamisch aus DB/Config: Definition, Einordnung,
+  Kurse, Preise, Links, Anbieter), Course-JSON-LD auf /schulung (aus DB),
+  BreadcrumbList-JSON-LD auf Modul-Detailseiten
+- Startseite: neue Sektionen Problem (3 Punkte), Rechtskontext Art. 4
+  (sachlich, FAQ-Link) und Musterzertifikat-Teaser
+- /pricing: Pro-Kopf-Anker je Plan („ab € 5,98 pro Person/Monat" Business,
+  berechnet aus Plan-Daten) mit Präsenzkurs-Vergleichssatz
+- Footer: Links Über uns + Musterzertifikat; Sitemap + Middleware erweitert;
+  Content-Audit-Registry um i18n:muster/i18n:about ergänzt
+- docs/SEO_GEO_TRUST_REPORT.md (13-Kapitel-Analysereport, Basis dieser
+  Maßnahmen; SEMrush-Zahlen als nicht geprüft markiert)
+
 ## [0.7.0] — 2026-07-08 (Nacht, Teil 4: Content-Audit-System Phase 1)
 
 ### Hinzugefügt

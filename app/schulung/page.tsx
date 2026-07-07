@@ -34,8 +34,40 @@ export default async function CurriculumPage() {
   });
   if (courses.length === 0) return null;
 
+  // Course-Schema (GEO/SEO): macht die Kurse für Suchmaschinen und
+  // KI-Systeme als Entitäten verständlich. Daten kommen live aus der DB.
+  const appUrl = process.env.APP_URL ?? "http://localhost:3000";
+  const courseJsonLd = courses.map((course) => {
+    const tr = course.translations.find((x) => x.locale === "de");
+    return {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      name: tr?.title,
+      description: tr?.description,
+      url: `${appUrl}/schulung`,
+      inLanguage: "de",
+      teaches: course.modules
+        .map((m) => m.translations.find((x) => x.locale === "de")?.title)
+        .filter(Boolean),
+      provider: {
+        "@type": "Organization",
+        name: appConfig.appName,
+        url: appUrl,
+      },
+      hasCourseInstance: {
+        "@type": "CourseInstance",
+        courseMode: "online",
+        courseWorkload: `PT${course.teachingUnits * 45}M`,
+      },
+    };
+  });
+
   return (
     <div className="space-y-14 py-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }}
+      />
       <div className="mx-auto max-w-3xl text-center">
         <h1 className="text-3xl font-bold text-brand-900 dark:text-white">Lerninhalte im Detail</h1>
         <p className="mt-2 text-slate-600 dark:text-slate-300">

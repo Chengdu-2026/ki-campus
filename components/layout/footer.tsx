@@ -16,6 +16,8 @@ export function Footer() {
           <Link className="hover:underline" href="/ki-transparenz">{t("footer.aiTransparency")}</Link>
           <Link className="hover:underline" href="/ki-kompetenz-review">{t("footer.reviewRoadmap")}</Link>
           <Link className="hover:underline" href="/themen">{t("footer.topicWish")}</Link>
+          <Link className="hover:underline" href="/ueber-uns">{t("footer.aboutUs")}</Link>
+          <Link className="hover:underline" href="/musterzertifikat">{t("footer.sampleCertificate")}</Link>
         </nav>
         <p className="text-xs">
           © {new Date().getFullYear()} {appConfig.legalCompanyName} · {appConfig.legalCompanyNameZh}
