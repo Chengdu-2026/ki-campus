@@ -66,12 +66,9 @@ export default function KiKompetenzReviewPage() {
           <Link href="/" className={cn(buttonVariants({ size: "lg" }))}>
             {t("feature.review.hero.ctaPrimary")}
           </Link>
-          <a
-            href={`mailto:${appConfig.contactEmail}?subject=${encodeURIComponent("Vormerkung: Jährliches KI-Kompetenz-Review")}`}
-            className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
-          >
+          <Link href="/themen" className={cn(buttonVariants({ variant: "outline", size: "lg" }))}>
             {t("feature.review.hero.ctaSecondary")}
-          </a>
+          </Link>
         </div>
       </section>
 

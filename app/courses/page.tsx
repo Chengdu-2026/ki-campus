@@ -6,14 +6,22 @@ import { getT } from "@/lib/i18n";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, ShieldCheck, Award } from "lucide-react";
+import { BookOpen, ShieldCheck, Sparkles, Award } from "lucide-react";
 
-export const metadata = { title: "Kurse" }; // Kursübersicht: beide Kurse mit Empfehlung
+export const metadata = { title: "Kurse" }; // Kursübersicht: alle Kurse mit Empfehlung
 
 /** Empfehlungstexte je Kurs-Slug (i18n-Keys). */
 const RECOMMENDATION_KEY: Record<string, string> = {
   "ki-kompetenz-basic": "courses.recommendationBasic",
   "ki-verantwortliche-beauftragte": "courses.recommendationOfficer",
+  "richtig-prompten": "courses.recommendationPrompting",
+};
+
+/** Icon je Kurs-Slug (Fallback: BookOpen). */
+const COURSE_ICON: Record<string, typeof BookOpen> = {
+  "ki-kompetenz-basic": BookOpen,
+  "ki-verantwortliche-beauftragte": ShieldCheck,
+  "richtig-prompten": Sparkles,
 };
 
 export default async function CoursesPage() {
@@ -47,12 +55,12 @@ export default async function CoursesPage() {
       </div>
 
       <div className="grid gap-5 lg:grid-cols-2">
-        {rows.map(({ course, progress, hasCertificate }, idx) => {
+        {rows.map(({ course, progress, hasCertificate }) => {
           const tr = pickTranslation(course.translations, user.locale);
           const moduleCount = course.modules.length;
           const lessonCount = course.modules.reduce((sum, m) => sum + m.lessons.length, 0);
           const recommendationKey = RECOMMENDATION_KEY[course.slug];
-          const Icon = idx === 0 ? BookOpen : ShieldCheck;
+          const Icon = COURSE_ICON[course.slug] ?? BookOpen;
           const cta = hasCertificate
             ? t("courses.open")
             : progress.doneLessons > 0

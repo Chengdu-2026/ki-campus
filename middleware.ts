@@ -5,7 +5,7 @@ import { getToken } from "next-auth/jwt";
 const PUBLIC_PATHS = [
   "/", "/pricing", "/features", "/faq", "/login", "/register",
   "/legal-disclaimer", "/impressum", "/datenschutz", "/agb", "/ki-transparenz",
-  "/passwort-vergessen", "/schulung", "/ki-kompetenz-review",
+  "/passwort-vergessen", "/schulung", "/ki-kompetenz-review", "/themen",
 ];
 
 function isPublic(pathname: string): boolean {

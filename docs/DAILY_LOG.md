@@ -28,10 +28,51 @@
   4 Crons, 3 Datenmodelle, UI-Texte, Akzeptanzkriterien) + Einträge in
   TODO/QM_SYSTEM/QM_WORKFLOW/MANAGEMENT_REVIEW/CRON_JOBS; MARKETING_PAGES.md neu
 
+## Nachtrag (gleiche Nacht): Konsistenz-Audit + Leadmaschine
+- Konsistenz-Audit „lose Enden": /features zeigte noch V0.1-Stand (12 Module/
+  120 Fragen!) → 3 Kurse/37 Module/300+ Fragen; „beide Kurse"-Reste in
+  /schulung, home.benefit2Text, courses.intro; /courses ohne Empfehlung/Icon
+  für Kurs 3 (jetzt slug-basierte Maps); Sitemap ohne /ki-kompetenz-review;
+  Glossar ohne Halluzination/Prompt-Injection/Kontextfenster → alles gefixt
+- Neue KONSISTENZ-PFLICHT in CLAUDE.md (Regel: jede Ergänzung erzwingt
+  Alt-Text-Prüfung; Fundstellen-Checkliste)
+- Leadmaschine /themen: InterestLead-Modell (init.sql synchron), Formular
+  mit Honeypot + Consent + Datensparsamkeit, /admin/leads mit Themen-Ranking
+  — Priorisierung der Kurs-Pipeline ab jetzt datengetrieben
+- ROADMAP: Kurs 4 „KI-Agenten/Second Brain" (inkl. Modul Anweisungsdateien/
+  CLAUDE.md-Prinzip — Entscheidung: kein eigener Kurs), Kurs 5 Führungskräfte
+  geparkt; Video-Policy (verlinken statt einbetten, zentrale Pflege)
+- scripts/dev-complete-lessons.mjs für lokale Prüfungs-Gate-Freischaltung
+  (Saschas „kann nicht testen"-Problem nach db:init)
+
+## Nachtrag 2 (gleiche Nacht): Content-Audit-System entschieden
+- Sascha-Entscheidung (auf meine Empfehlung + GPT-Bestätigung): internes
+  Content-Audit-Modul ZUERST im Campus, kein separates Open-Source-Repo vor
+  2–3 Wochen interner Nutzung. Vollspezifikation in ROADMAP §4 mit drei
+  Korrekturen am GPT-Entwurf: (1) eigener Risk-Word-Scanner statt
+  wording-guard-Erweiterung (repo-weiter Test würde durch legitime
+  Verneinungen brechen), (2) keine neuen Rollen in Phase 1 (Owner-Freigabe
+  über Felder), (3) getrennte Änderungserkennung DB-Inhalte (Save-Hooks)
+  vs. Git-Inhalte (Scan-Script/Cron mit Quellen-Registry)
+- Vorgezogener Quick-Win: /ki-transparenz-Pauschalaussage präzisiert
+- Einordnung Queue: nach Superadmin-Paket (Teil 3) und Praxistest; erste
+  Audit-Charge mit dem Praxistest verbinden
+- Owner-Freigabe-UX festgelegt (ROADMAP §4.5b): Checkliste → TOTP-Re-Auth →
+  Server-Zeitstempel; grünes Badge lebt am Hash (kippt bei Änderung)
+- Granularität + Sichtbarkeit festgelegt (ROADMAP §4.6b): blockweise über
+  stabile blockKeys (didaktische Felder, Seiten-Abschnitte, Assets je Datei),
+  Coverage-Prinzip über Quellen-Registry (nichts kann „vergessen" werden),
+  Prüfmodus-Overlay nur für Superadmin (grün/gelb/rot), Arbeitsliste mit
+  Fortschritt je Kurs/Seite
+- CLAUDE.md ergänzt: Regel „ERST PRÜFEN, DANN BAUEN" + Versionierung gilt
+  ausdrücklich auch für Bilder/Assets (Versionierungs-Grundregel war
+  bereits fix verankert — geprüft statt doppelt geschrieben)
+
 ## Bekannte Probleme
 - Läuft parallel zur Superadmin-Session (Teil 3): mögliche Merge-Berührpunkte
   in config/app.ts, lib/i18n/de.ts, prisma/seed/index.ts, TODO/HANDOVER —
   beim Zusammenführen Versionslabel prüfen (diese Session setzt V1.006)
+- Datenschutzerklärung erwähnt /themen-Verarbeitung noch nicht → Anwalt-Paket
 - Modulbilder für die 10 pr-Module fehlen noch (Seiten laufen ohne Bild;
   Sascha liefert später → public/modules/pr-<slug>.png)
 - Lokale DB braucht npm run db:init && npm run db:seed für Kurs 3 + V1.006

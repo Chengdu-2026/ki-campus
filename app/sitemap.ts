@@ -9,6 +9,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/features", priority: 0.9 },
     { path: "/pricing", priority: 0.9 },
     { path: "/faq", priority: 0.8 },
+    { path: "/ki-kompetenz-review", priority: 0.6 },
+    { path: "/themen", priority: 0.7 },
     { path: "/register", priority: 0.7 },
     { path: "/login", priority: 0.3 },
     { path: "/legal-disclaimer", priority: 0.3 },

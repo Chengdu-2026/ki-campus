@@ -118,6 +118,24 @@ export const GLOSSARY: GlossaryEntry[] = [
       "Systematische Sicherung von Qualität durch klare Abläufe, Kennzahlen und laufende Verbesserung — hier bezogen auf den KI-Einsatz im Unternehmen.",
     pattern: /\bQM\b/,
   },
+  {
+    term: "Halluzination",
+    explanation:
+      "Wenn eine KI überzeugend klingende, aber erfundene Inhalte liefert — falsche Zahlen, Namen oder Quellen. Passiert vor allem bei Fragen, deren Antwort das Modell nicht kennen kann. Gegenmittel: prüfen statt vertrauen.",
+    pattern: /Halluzination/i,
+  },
+  {
+    term: "Prompt-Injection",
+    explanation:
+      "Versteckte Anweisungen in fremden Texten (E-Mails, Dokumenten, Webseiten), die ein KI-System wie deine eigenen Befehle behandelt — und die so sein Verhalten manipulieren können. Seltsame Aufforderungen im KI-Ergebnis sind ein Alarmsignal.",
+    pattern: /Prompt-Injection/i,
+  },
+  {
+    term: "Kontextfenster",
+    explanation:
+      "Der begrenzte Arbeitsspeicher einer KI-Unterhaltung: Prompt, Dokumente und Verlauf. Was nicht mehr hineinpasst, existiert für das Modell nicht — deshalb große Dokumente zerlegen und per Stichprobe prüfen.",
+    pattern: /Kontextfenster/i,
+  },
 ];
 
 /**

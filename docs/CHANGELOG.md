@@ -30,6 +30,39 @@
 - 11 neue Tests (Kurs-3-Module/Lektionen/Präfix/Kollisionen; Fragenpool
   Menge/Praxisquote/Kategorien/Modulabdeckung)
 
+### Hinzugefügt (Nachtrag: Konsistenz-Audit + Leadmaschine)
+- Leadmaschine /themen: öffentliche Themenwunsch-Umfrage (8 Themen +
+  Freitext, Kontakt optional nur mit Einwilligung, Honeypot, Datensparsamkeit)
+  + Modell InterestLead (schema.prisma + init.sql) + Superadmin-Auswertung
+  /admin/leads (Themen-Ranking, Lead-Tabelle) + Footer-/Sitemap-/Admin-Nav-
+  Verlinkung; CTA „Roadmap-Funktion vormerken" zeigt jetzt auf /themen
+- CLAUDE.md: neue KONSISTENZ-PFLICHT (bei jeder Ergänzung abhängige Texte
+  prüfen — mit Fundstellen-Checkliste)
+- 3 neue Glossar-Einträge (Halluzination, Prompt-Injection, Kontextfenster)
+  für die Überschriften des Prompting-Kurses
+- ROADMAP.md: Kurs-Pipeline (Kurs 4 „KI-Agenten/Second Brain" inkl.
+  Anweisungsdateien-Modul, Kurs 5 Führungskräfte geparkt) + Video-Policy
+  (verlinken statt einbetten, zentral pflegen, Sichtung durch Sascha)
+- scripts/dev-complete-lessons.mjs: Dev-Helfer, markiert Lektionen eines
+  Nutzers als erledigt (öffnet das Prüfungs-Gate für lokale Tests)
+
+### Hinzugefügt (Nachtrag 2: Content-Audit-Entscheidung)
+- Internes Content-Audit-System als Phase 1 entschieden und vollständig
+  spezifiziert (ROADMAP.md Abschnitt 4): hash-gebundene Freigaben an
+  ContentRevision angedockt, konfigurierbare Checklisten, separater
+  Risk-Word-Scanner, Owner-Freigabe ohne neue Rollen, DB-/Git-Inhalte
+  getrennt erkannt; Open-Source-Extraktion erst nach interner Nutzung
+- /ki-transparenz: Prüf-Aussage präzisiert (keine Pauschalbehauptung
+  „sämtliche Inhalte wurden geprüft" mehr — jetzt belegbare Formulierung)
+
+### Behoben (Konsistenz-Audit nach Kurs 3)
+- /features zeigte Stand von V0.1 („12 fertige Lernmodule", „über 120
+  Fragen") → jetzt 3 Kurse / 37 Module / über 300 Fragen in 30 Kategorien
+- „Beide Kurse"-Reste auf /schulung (Fließtext) und home.benefit2Text,
+  courses.intro auf drei Kurse; /courses: Empfehlungstext + eigenes Icon
+  für Kurs 3 (RECOMMENDATION_KEY/COURSE_ICON slug-basiert statt Index)
+- /ki-kompetenz-review fehlte in der Sitemap → ergänzt (+ /themen)
+
 ### Geändert
 - Plan-Features und Preistexte: „Beide Kurse" → „Alle 3 Kurse" (Seeds,
   pricing.subtitle/flatrateNote); /schulung-Metadaten auf drei Kurse

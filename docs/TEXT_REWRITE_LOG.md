@@ -48,6 +48,10 @@ Rechtstexte bewusst formal geblieben sind.
   („keine ISO-Zertifizierung", „geplante Erweiterung" — keine Verfügbarkeits-
   oder Garantieversprechen).
 - Plan-/Preistexte auf drei Kurse aktualisiert (Seeds + pricing.*).
+- Leadmaschine /themen (themen.*): Praxisstil in Anrede und Intro;
+  Consent-Text und Datenschutz-Hinweis bewusst formal-präzise.
+- Konsistenz-Audit: /features, /schulung, home.benefit2Text, courses.intro
+  auf drei Kurse; 3 neue Glossar-Einträge im Praxisstil.
 
 ## 2. Rechtstexte bewusst NICHT im lockeren Stil geändert
 - certificate.disclaimer (lib/i18n/de.ts): juristisch fixierter Text. Einzige
@@ -60,6 +64,13 @@ Rechtstexte bewusst formal geblieben sind.
 ## 3. Formale Bereinigung von Rechtstexten
 - Nur die o. g. Disclaimer-Ergänzung (präzisierend, nicht lockernd).
   Keine weiteren Eingriffe in juristische Texte.
+- 2026-07-07 Nacht: /ki-transparenz präzisiert (formal, nicht gelockert):
+  aus „Sämtliche mit KI-Unterstützung erstellten Inhalte wurden vor
+  Veröffentlichung fachlich geprüft" wurde „Die deutschsprachigen
+  Kerninhalte (…) werden vor Veröffentlichung intern fachlich geprüft und
+  freigegeben" — Pauschal-Vergangenheitsbehauptung ersetzt durch präzise,
+  belegbare Gegenwartsaussage (Vorgriff auf Content-Audit-System,
+  ROADMAP §4).
 
 ## 4. Bestätigung
 Keine AGB, Datenschutztexte oder Disclaimer wurden in Umgangssprache

@@ -19,8 +19,9 @@ export default function AiTransparencyPage() {
 
         <h2 className="text-xl font-semibold text-brand-900 dark:text-white">Fachliche Prüfung und Verantwortung</h2>
         <p>
-          Sämtliche mit KI-Unterstützung erstellten Inhalte wurden vor Veröffentlichung fachlich
-          geprüft. Verantwortlich für die Inhalte:
+          Die deutschsprachigen Kerninhalte (Lerninhalte, Prüfungsfragen und zentrale
+          Plattformtexte) werden vor Veröffentlichung intern fachlich geprüft und freigegeben.
+          Verantwortlich für die Inhalte:
         </p>
         <p className="rounded-xl border border-slate-200 bg-slate-50 p-4 font-medium text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
           {appConfig.contentResponsiblePerson}<br />

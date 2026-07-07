@@ -152,7 +152,7 @@ export default async function CurriculumPage() {
       })}
 
       <div className="mx-auto max-w-2xl rounded-2xl bg-brand-900 p-8 text-center text-white dark:bg-slate-900 dark:ring-1 dark:ring-slate-700">
-        <p className="text-lg font-semibold">Alle Pakete enthalten beide Kurse — vollständig.</p>
+        <p className="text-lg font-semibold">Alle Pakete enthalten alle drei Kurse — vollständig.</p>
         <p className="mt-2 text-sm text-brand-100 dark:text-slate-300">
           Basic, Business und Enterprise unterscheiden sich in Teilnehmerzahl und
           Verwaltungsfunktionen — nicht im Lerninhalt.

@@ -578,6 +578,22 @@ model ContentRevision {
   @@index([entityType, entityId, createdAt])
 }
 
+/// Themenwunsch/Interessens-Lead von der öffentlichen /themen-Seite
+/// (Leadmaschine: welche Kursthemen wünschen sich Interessenten?)
+model InterestLead {
+  id        String   @id @default(cuid())
+  topics    String   // JSON-Array der gewählten Themen-Keys
+  message   String?  // Freitext-Wunsch
+  email     String?  // optional — nur mit Einwilligung
+  name      String?
+  company   String?
+  consent   Boolean  @default(false) // Einwilligung zur Kontaktaufnahme
+  source    String   @default("themen") // Herkunft (Seite/Kampagne)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
 /// Einmaliger Download der Lernunterlagen (personalisiertes PDF mit Wasserzeichen)
 model MaterialDownload {
   id           String   @id @default(cuid())

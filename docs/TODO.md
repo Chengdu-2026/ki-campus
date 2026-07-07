@@ -10,6 +10,36 @@
       Review-/Auffrischungsmodul (Feature-Flag "planned", i18n feature.review.*,
       Footer-Link, keine Verfügbarkeits- oder ISO-Behauptungen)
 
+## Erledigt am 2026-07-07 Nacht (Nachtrag: Audit + Leadmaschine)
+- [x] Konsistenz-Audit nach Kurs 3: /features (V0.1-Stand!), /schulung,
+      home.benefit2Text, courses.intro, /courses-Empfehlung+Icon Kurs 3,
+      Sitemap (+/ki-kompetenz-review, +/themen), 3 Glossar-Einträge
+- [x] KONSISTENZ-PFLICHT in CLAUDE.md verankert (Checkliste der Fundstellen)
+- [x] Leadmaschine /themen (InterestLead-Modell, Honeypot, Consent,
+      Datensparsamkeit) + /admin/leads mit Themen-Ranking
+- [x] ROADMAP: Kurs-Pipeline (Kurs 4 KI-Agenten/Second Brain inkl.
+      Anweisungsdateien-Modul; Kurs 5 Führungskräfte geparkt) + Video-Policy
+- [x] scripts/dev-complete-lessons.mjs (Prüfungs-Gate lokal öffnen)
+
+## Leadmaschine — Ausbau (Priorität mittel)
+- [ ] CSV-Export der Leads; source-Parameter je Kampagne (?src=)
+- [ ] Double-Opt-in-Mail sobald SMTP produktiv; Datenschutzerklärung um
+      /themen-Verarbeitung ergänzen (Anwalt-Paket)
+- [ ] „Weiterführende Links" je Modul (zentral gepflegt) für Video-Policy
+      laut ROADMAP.md Abschnitt 3
+
+## Geplant: Internes Content-Audit-System (Phase 1 — nach Superadmin + Praxistest)
+- [ ] Content-Audit-Modul im Campus: ContentAuditItem an ContentRevision
+      angedockt, hash-gebundene Freigaben (Änderung invalidiert Freigabe),
+      konfigurierbare Checklisten (5 Seed-Templates), eigener Risk-Word-
+      Scanner (NICHT wording-guard erweitern — Begründung in ROADMAP §4.4),
+      /admin/content-audit + Detailseite mit Diff, Owner-Freigabe über
+      Felder (keine neuen Rollen), Übersetzungs-Pflichtprüfung, CSV/PDF-
+      Export, 10+ Tests, erste Charge = alle Bestandsinhalte (mit Praxistest
+      verbinden). Vollspezifikation: docs/ROADMAP.md Abschnitt 4.
+- [x] Vorgezogen (2026-07-07): /ki-transparenz-Aussage präzisiert (keine
+      pauschale „sämtliche Inhalte geprüft"-Behauptung mehr)
+
 ## Geplant: Jährliches KI-Kompetenz-Review & Auffrischungssystem
 - [ ] „Jährliches KI-Kompetenz-Review und Auffrischungssystem ergänzen. Das
       System soll falsch und langsam beantwortete Fragen auswerten, schwache

@@ -6,8 +6,8 @@ import { optionalImage } from "@/lib/assets";
 export const metadata = { title: "Funktionen" };
 
 const FEATURES = [
-  { icon: BookOpen, title: "12 fertige Lernmodule", text: "Von KI-Grundlagen über Datenschutz und Urheberrecht bis Art. 4 EU AI Act — mit Praxisbeispielen aus dem Büroalltag, Merksätzen und Mini-Checks." },
-  { icon: ClipboardCheck, title: "Abschlusstest mit Fragenpool", text: "Über 120 Fragen in 10 Kategorien, zufällige Auswahl je Test, konfigurierbare Bestehensgrenze (Standard 75 %) und Wiederholungsversuche." },
+  { icon: BookOpen, title: "3 Kurse, 37 fertige Lernmodule", text: "Grundschulung für alle (17 Module), Aufbaukurs für KI-Verantwortliche (10) und Praxiskurs Richtig Prompten (10) — mit Praxisbeispielen aus dem Büroalltag, Merksätzen und Mini-Checks." },
+  { icon: ClipboardCheck, title: "Abschlusstest mit Fragenpool", text: "Über 300 Fragen in 30 Themenkategorien, zufällige Auswahl je Test, eigener Test je Kurs, konfigurierbare Bestehensgrenze (Standard 75 %) und Wiederholungsversuche." },
   { icon: RefreshCw, title: "Adaptive Nachschulung", text: "Falsche Antworten werden Themen zugeordnet. Teilnehmende sehen genau, welche Module sie wiederholen sollten — inklusive Übungsmodus." },
   { icon: Award, title: "Automatisches Zertifikat", text: "Nach bestandenem Test wird sofort ein hochwertiges A4-PDF erstellt: privater Schulungs- und Kompetenznachweis mit eindeutiger Nummer." },
   { icon: QrCode, title: "QR-Verifikation", text: "Jedes Zertifikat trägt einen QR-Code zur öffentlichen Prüfseite — datensparsam und ohne Login prüfbar." },

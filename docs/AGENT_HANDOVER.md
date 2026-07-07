@@ -47,8 +47,17 @@ DREI Kurse: Basic 17 Module / 41 Lektionen / 154 Fragen · KI-Verantwortliche
   MANAGEMENT_REVIEW/CRON_JOBS. Noch NICHT bauen ohne expliziten Auftrag.
 - ACHTUNG Merge: Diese Session lief parallel zur Superadmin-Session (Teil 3).
   Berührpunkte: config/app.ts, lib/i18n/de.ts, prisma/seed/index.ts,
-  middleware.ts, TODO/HANDOVER/DAILY_LOG/CHANGELOG. Beim Zusammenführen:
+  middleware.ts, prisma/schema.prisma + init.sql (InterestLead!),
+  TODO/HANDOVER/DAILY_LOG/CHANGELOG. Beim Zusammenführen:
   Versionslabel abstimmen (diese Session = V1.006).
+- Nachtrag gleiche Nacht: Konsistenz-Audit (u. a. /features war auf
+  V0.1-Stand) + KONSISTENZ-PFLICHT neu in CLAUDE.md (bei jeder Ergänzung
+  Alt-Texte prüfen — Checkliste dort). Leadmaschine /themen + /admin/leads
+  (Modell InterestLead; Kurs-Priorisierung ab jetzt über Lead-Daten).
+  Kurs-Pipeline + Video-Policy: docs/ROADMAP.md Abschnitte 2–3.
+  Dev-Helfer scripts/dev-complete-lessons.mjs öffnet das Prüfungs-Gate
+  lokal (nach db:init ist aller Lektionsfortschritt weg — häufige
+  Stolperfalle beim Browser-Test).
 
 ## Neu in V1.005 (dieser Auftrag)
 - Öffentliche Modul-Detailseiten /schulung/[modulSlug] (alle 27 Module):
@@ -144,6 +153,14 @@ lib/module-details.de.ts ergänzen; Modulbilder liefert Sascha später
 ContentRevision + contentVersionLabel hochziehen.
 
 ## Danach (in dieser Reihenfolge)
+0. NEU ENTSCHIEDEN (Sascha, 2026-07-07): Internes CONTENT-AUDIT-SYSTEM
+   (Phase 1) nach Superadmin-Paket und Praxistest umsetzen — vollständige,
+   korrigierte Spezifikation in docs/ROADMAP.md Abschnitt 4 (maßgeblich;
+   enthält 3 Korrekturen gegenüber dem GPT-Entwurf: separater Risk-Scanner
+   statt wording-guard-Erweiterung, keine neuen Rollen in Phase 1,
+   getrennte Erkennung für DB- vs. Git-Inhalte). KEIN separates
+   Open-Source-Repo vor 2–3 Wochen interner Nutzung. Erste Charge mit dem
+   Praxistest verbinden. Entwurfsmaterial: Ordner "AUDIT Repo/".
 1. PRAXISTEST beider Kurse (ChatGPT-Testplan, von Sascha freigegeben):
    kompletter Teilnehmer-Durchlauf Basic + Officer, 30 Zufallsfragen je Kurs
    auf Qualität prüfen, Admin-Flows, Mandantentrennung (Firma A/B),

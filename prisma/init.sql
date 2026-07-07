@@ -433,3 +433,10 @@ CREATE TABLE IF NOT EXISTS "MaterialDownload" (
   "downloadedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "pdfHash" TEXT
 );
 CREATE UNIQUE INDEX IF NOT EXISTS "MaterialDownload_userId_courseId_key" ON "MaterialDownload"("userId","courseId");
+CREATE TABLE IF NOT EXISTS "InterestLead" (
+  "id" TEXT PRIMARY KEY, "topics" TEXT NOT NULL, "message" TEXT,
+  "email" TEXT, "name" TEXT, "company" TEXT,
+  "consent" BOOLEAN NOT NULL DEFAULT 0, "source" TEXT NOT NULL DEFAULT 'themen',
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS "InterestLead_createdAt_idx" ON "InterestLead"("createdAt");

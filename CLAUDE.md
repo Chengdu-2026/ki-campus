@@ -50,6 +50,45 @@ Details und Historie: `docs/TEXT_REWRITE_LOG.md` (nach Textarbeit fortschreiben)
   sichtbar. Footer-Version, Register und Config müssen übereinstimmen.
 - Zertifikate speichern `courseVersion` + `issuedContentSnapshot` zum
   Ausstellungszeitpunkt — nicht anfassen, das ist die Audit-Grundlage.
+- Gilt auch für Bilder/Assets und alle öffentlichen Texte: jede Änderung
+  ist eine neue Version. Mit dem Content-Audit-System (ROADMAP §4) wird
+  die Freigabe hash-gebunden — Änderung invalidiert die Freigabe.
+
+## ERST PRÜFEN, DANN BAUEN (fix verankert — Regel vom 2026-07-07)
+
+Vor JEDEM Neubau (Model, Funktion, Seite, Regel, Doku) prüfen, ob es schon
+existiert oder erweiterbar ist — repo-weit greppen UND docs/ lesen
+(AGENT_HANDOVER, ROADMAP, TODO, ARCHITECTURE). Erst wenn nichts Passendes
+existiert, neu bauen. Wiederverwendung im Arbeitspaket dokumentieren
+(„erweitert X statt Neubau"). Beispiele für vorhandene Bausteine, die gern
+übersehen werden: ContentRevision, AuditLog (oldValue/newValue),
+Question.contentHash, wording-guard, CAPA-/Review-Statusmaschinen, totp.ts,
+optionalImage(), seedCourse(), bestehende Cron-Route-Muster.
+
+## KONSISTENZ-PFLICHT (fix verankert — Regel vom 2026-07-07)
+
+**Jede Ergänzung macht bestehende Texte potenziell falsch.** Wer etwas Neues
+hinzufügt (Kurs, Modul, Feature, Preis, Plan, Seite), MUSS im selben
+Arbeitspaket alle abhängigen Texte auf Aktualität prüfen. Checkliste der
+typischen Fundstellen (repo-weit greppen, nicht raten):
+
+- Zahlwörter und Zählungen: „beide/zwei/drei Kurse", Modul-/Lektionen-/
+  Fragenzahlen, Kategorienzahlen — in `lib/i18n/de.ts`, `app/**` (v. a.
+  Homepage, /features, /pricing, /schulung, /courses, FAQ), Plan-Features
+  im Seed, Metadata/SEO-Texte, `app/sitemap.ts`.
+- Slug-abhängige Maps: `config/app.ts → courseCertificateTitleKeys`,
+  `app/courses/page.tsx → RECOMMENDATION_KEY/COURSE_ICON`,
+  `lib/module-details.de.ts`, Modulbilder `public/modules/<slug>.png`.
+- `lib/glossary.ts`: neue Fachbegriffe in neuen Überschriften brauchen
+  Glossar-Einträge.
+- Middleware PUBLIC_PATHS + Footer-/Nav-Links + Sitemap bei neuen Seiten.
+- Doku: COURSE_CONTENT, CHANGELOG, TODO, AGENT_HANDOVER, DAILY_LOG,
+  TEXT_REWRITE_LOG, ggf. ROADMAP/MARKETING_PAGES.
+- Historische Log-Einträge (DAILY_LOG/CHANGELOG-Vergangenheit) NICHT
+  umschreiben — nur gegenwartsbezogene Texte.
+
+Faustregel: Nach jedem Arbeitspaket einmal greppen nach den alten Zahlen/
+Formulierungen, die durch die Änderung veraltet sein könnten.
 
 ## ENTWICKLUNGSREGELN
 
