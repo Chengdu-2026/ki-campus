@@ -1,5 +1,22 @@
 # TODO
 
+## Live-QA-Funde 2026-07-08 (KI-CAMPUS-LIVE-QA-AUDITOR) — behoben (V0.10.1)
+- [x] P2: interner Betreiber-Hinweis von öffentlicher `/agb` entfernt.
+- [x] P2: Audit-Log-UI zeigt jetzt `oldValue → newValue` bei Bearbeitungen.
+- [x] P3: Nutzer-Edit leitet nach Speichern auf `/admin/users` (kein staler Status).
+- [x] P3: „Re-Zertifizierung" → „erneute Nachweise" (Pricing + FAQ).
+- [x] Eigentümer-Fund: Passwort-Auge + autoComplete „Manuell anlegen".
+- [x] LIVE-NACHTEST der 5 Fixes: **bestanden** (08.07.2026, nach Dev-Server-Neustart)
+      — AGB-Hinweis weg, „erneute Nachweise" (Pricing/FAQ), Audit-Log alt→neu,
+      Nutzer-Edit-Redirect, Passwort-Auge.
+- [x] P3 (behoben V0.10.1): „Aktivieren"/„Deaktivieren"-Toggle loggt jetzt
+      richtungsabhängig (`USER_ACTIVATED` / `USER_DEACTIVATED`). tsc 0 · Tests 111/111.
+      (Live-Klick-Bestätigung durch Browser-Tool-Flakiness auf Submit-Buttons verhindert;
+      Fix ist code-/typgeprüft.)
+- [ ] Klein/optional: `toggleUserStatus` revalidiert nur `/company/users` — auf der
+      Superadmin-Firmenseite `/admin/companies/[id]` bleibt der Status bis zum Reload stehen.
+- [ ] Live-Test offen: N4 Zertifikat-PDF-TESTZUGANG-Stempel, N6 Testzugang-Banner (als Anna).
+
 ## Erledigt am 2026-07-07 (Teil 6: Superadmin-Verwaltung V2 + Tester-Freigabe, V0.10.0)
 - [x] KLARSTELLUNG: „Teil-3-Merge Superadmin-Paket" war gegenstandslos — Paket war
       nie gebaut (per Git verifiziert). Neu gebaut als V1.008.

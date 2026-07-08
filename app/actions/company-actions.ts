@@ -175,7 +175,7 @@ export async function toggleUserStatus(targetUserId: string): Promise<void> {
 
   const newStatus = target.status === "ACTIVE" ? "INACTIVE" : "ACTIVE";
   await prisma.user.update({ where: { id: targetUserId }, data: { status: newStatus } });
-  await audit({ action: "USER_DEACTIVATED", userId: admin.id, companyId: target.companyId, entityType: "User", entityId: targetUserId, metadata: { newStatus } });
+  await audit({ action: newStatus === "ACTIVE" ? "USER_ACTIVATED" : "USER_DEACTIVATED", userId: admin.id, companyId: target.companyId, entityType: "User", entityId: targetUserId, metadata: { newStatus } });
   revalidatePath("/company/users");
 }
 

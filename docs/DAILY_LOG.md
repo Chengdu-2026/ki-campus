@@ -1,6 +1,26 @@
 # Tagesabschluss
 
 ## Datum
+2026-07-08 (Live-QA-Audit im Browser + Fix Passwort-Auge, V0.10.1)
+
+## Heute (Rolle KI-CAMPUS-LIVE-QA-AUDITOR, localhost:3000)
+- Öffentliche Seiten + Wording live geprüft (Homepage, Preise, KI-Transparenz,
+  Rechtl. Hinweis, Impressum, Datenschutz, AGB): sauber, kein Verbotsbegriff;
+  Footer zeigt Gesamtstand V1.008. Funde: P2 interner Betreiber-Hinweis öffentlich
+  auf /agb (docs-Pfad sichtbar), P3 „Re-Zertifizierung" auf /pricing.
+- Neue V0.10.0-Features live verifiziert: Firmen-/Nutzer-Bearbeitung (Save+Audit),
+  Testzugang mit voller Konsequenzkette (Verify-Test-Hinweis, Statistik-Ausschluss
+  0/0/0, AuditLog COMPANY_UPDATED/USER_UPDATED), V1.001-Badges. Funde: P2 Audit-Log-UI
+  zeigt nur `{}` statt alt→neu bei Bearbeitungen; P3 Nutzer-Edit zeigt nach Save stalen Status.
+- Eigentümer-Fund behoben (V0.10.1): Passwort-Auge + autoComplete am „Manuell anlegen"-Feld.
+  tsc 0 · Tests 111/111 · Build compiled.
+- Berichte: docs/live-tests/2026-07-08/00-public + /superadmin-neue-features + LIVE_TEST_KATALOG.md.
+  Demo-Daten am Ende sauber zurückgesetzt.
+- OFFEN: Task 4 (Zertifikat-PDF TESTZUGANG-Stempel + QR/Widerruf), N6-Banner (als Anna testen).
+
+---
+
+## Datum
 2026-07-07 (Teil 6: Superadmin-Verwaltung V2 + Tester-Freigabe + Zwei-Spuren-Versionierung, V0.10.0 / Gesamtstand V1.008)
 
 ## Heute erledigt (Teil 6)

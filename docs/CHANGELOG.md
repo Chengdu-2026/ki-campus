@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.10.1] — 2026-07-08 (Live-QA-Funde behoben)
+
+### Behoben / Hinzugefügt
+- Neue Komponente `components/ui/password-input.tsx`: Passwort-Feld mit
+  Auge-Umschalter (anzeigen/verbergen). Eingesetzt im „Manuell anlegen"-Formular
+  (`/admin/companies/[id]`). Behebt einen Eigentümer-Fund aus dem Live-QA.
+- `autoComplete="new-password"` am Anlege-Passwortfeld → verhindert, dass der
+  Browser die Superadmin-Login-Daten ins Teilnehmer-Anlegeformular autofüllt.
+- P2: Interner Betreiber-Hinweis (mit `docs/…`-Pfad) von der öffentlichen
+  `/agb`-Seite entfernt.
+- P2: Audit-Log (`/admin/audit-log`) zeigt bei Bearbeitungen jetzt den
+  `oldValue → newValue`-Diff (rot→grün) statt nur leerem `{}`.
+- P3: Nutzer-Edit (`/admin/users/[id]`) leitet nach dem Speichern auf die
+  Nutzerliste (`successRedirect`) — kein staler Status mehr im Formular.
+- P3: „Re-Zertifizierung" → „erneute Nachweise" auf `/pricing` und in der FAQ.
+- P3: `toggleUserStatus` loggt jetzt richtungsabhängig `USER_ACTIVATED` /
+  `USER_DEACTIVATED` (vorher immer `USER_DEACTIVATED`); neue Audit-Aktion
+  `USER_ACTIVATED` ergänzt.
+- Verifikation: tsc 0 · Tests 111/111 · next build compiled. **Live nachgetestet
+  (08.07.2026): AGB-Hinweis weg · „erneute Nachweise" (Pricing/FAQ) · Audit-Log
+  zeigt alt→neu · Nutzer-Edit leitet auf die Liste — alle vier OK.**
+
 ## [0.10.0] — 2026-07-07 (Teil 6: Superadmin-Verwaltung V2 + Tester-Freigabe)
 
 ### Wichtige Klarstellung

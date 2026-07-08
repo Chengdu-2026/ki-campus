@@ -36,7 +36,17 @@ export default async function AdminAuditLogPage() {
               <Td className="text-xs">{e.user?.email ?? "System"}</Td>
               <Td className="text-xs">{e.company?.name ?? "—"}</Td>
               <Td className="text-xs">{e.entityType ?? "—"}</Td>
-              <Td className="max-w-xs truncate font-mono text-xs" title={e.metadata}>{e.metadata}</Td>
+              <Td className="max-w-md whitespace-normal break-words font-mono text-[11px]">
+                {e.metadata && e.metadata !== "{}" ? <div>{e.metadata}</div> : null}
+                {e.oldValue || e.newValue ? (
+                  <div>
+                    <span className="text-red-600 dark:text-red-400">{e.oldValue ?? "—"}</span>
+                    {" → "}
+                    <span className="text-green-600 dark:text-green-400">{e.newValue ?? "—"}</span>
+                  </div>
+                ) : null}
+                {(!e.metadata || e.metadata === "{}") && !e.oldValue && !e.newValue ? "—" : null}
+              </Td>
             </Tr>
           ))}
         </TBody>

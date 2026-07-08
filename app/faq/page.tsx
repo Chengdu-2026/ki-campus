@@ -103,7 +103,7 @@ const CATEGORIES: FaqCategory[] = [
       },
       {
         q: "Wie oft muss die Schulung aufgefrischt werden?",
-        a: "Das Gesetz nennt kein festes Intervall. Da Art. 4 auf den Einsatzkontext abstellt und sich KI-Tools schnell weiterentwickeln, ist eine Auffrischung sinnvoll, wenn sich Wesentliches ändert: neue Tools im Unternehmen, neue Einsatzfelder, neue Rechtslage oder neue Mitarbeitende. Viele Unternehmen etablieren einen jährlichen Rhythmus — das ist Praxisempfehlung, keine gesetzliche Vorgabe. Die Plattform unterstützt das über optionale Gültigkeitsdauern der Zertifikate und Re-Zertifizierung.",
+        a: "Das Gesetz nennt kein festes Intervall. Da Art. 4 auf den Einsatzkontext abstellt und sich KI-Tools schnell weiterentwickeln, ist eine Auffrischung sinnvoll, wenn sich Wesentliches ändert: neue Tools im Unternehmen, neue Einsatzfelder, neue Rechtslage oder neue Mitarbeitende. Viele Unternehmen etablieren einen jährlichen Rhythmus — das ist Praxisempfehlung, keine gesetzliche Vorgabe. Die Plattform unterstützt das über optionale Gültigkeitsdauern der Zertifikate und erneute Nachweise.",
         sources: [
           { label: "Art. 4 VO (EU) 2024/1689 (kein Intervall im Normtext, Kontextbezug)", url: ART("4") },
         ],

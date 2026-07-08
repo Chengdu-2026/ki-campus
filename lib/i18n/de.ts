@@ -673,7 +673,7 @@ export const de = {
   pricing: {
     title: "Pakete & Preise",
     subtitle: "Flatrate pro Unternehmen — keine Kosten pro Teilnehmer. Alle drei Kurse inklusive. Einzige Zusatzgebühr: € {{fee}} Nachprüfung, falls ein Teilnehmer nach 3 Testversuchen weitere braucht.",
-    flatrateNote: "Zum Vergleich: Klassische Präsenz- und Live-Online-Kurse zur KI-Kompetenz kosten in Österreich typischerweise 300 bis 600 Euro pro Person. Mit der Business-Flatrate schulen Sie bis zu 50 Mitarbeitende ab rund 5 Euro pro Person und Monat — inklusive aller drei Kurse, Nachweisverwaltung, Nachschulungen und Re-Zertifizierung.",
+    flatrateNote: "Zum Vergleich: Klassische Präsenz- und Live-Online-Kurse zur KI-Kompetenz kosten in Österreich typischerweise 300 bis 600 Euro pro Person. Mit der Business-Flatrate schulen Sie bis zu 50 Mitarbeitende ab rund 5 Euro pro Person und Monat — inklusive aller drei Kurse, Nachweisverwaltung, Nachschulungen und erneute Nachweise.",
     yearlyNote: "Bei Jahreszahlung sparen Sie dauerhaft: Basic −10 %, Business −15 %.",
     exportNote: "Ihre Nachweise gehören Ihnen: Zertifikate (PDF) und die CSV-Nachweisliste können Sie jederzeit herunterladen — auch vor einer Kündigung. So bleibt Ihre Schulungsdokumentation vollständig in Ihren Unterlagen.",
     perMonth: "pro Monat",

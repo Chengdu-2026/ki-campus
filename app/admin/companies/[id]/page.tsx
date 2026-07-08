@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { EmptyState } from "@/components/ui/empty-state";
 import { VersionBadge } from "@/components/ui/version-badge";
+import { PasswordInput } from "@/components/ui/password-input";
 
 export const metadata = { title: "Firma verwalten" };
 
@@ -201,7 +202,7 @@ export default async function AdminCompanyDetailPage({ params }: { params: Promi
               </div>
               <div>
                 <Label htmlFor="password">{t("auth.password")}</Label>
-                <Input id="password" name="password" type="password" required minLength={10} />
+                <PasswordInput id="password" name="password" required minLength={10} autoComplete="new-password" />
               </div>
               <div>
                 <Label htmlFor="birthDate">Geburtsdatum (optional)</Label>

@@ -50,6 +50,7 @@ export default async function AdminUserEditPage({ params }: { params: Promise<{ 
             action={updateUserAsSuperadmin}
             submitLabel={t("common.save")}
             successMessage={t("admin.saveDone")}
+            successRedirect="/admin/users"
             errorMap={buildErrorMap(admin.locale)}
             className="grid gap-4 sm:grid-cols-2"
           >

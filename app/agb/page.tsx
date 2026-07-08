@@ -28,10 +28,6 @@ export default function TermsPage() {
             {appConfig.contactEmail}
           </a>.
         </p>
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          Hinweis für den Betreiber: AGB vor Vertrieb durch Rechtsbeistand erstellen lassen —
-          siehe docs/LEGAL_POSITIONING.md.
-        </p>
       </section>
     </article>
   );
