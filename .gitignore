@@ -6,3 +6,8 @@ node_modules/
 .env.local
 coverage/
 lib/generated/
+
+tsconfig.tsbuildinfo
+_to_delete/
+Bilder/
+
