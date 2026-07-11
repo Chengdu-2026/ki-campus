@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Hint } from "@/components/ui/hint";
 import { ActionForm } from "@/components/forms/action-form";
 import { acceptInvitation } from "@/app/actions/auth-actions";
+import { PASSWORD_PATTERN } from "@/lib/password-policy";
 import { buildErrorMap } from "@/lib/i18n/error-map";
 import { getT } from "@/lib/i18n";
 
@@ -37,6 +38,7 @@ export default async function InvitePage({ params }: { params: Promise<{ code: s
           ) : (
             <ActionForm
               action={acceptInvitation}
+              nativeValidation
               submitLabel={t("auth.inviteButton")}
               successMessage={t("auth.registerSuccess")}
               successRedirect="/login"
@@ -66,7 +68,7 @@ export default async function InvitePage({ params }: { params: Promise<{ code: s
               </div>
               <div>
                 <Label htmlFor="password">{t("auth.password")}</Label>
-                <Input id="password" name="password" type="password" required minLength={10} />
+                <Input id="password" name="password" type="password" required minLength={6} pattern={PASSWORD_PATTERN} title={t("auth.passwordPolicy")} />
                 <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{t("auth.passwordPolicy")}</p>
               </div>
             </ActionForm>

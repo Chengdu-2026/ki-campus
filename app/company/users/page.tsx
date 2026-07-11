@@ -3,6 +3,7 @@ import { requireRole } from "@/lib/rbac";
 import { getCompanyProgress } from "@/lib/company-data";
 import { getT } from "@/lib/i18n";
 import { createParticipant, toggleUserStatus, deleteUserGdpr } from "@/app/actions/company-actions";
+import { PASSWORD_PATTERN } from "@/lib/password-policy";
 import { buildErrorMap } from "@/lib/i18n/error-map";
 import { ActionForm } from "@/components/forms/action-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -77,6 +78,7 @@ export default async function CompanyUsersPage() {
         <CardContent>
           <ActionForm
             action={createParticipant}
+            nativeValidation
             submitLabel={t("company.createUser")}
             successMessage={t("admin.saveDone")}
             errorMap={buildErrorMap(user.locale)}
@@ -96,7 +98,8 @@ export default async function CompanyUsersPage() {
             </div>
             <div>
               <Label htmlFor="password">{t("auth.password")}</Label>
-              <Input id="password" name="password" type="password" required minLength={10} />
+              <Input id="password" name="password" type="password" required minLength={6} pattern={PASSWORD_PATTERN} title={t("auth.passwordPolicy")} />
+              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{t("auth.passwordPolicy")}</p>
             </div>
             <div>
               <Label htmlFor="birthDate">Geburtsdatum (optional)</Label>

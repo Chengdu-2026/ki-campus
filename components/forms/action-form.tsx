@@ -18,6 +18,7 @@ export function ActionForm({
   successRedirect,
   errorMap,
   className,
+  nativeValidation,
 }: {
   action: (prev: ActionResult | null, formData: FormData) => Promise<ActionResult>;
   children: React.ReactNode;
@@ -26,6 +27,9 @@ export function ActionForm({
   successRedirect?: string;
   errorMap: Record<string, string>;
   className?: string;
+  /** Aktiviert die Browser-Validierung (required/minLength/pattern). Verhindert das
+   *  Absenden ungültiger Felder — die Eingaben gehen dann NICHT verloren. Default: aus. */
+  nativeValidation?: boolean;
 }) {
   const [state, formAction, pending] = useActionState(action, null);
   const router = useRouter();
@@ -38,7 +42,7 @@ export function ActionForm({
   }, [state, successRedirect, router]);
 
   return (
-    <form action={formAction} className={className ?? "space-y-4"} noValidate>
+    <form action={formAction} className={className ?? "space-y-4"} noValidate={!nativeValidation}>
       {state && !state.ok && (
         <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950 dark:text-red-200">
           {errorMap[state.error ?? ""] ?? state.error ?? "Fehler"}

@@ -9,6 +9,7 @@ import { requireRole, assertCompanyScope } from "@/lib/rbac";
 import { audit } from "@/lib/audit";
 import { sendMail } from "@/lib/mail";
 import { appConfig } from "@/config/app";
+import { PASSWORD_MIN, passwordPolicyRegex } from "@/lib/password-policy";
 import type { ActionResult } from "@/app/actions/auth-actions";
 
 async function checkPlanLimit(companyId: string): Promise<{ ok: boolean; limit: number | null; used: number }> {
@@ -74,7 +75,7 @@ const createUserSchema = z.object({
   firstName: z.string().min(1).max(100),
   lastName: z.string().min(1).max(100),
   email: z.string().email().max(200),
-  password: z.string().min(10),
+  password: z.string().min(PASSWORD_MIN, "passwordPolicy").regex(passwordPolicyRegex, "passwordPolicy"),
   birthDate: birthDateSchema,
 });
 

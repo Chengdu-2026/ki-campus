@@ -12,6 +12,7 @@ import {
 import { updateCompany, setCompanyTestAccess } from "@/app/actions/admin-actions";
 import { buildErrorMap } from "@/lib/i18n/error-map";
 import { ActionForm } from "@/components/forms/action-form";
+import { PASSWORD_PATTERN } from "@/lib/password-policy";
 import { ConfirmButton } from "@/components/forms/confirm-button";
 import { CopyButton } from "@/components/forms/copy-button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -182,6 +183,7 @@ export default async function AdminCompanyDetailPage({ params }: { params: Promi
           <CardContent>
             <ActionForm
               action={createParticipant}
+              nativeValidation
               submitLabel={t("company.createUser")}
               successMessage={t("admin.saveDone")}
               errorMap={buildErrorMap(user.locale)}
@@ -202,7 +204,8 @@ export default async function AdminCompanyDetailPage({ params }: { params: Promi
               </div>
               <div>
                 <Label htmlFor="password">{t("auth.password")}</Label>
-                <PasswordInput id="password" name="password" required minLength={10} autoComplete="new-password" />
+                <PasswordInput id="password" name="password" required minLength={6} pattern={PASSWORD_PATTERN} title={t("auth.passwordPolicy")} autoComplete="new-password" />
+                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{t("auth.passwordPolicy")}</p>
               </div>
               <div>
                 <Label htmlFor="birthDate">Geburtsdatum (optional)</Label>

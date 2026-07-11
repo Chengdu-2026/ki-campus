@@ -136,12 +136,11 @@ export default async function DashboardPage() {
       <Card>
         <CardHeader className="pb-2"><CardDescription>{t("qm.material.download")}</CardDescription></CardHeader>
         <CardContent className="space-y-2">
-          {materialDownload ? (
+          <a href={`/api/course-material/${course.id}/pdf`} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 items-center rounded-lg border border-slate-300 px-4 text-sm font-medium hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800">
+            {t("qm.material.download")}
+          </a>
+          {materialDownload && (
             <p className="text-sm text-slate-500 dark:text-slate-400">{t("qm.material.alreadyDownloaded", { date: formatDate(materialDownload.downloadedAt) })}</p>
-          ) : (
-            <a href={`/api/course-material/${course.id}/pdf`} className="inline-flex h-10 items-center rounded-lg border border-slate-300 px-4 text-sm font-medium hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800">
-              {t("qm.material.download")}
-            </a>
           )}
           <p className="text-xs text-slate-500 dark:text-slate-400">{t("qm.material.onceHint")}</p>
           {state.state === "PASSED" && !feedbackGiven && (

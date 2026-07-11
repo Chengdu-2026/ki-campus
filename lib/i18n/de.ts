@@ -167,7 +167,7 @@ export const de = {
     registerButton: "Unternehmen anlegen",
     registerSuccess: "Registrierung erfolgreich. Sie können sich jetzt anmelden.",
     emailExists: "Diese E-Mail-Adresse ist bereits registriert.",
-    passwordPolicy: "Das Passwort muss mindestens 10 Zeichen lang sein.",
+    passwordPolicy: "Mindestens 6 Zeichen, mit Buchstaben und Zahlen.",
     resetTitle: "Passwort zurücksetzen",
     resetRequestText: "Geben Sie Ihre E-Mail-Adresse ein. Wenn ein Konto existiert, senden wir einen Link zum Zurücksetzen.",
     resetRequestButton: "Link anfordern",
@@ -814,9 +814,9 @@ export const de = {
       hint: "Exporte dienen als Nachweise für interne Audits und Kundenanforderungen.",
     },
     material: {
-      download: "Lernunterlagen herunterladen (PDF)",
-      onceHint: "Einmaliger Download. Das PDF ist mit Ihrem Namen als Wasserzeichen personalisiert und nur für Ihren persönlichen Gebrauch bestimmt.",
-      alreadyDownloaded: "Lernunterlagen bereits heruntergeladen am {{date}}.",
+      download: "Lernunterlagen öffnen (Druckansicht)",
+      onceHint: "Öffnet die Druckansicht im neuen Tab — mit Strg + P als PDF speichern. Jede Ausgabe ist mit Ihrem Namen personalisiert und nur für den persönlichen Gebrauch bestimmt.",
+      alreadyDownloaded: "Zuletzt geöffnet am {{date}}.",
     },
   },
   legal: {

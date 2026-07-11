@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ActionForm } from "@/components/forms/action-form";
 import { resetPassword } from "@/app/actions/auth-actions";
+import { PASSWORD_PATTERN } from "@/lib/password-policy";
 import { buildErrorMap } from "@/lib/i18n/error-map";
 import { getT } from "@/lib/i18n";
 
@@ -20,6 +21,7 @@ export default async function ResetPasswordPage({ params }: { params: Promise<{ 
         <CardContent>
           <ActionForm
             action={resetPassword}
+            nativeValidation
             submitLabel={t("auth.resetButton")}
             successMessage={t("auth.resetDone")}
             successRedirect="/login"
@@ -28,7 +30,7 @@ export default async function ResetPasswordPage({ params }: { params: Promise<{ 
             <input type="hidden" name="token" value={token} />
             <div>
               <Label htmlFor="password">{t("auth.resetNewPassword")}</Label>
-              <Input id="password" name="password" type="password" autoComplete="new-password" required minLength={10} />
+              <Input id="password" name="password" type="password" autoComplete="new-password" required minLength={6} pattern={PASSWORD_PATTERN} title={t("auth.passwordPolicy")} />
               <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{t("auth.passwordPolicy")}</p>
             </div>
           </ActionForm>

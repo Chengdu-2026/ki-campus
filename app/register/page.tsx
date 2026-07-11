@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Hint } from "@/components/ui/hint";
 import { ActionForm } from "@/components/forms/action-form";
 import { registerCompany } from "@/app/actions/auth-actions";
+import { PASSWORD_PATTERN } from "@/lib/password-policy";
 import { buildErrorMap } from "@/lib/i18n/error-map";
 import { getT } from "@/lib/i18n";
 
@@ -21,6 +22,7 @@ export default function RegisterPage() {
         <CardContent className="space-y-4">
           <ActionForm
             action={registerCompany}
+            nativeValidation
             submitLabel={t("auth.registerButton")}
             successMessage={t("auth.registerSuccess")}
             successRedirect="/login"
@@ -46,7 +48,7 @@ export default function RegisterPage() {
             </div>
             <div>
               <Label htmlFor="password">{t("auth.password")}</Label>
-              <Input id="password" name="password" type="password" autoComplete="new-password" required minLength={10} />
+              <Input id="password" name="password" type="password" autoComplete="new-password" required minLength={6} pattern={PASSWORD_PATTERN} title={t("auth.passwordPolicy")} />
               <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{t("auth.passwordPolicy")}</p>
             </div>
           </ActionForm>

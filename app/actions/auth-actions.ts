@@ -9,8 +9,12 @@ import { audit } from "@/lib/audit";
 import { sendMail } from "@/lib/mail";
 import { appConfig } from "@/config/app";
 import { isRateLimited, recordHit, clientIp } from "@/lib/rate-limit";
+import { PASSWORD_MIN, passwordPolicyRegex } from "@/lib/password-policy";
 
-const passwordSchema = z.string().min(10, "passwordPolicy");
+const passwordSchema = z
+  .string()
+  .min(PASSWORD_MIN, "passwordPolicy")
+  .regex(passwordPolicyRegex, "passwordPolicy");
 
 const registerSchema = z.object({
   companyName: z.string().min(2).max(200),
