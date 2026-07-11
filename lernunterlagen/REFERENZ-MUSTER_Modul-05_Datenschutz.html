@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Referenz-Muster · Modul 5 — Datenschutz & vertrauliche Informationen</title>
+<style>
+  :root{--navy:#0b1f40;--navy2:#12315f;--cyan:#06b6d4;--ink:#1f2937;--muted:#5b6572;--line:#e4e8ef;--paper:#fff;--soft:#f5f7fb;
+    --goal:#0891b2;--goal-bg:#e8fbff;--do:#0f9d58;--do-bg:#eafaf0;--dont:#c0392b;--dont-bg:#fdece9;
+    --memo:#b7791f;--memo-bg:#fff6da;--legal:#4f46e5;--legal-bg:#eef0ff;--tech:#0369a1;--tech-bg:#eef6fc;--story:#b45309;--story-bg:#fff4e6;}
+  *{box-sizing:border-box}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:#e9edf3;line-height:1.5;font-size:15px}
+  .page{max-width:840px;margin:22px auto;background:var(--paper);box-shadow:0 10px 30px rgba(11,31,64,.14);border-radius:14px;overflow:hidden}
+  .pad{padding:26px 40px}
+  h2,h3{color:var(--navy)}
+  p{margin:9px 0}
+  strong{color:var(--navy)}
+  .masthead{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:22px 40px;display:flex;align-items:center;gap:18px}
+  .brand-badge{width:58px;height:58px;flex:0 0 auto}
+  .masthead h1{margin:0;font-size:14px;letter-spacing:.5px;text-transform:uppercase;color:#bfe9f5;font-weight:700}
+  .masthead .course{margin:2px 0 0;font-size:21px;font-weight:800}
+  .masthead .sub{margin:3px 0 0;font-size:12.5px;color:#9fb4d4}
+  .mod-strip{background:var(--cyan);color:#03303a;font-weight:800;padding:9px 40px;font-size:14px;display:flex;justify-content:space-between}
+  .flag{display:inline-block;background:#fee2b3;color:#7a5410;font-weight:700;font-size:11px;padding:2px 8px;border-radius:999px;margin-left:8px}
+
+  /* Cheat-Sheet */
+  .cheat{background:linear-gradient(135deg,#0b1f40,#0e2a52);color:#fff;border-radius:14px;padding:22px 24px;margin:22px 0}
+  .cheat h2{color:#fff;margin:0 0 4px;font-size:20px}
+  .cheat .lead{color:#bcd3f0;font-size:13px;margin:0 0 14px}
+  .cheat ol{margin:0;padding:0;list-style:none;counter-reset:r;columns:2;column-gap:26px}
+  .cheat li{break-inside:avoid;counter-increment:r;position:relative;padding:8px 8px 8px 40px;margin:0 0 8px;background:rgba(255,255,255,.06);border-radius:9px;font-size:13px}
+  .cheat li::before{content:counter(r);position:absolute;left:8px;top:8px;width:24px;height:24px;background:var(--cyan);color:#03303a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px}
+  .cheat b{color:#fff}
+
+  /* generische Boxen */
+  .box{border-radius:11px;padding:13px 15px 13px 48px;margin:14px 0;position:relative;break-inside:avoid}
+  .box .ic{position:absolute;left:12px;top:12px;width:24px;height:24px}
+  .box .lbl{display:block;font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;margin-bottom:4px}
+  .box p{margin:3px 0}
+  .goal{background:var(--goal-bg);border-left:5px solid var(--goal)} .goal .lbl{color:var(--goal)}
+  .memo{background:var(--memo-bg);border:2px dashed #e6c35a;padding-left:48px} .memo .lbl{color:var(--memo)} .memo p{font-size:16px;font-weight:800;color:#7a5410}
+  .legal{background:var(--legal-bg);border-left:5px solid var(--legal)} .legal .lbl{color:var(--legal)} .legal p{font-size:13px}
+  .story{background:var(--story-bg);border-left:5px solid var(--story)} .story .lbl{color:var(--story)}
+
+  .lesson{border:1px solid var(--line);border-radius:14px;margin:22px 0;overflow:hidden;break-inside:avoid}
+  .lesson-head{display:flex;align-items:center;gap:12px;background:var(--soft);padding:13px 18px;border-bottom:1px solid var(--line)}
+  .lnum{background:var(--navy);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;flex:0 0 auto}
+  .lesson-head h2{margin:0;font-size:18px}
+  .lesson-body{padding:8px 20px 20px}
+
+  /* Do / Don't */
+  .dd{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;break-inside:avoid}
+  .dd .col{border-radius:11px;padding:12px 14px}
+  .dd .dont{background:var(--dont-bg);border:1px solid #f3c0b8} .dd .do{background:var(--do-bg);border:1px solid #b7e4c7}
+  .dd h4{margin:0 0 8px;font-size:14px;display:flex;align-items:center;gap:7px}
+  .dd .dont h4{color:var(--dont)} .dd .do h4{color:var(--do)}
+  .dd ul{margin:0;padding-left:2px;list-style:none}
+  .dd li{position:relative;padding:4px 0 4px 22px;font-size:13px}
+  .dd .dont li::before{content:"✕";position:absolute;left:0;color:var(--dont);font-weight:800}
+  .dd .do li::before{content:"✓";position:absolute;left:0;color:var(--do);font-weight:800}
+  .at{background:#fff;border:1px dashed #c9d3e3;border-radius:8px;padding:7px 10px;margin-top:8px;font-size:12px;color:#334155}
+  .at b{color:var(--navy)}
+
+  /* Entscheidungsbaum */
+  .flow{border:1px solid var(--line);border-radius:12px;padding:16px;margin:16px 0;background:#fbfcfe;break-inside:avoid}
+  .flow .q{background:var(--navy);color:#fff;border-radius:9px;padding:10px 13px;font-weight:700;font-size:13.5px;margin:0 0 4px}
+  .flow .branch{display:flex;gap:10px;margin:6px 0 6px 14px;align-items:flex-start}
+  .flow .tag{flex:0 0 auto;font-weight:800;font-size:12px;padding:3px 9px;border-radius:999px;margin-top:3px}
+  .flow .tag.ja{background:#dff3e6;color:#0f7a43} .flow .tag.nein{background:#fbe0dc;color:#b23120}
+  .flow .out{border-radius:9px;padding:9px 12px;font-size:13px;flex:1}
+  .flow .out.ok{background:var(--do-bg);border:1px solid #b7e4c7} .flow .out.stop{background:var(--dont-bg);border:1px solid #f3c0b8}
+  .flow .out.care{background:#fff6da;border:1px solid #ecd58a} .flow .out.tool{background:#eef6fc;border:1px solid #bfe0f5}
+  .flow .out b{color:var(--navy)}
+
+  /* Technik-Karten */
+  .tech{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+  .tcard{background:var(--tech-bg);border:1px solid #cfe4f5;border-radius:11px;padding:12px 14px;break-inside:avoid}
+  .tcard h4{margin:0 0 5px;color:var(--tech);font-size:14px}
+  .tcard p{margin:0;font-size:13px}
+  .tcard .eg{display:block;margin-top:6px;font-size:12px;color:#475569;border-top:1px dashed #cfe4f5;padding-top:6px}
+
+  /* Mini-Übung */
+  .mini{border:2px solid var(--cyan);border-radius:12px;padding:14px 16px;margin:16px 0;background:#f2fdff;break-inside:avoid}
+  .mini h4{margin:0 0 6px;color:var(--cyan-d,#0891b2);display:flex;align-items:center;gap:8px;font-size:15px}
+  .mini .ba{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+  .mini .ba div{border-radius:8px;padding:8px 10px;font-size:12.5px}
+  .mini .bad{background:var(--dont-bg)} .mini .good{background:var(--do-bg)}
+  .mini .ba b{display:block;margin-bottom:3px}
+
+  /* Quiz */
+  .quiz{border:1px solid var(--line);border-left:5px solid var(--navy);border-radius:11px;padding:14px 16px;margin:16px 0;break-inside:avoid}
+  .quiz h4{margin:0 0 8px;font-size:15px}
+  .quiz .opt{background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:6px 0;font-size:13.5px}
+  .quiz .opt b{color:var(--navy)}
+  .quiz details{margin-top:8px;background:var(--do-bg);border:1px solid #b7e4c7;border-radius:8px;padding:0 12px}
+  .quiz summary{cursor:pointer;font-weight:700;color:var(--do);padding:9px 0}
+  .quiz details[open] summary{margin-bottom:4px}
+  .quiz .sol{font-size:13px;padding-bottom:10px}
+
+  .footer{border-top:2px solid var(--line);padding:16px 40px 26px;color:var(--muted);font-size:11.5px}
+  .footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px} .footer b{color:var(--navy)}
+  .notice{margin-top:8px;padding:8px 12px;background:#fff6da;border:1px solid #eed99a;border-radius:8px;color:#7a5410;font-weight:600}
+  .screen-hint{max-width:840px;margin:0 auto;padding:10px 14px;background:#fff8e1;border:1px solid #f0d98a;border-radius:10px;color:#7a5410;font-size:13px}
+
+  @page{size:A4;margin:15mm 12mm 18mm 12mm;@bottom-center{content:"© 2026 Hainan Salzburg Consulting Co., Ltd. · KI-Kompetenz Campus · www.ki-nachweis.at — Persönliches Exemplar, Weitergabe nicht gestattet · Seite " counter(page) " / " counter(pages);font-size:8pt;color:#5b6572}}
+  @media print{body{background:#fff;font-size:11pt}.page{box-shadow:none;margin:0;max-width:none;border-radius:0}.screen-hint{display:none}.masthead{border-radius:0}
+    .quiz details{border:none;background:transparent;padding:0}.quiz summary{display:none}.quiz .sol{display:block!important;background:var(--do-bg);border:1px solid #b7e4c7;border-radius:8px;padding:10px 12px}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="bot" viewBox="0 0 64 64"><rect x="8" y="18" width="48" height="34" rx="9" fill="#0b1f40"/><rect x="13" y="23" width="38" height="24" rx="6" fill="#06b6d4"/><circle cx="24" cy="35" r="5" fill="#fff"/><circle cx="40" cy="35" r="5" fill="#fff"/><circle cx="24" cy="35" r="2.3" fill="#0b1f40"/><circle cx="40" cy="35" r="2.3" fill="#0b1f40"/><rect x="27" y="42" width="10" height="3" rx="1.5" fill="#0b1f40"/><line x1="32" y1="10" x2="32" y2="18" stroke="#0b1f40" stroke-width="3"/><circle cx="32" cy="9" r="3.5" fill="#f4b400"/><rect x="2" y="30" width="6" height="12" rx="3" fill="#12315f"/><rect x="56" y="30" width="6" height="12" rx="3" fill="#12315f"/></symbol>
+  <symbol id="shield" viewBox="0 0 24 24"><path d="M12 2 L20 5 V11 C20 16 16.5 20 12 22 C7.5 20 4 16 4 11 V5 Z" fill="#0891b2"/><path d="M8.5 12 l2.5 2.5 L16 9" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#0891b2" stroke-width="2.4"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="#0891b2" stroke-width="2.4"/><circle cx="12" cy="12" r="1.6" fill="#0891b2"/></symbol>
+  <symbol id="idea" viewBox="0 0 24 24"><circle cx="12" cy="10" r="7" fill="#f4b400"/><rect x="9" y="16" width="6" height="4" rx="1.5" fill="#b7791f"/><line x1="9.5" y1="21" x2="14.5" y2="21" stroke="#7a5410" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="scale" viewBox="0 0 24 24"><path d="M12 3 v16 M6 19 h12" stroke="#4f46e5" stroke-width="2" stroke-linecap="round"/><path d="M4 8 h16 M12 4 v2" stroke="#4f46e5" stroke-width="2" stroke-linecap="round"/><path d="M4 8 l-2 5 h4 z M20 8 l2 5 h-4 z" fill="#c7cbf7" stroke="#4f46e5" stroke-width="1.4"/></symbol>
+  <symbol id="pen" viewBox="0 0 24 24"><path d="M4 20 l1-4 L16 5 l3 3 L8 19 z" fill="#b45309"/><path d="M14 7 l3 3" stroke="#fff" stroke-width="1.4"/></symbol>
+</defs></svg>
+
+<p class="screen-hint">💡 <b>Referenz-Muster</b> (Modul 5, Datenschutz). Zeigt den neuen Standard: knapperer Text, Cheat-Sheet, Entscheidungsbaum, Do/Don't, Mini-Übung, „Was würdest du tun?", Österreich-Bezug, saubere Rechtssprache. Speichern als PDF: <b>Strg + P</b>. Der Fließtext ist ein <b>Vorschlag</b> — die versionierte DB bleibt unverändert, bis du freigibst.</p>
+
+<div class="page">
+  <div class="masthead">
+    <svg class="brand-badge"><use href="#bot"/></svg>
+    <div>
+      <h1>KI-Kompetenz Campus</h1>
+      <div class="course">KI-Kompetenz Basic nach Art. 4 EU AI Act</div>
+      <div class="sub">Referenz-Muster · so sieht der neue Lern-Standard aus</div>
+    </div>
+  </div>
+
+  <div class="pad">
+
+    <!-- CHEAT SHEET (Titelblatt) -->
+    <div class="cheat">
+      <h2>Die 10 Regeln für den sicheren KI-Einsatz</h2>
+      <p class="lead">Zum Ausdrucken und an den Monitor hängen. Wer die zehn beachtet, macht 90 % richtig.</p>
+      <ol>
+        <li><b>Kein Geheimnis ins offene Tool.</b> Was du nicht am Nachbartisch vorlesen würdest, gibst du nicht ein.</li>
+        <li><b>Erst anonymisieren, dann eingeben.</b> Namen, Zahlen, Firma raus — Platzhalter rein.</li>
+        <li><b>Firmendaten nur in freigegebene Tools</b> (mit Vertrag/AVV).</li>
+        <li><b>Immer gegenprüfen</b> — besonders Zahlen, Namen, rechtliche Aussagen.</li>
+        <li><b>Quellen verlangen</b> und stichprobenartig nachprüfen.</li>
+        <li><b>Entscheidungen über Menschen</b> trifft nie die KI allein.</li>
+        <li><b>KI-Einsatz kennzeichnen,</b> wo Transparenz zählt.</li>
+        <li><b>Die Unternehmens-Richtlinie</b> schlägt das Bauchgefühl.</li>
+        <li><b>Im Zweifel fragen:</b> Vorgesetzte oder Datenschutzbeauftragte.</li>
+        <li><b>Wichtiges dokumentieren:</b> was, womit, geprüft von wem.</li>
+      </ol>
+    </div>
+
+    <div class="box legal">
+      <svg class="ic"><use href="#scale"/></svg>
+      <span class="lbl">Rechtlicher Rahmen — bitte einmal lesen</span>
+      <p>Diese Unterlage gibt dir <strong>Orientierung für den Arbeitsalltag</strong> und ist <strong>keine Rechtsberatung</strong>. Sie ersetzt weder die KI-Richtlinie deines Unternehmens noch die Prüfung im Einzelfall. Bei konkreten Datenschutz- oder Rechtsfragen entscheidet die <strong>Datenschutzbeauftragte / der Datenschutzbeauftragte</strong> bzw. eine juristische Prüfung.</p>
+    </div>
+  </div>
+
+  <div class="mod-strip"><span>MODUL 5 · Datenschutz &amp; vertrauliche Informationen</span><span>2 Lektionen<span class="flag">Referenz-Muster</span></span></div>
+
+  <div class="pad">
+
+    <!-- LEKTION 1 -->
+    <div class="lesson">
+      <div class="lesson-head"><span class="lnum">1</span><h2>Diese Daten gehören nicht in offene KI-Tools</h2></div>
+      <div class="lesson-body">
+
+        <div class="box goal"><svg class="ic"><use href="#target"/></svg><span class="lbl">Dein Lernziel</span>
+          <p>Du erkennst in Sekunden, welche Daten <strong>nicht</strong> in ein frei zugängliches KI-Tool gehören — und was die sichere Alternative ist.</p></div>
+
+        <p><strong>Kerngedanke in einem Satz:</strong> Alles, was du in ein offenes KI-Tool tippst, kann dein Unternehmen verlassen — gespeichert, ausgewertet oder fürs Training genutzt werden. Deshalb: sensible Inhalte gar nicht erst eingeben.</p>
+
+        <div class="dd">
+          <div class="col dont">
+            <h4>✕ Nicht in offene Tools</h4>
+            <ul>
+              <li><b>Personenbezogene Daten</b> — Namen, Adressen, Geburtsdaten, Kontaktdaten (DSGVO)</li>
+              <li><b>Besonders sensible Daten</b> — Gesundheit, Krankenstand, Religion, Politik</li>
+              <li><b>Personal-/Bewerberdaten</b> — Lebensläufe, Gehälter, Zeugnisse, Ausweise</li>
+              <li><b>Geschäftsgeheimnisse</b> — Verträge, Kalkulationen, Preislisten, Kundendaten</li>
+              <li><b>Zugangs-/Bankdaten</b> — Passwörter, PINs, Kontonummern (grundsätzlich tabu)</li>
+            </ul>
+            <div class="at">🇦🇹 <b>Typisch Österreich:</b> Sozialversicherungsnummer, ELDA-Meldedaten, FinanzOnline-Zugänge, ÖGK-Gesundheitsdaten — besonders schützenswert.</div>
+          </div>
+          <div class="col do">
+            <h4>✓ So geht es sicher</h4>
+            <ul>
+              <li>Inhalte <b>anonymisieren</b> (Namen &amp; Zahlen raus)</li>
+              <li>Mit <b>Platzhaltern</b> arbeiten: [Kunde A], [Betrag]</li>
+              <li><b>Freigegebene Firmen-Tools</b> mit Vertrag (AVV) nutzen</li>
+              <li>Nur <b>allgemeine</b> Fragen statt echter Fälle stellen</li>
+              <li>Im Zweifel <b>vorher fragen</b> statt danach erklären</li>
+            </ul>
+            <div class="at">Faustregel: Die KI hilft dir genauso gut mit einem <b>anonymisierten Beispiel</b> wie mit echten Daten.</div>
+          </div>
+        </div>
+
+        <div class="box memo"><svg class="ic"><use href="#idea"/></svg><span class="lbl">Der Café-Test</span>
+          <p>Würdest du die Info einer fremden Person am Nachbartisch laut vorlesen? Wenn nein — nicht ins offene KI-Tool.</p></div>
+
+        <!-- Entscheidungsbaum -->
+        <h3 style="margin:18px 0 4px;font-size:15px">Entscheidungsbaum: „Darf das in ein offenes KI-Tool?"</h3>
+        <div class="flow">
+          <div class="q">1 · Stecken personenbezogene Daten, Geschäftsgeheimnisse oder Zugangsdaten drin?</div>
+          <div class="branch"><span class="tag nein">Nein</span><div class="out ok"><b>In Ordnung.</b> Nutzen — und das Ergebnis trotzdem gegenprüfen.</div></div>
+          <div class="branch"><span class="tag ja">Ja</span><div class="out care">Weiter zu Frage 2 ↓</div></div>
+          <div class="q" style="margin-top:8px">2 · Kannst du es anonymisieren oder mit Platzhaltern arbeiten?</div>
+          <div class="branch"><span class="tag ja">Ja</span><div class="out ok"><b>Anonymisiert nutzen.</b> Echte Namen/Zahlen erst im eigenen Dokument einsetzen.</div></div>
+          <div class="branch"><span class="tag nein">Nein</span><div class="out care">Weiter zu Frage 3 ↓</div></div>
+          <div class="q" style="margin-top:8px">3 · Gibt es ein freigegebenes Firmen-Tool (mit AVV)?</div>
+          <div class="branch"><span class="tag ja">Ja</span><div class="out tool"><b>Dort nutzen</b> — und die KI-Richtlinie beachten.</div></div>
+          <div class="branch"><span class="tag nein">Nein</span><div class="out stop"><b>Nicht eingeben.</b> Erst Freigabe klären bzw. Datenschutzbeauftragte fragen.</div></div>
+        </div>
+
+        <!-- Story -->
+        <div class="box story"><svg class="ic"><use href="#pen"/></svg><span class="lbl">So kann es schiefgehen</span>
+          <p>Ein Buchhalter lässt sich eine Mahnung schreiben und kopiert dazu den <strong>kompletten Kundendatensatz</strong> ins offene Tool — Name, Adresse, Betrag, Schriftverkehr. Was daraus werden kann: interner Datenschutzvorfall → Prüfung, ob eine <strong>Meldung an die Datenschutzbehörde</strong> nötig ist → verärgerte Kundschaft → im Ernstfall Bußgeld <em>und</em> Reputationsschaden. Nach DSGVO sind hohe Bußgelder <strong>möglich</strong> (Rahmen bis 20 Mio. € / 4 % Jahresumsatz; bei KMU in der Praxis meist deutlich weniger — die Melde- und Vertrauensfolgen bleiben aber). <strong>Ein anonymisiertes Beispiel hätte gereicht.</strong></p></div>
+
+        <div class="box legal" style="padding-top:13px"><svg class="ic"><use href="#scale"/></svg><span class="lbl">Einordnung, keine Rechtsberatung</span>
+          <p>Ob im Einzelfall wirklich eine Meldepflicht besteht, hängt vom konkreten Vorfall ab und ist <strong>juristisch zu prüfen</strong>. Diese Unterlage schärft nur dein Gespür dafür, wann es kritisch wird.</p></div>
+
+      </div>
+    </div>
+
+    <!-- LEKTION 2 -->
+    <div class="lesson">
+      <div class="lesson-head"><span class="lnum">2</span><h2>KI sicher nutzen: anonymisieren &amp; Regeln beachten</h2></div>
+      <div class="lesson-body">
+
+        <div class="box goal"><svg class="ic"><use href="#target"/></svg><span class="lbl">Dein Lernziel</span>
+          <p>Du kennst <strong>fünf einfache Techniken</strong>, mit denen du KI produktiv nutzt, ohne Vertrauliches preiszugeben.</p></div>
+
+        <p><strong>Gute Nachricht:</strong> Für fast alle Büroaufgaben brauchst du gar keine echten vertraulichen Daten.</p>
+
+        <div class="tech">
+          <div class="tcard"><h4>1 · Anonymisieren</h4><p>Alles Identifizierende raus, bevor du eingibst.</p>
+            <span class="eg">Statt „Max Müller, Kd. 1042, 5.240 €" → „ein Kunde mit offener Forderung von rund 5.000 €".</span></div>
+          <div class="tcard"><h4>2 · Platzhalter</h4><p>Namen durch [Kunde A], [Firma X] ersetzen.</p>
+            <span class="eg">Echte Namen erst im eigenen Dokument einsetzen — nicht im KI-Tool.</span></div>
+          <div class="tcard"><h4>3 · Freigegebene Tools</h4><p>Geprüfte Firmen-Lösungen mit Vertrag bevorzugen.</p>
+            <span class="eg">Frag nach, welche Tools bei euch freigegeben sind.</span></div>
+          <div class="tcard"><h4>4 · Richtlinie beachten</h4><p>Die KI-Richtlinie ist verbindlich.</p>
+            <span class="eg">Im Zweifel: Vorgesetzte oder Datenschutzbeauftragte fragen.</span></div>
+        </div>
+        <div class="tcard" style="margin:0 0 4px"><h4>5 · Dokumentieren</h4><p>Bei wichtigen Ergebnissen festhalten, dass und wofür KI genutzt wurde — das schafft Nachvollziehbarkeit und schützt dich bei späteren Fragen.</p></div>
+
+        <!-- Mini-Übung -->
+        <div class="mini"><h4><svg width="20" height="20"><use href="#pen"/></svg> Mini-Übung: 2 Minuten</h4>
+          <p style="margin:0;font-size:13.5px">Anonymisiere diesen Satz, bevor er in ein KI-Tool geht — dann probier ihn in einem <b>freigegebenen</b> Tool aus:</p>
+          <div class="ba">
+            <div class="bad"><b>❌ So nicht</b>„Schreib eine Kündigung für Frau Anna Berger, SV-Nr. 1234 010180, wegen häufiger Krankenstände."</div>
+            <div class="good"><b>✓ So besser</b>„Formuliere eine sachliche Vorlage für ein Gespräch über häufige Fehlzeiten einer Mitarbeiterin. Neutral, wertschätzend, ohne persönliche Details."</div>
+          </div>
+        </div>
+
+        <!-- Was würdest du tun -->
+        <div class="quiz"><h4>🤔 Was würdest du tun?</h4>
+          <p style="margin:0 0 8px;font-size:13.5px">Du sollst schnell eine zweite Zahlungserinnerung an einen säumigen Geschäftskunden aufsetzen. Was tust du?</p>
+          <div class="opt"><b>A</b> — Kompletten Vorgang (Name, Kundennummer, Betrag, Verlauf) ins offene KI-Tool kopieren, damit die Mail passt.</div>
+          <div class="opt"><b>B</b> — Nur allgemein beschreiben: „höfliche, bestimmte 2. Zahlungserinnerung, mittlerer vierstelliger Betrag, erste blieb unbeantwortet" — Namen später selbst einsetzen.</div>
+          <div class="opt"><b>C</b> — Gar keine KI nutzen und alles mühsam selbst tippen.</div>
+          <details><summary>Lösung anzeigen</summary>
+            <div class="sol"><b>B ist richtig.</b> Du bekommst einen brauchbaren Entwurf <b>ohne</b> echte Daten preiszugeben. <b>A</b> ist ein Datenschutzverstoß. <b>C</b> ist sicher, aber verschenkt den Produktivitäts-Vorteil — den du mit Anonymisierung risikofrei mitnimmst.</div>
+          </details>
+        </div>
+
+        <div class="box memo"><svg class="ic"><use href="#idea"/></svg><span class="lbl">Merk dir</span>
+          <p>Was nicht in fremde Hände darf, gehört nicht ungeprüft in ein KI-Tool.</p></div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="row"><span><b>KI-Kompetenz Campus</b> — Referenz-Muster Modul 5</span><span>© 2026 Hainan Salzburg Consulting Co., Ltd.</span></div>
+    <div class="row" style="margin-top:4px"><span>www.ki-nachweis.at · info@ki-nachweis.at</span><span>Privater Schulungs- und Kompetenznachweis nach Art. 4 EU AI Act</span></div>
+    <div class="notice">Persönliches Lernexemplar. Vervielfältigung und Weitergabe an Dritte nicht gestattet. © Alle Rechte vorbehalten.</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -25,6 +25,27 @@ Zertifikat-Disclaimer, AVV, Widerruf/Zahlung. QM-/Admin-Texte: sachlich, kurz.
 
 Details und Historie: `docs/TEXT_REWRITE_LOG.md` (nach Textarbeit fortschreiben).
 
+## BRANDING (fix verankert — Regel vom 2026-07-10)
+
+Bei JEDER Ausgabe (Seite, Bild, Dokument, Zertifikat, Marketing) das Branding einhalten.
+Abweichung = QM-Mangel (siehe `docs/QM_SYSTEM.md`, im Content-Audit/Review mitprüfen).
+
+- **Marken:** Produkt = „KI-Kompetenz Campus". Betrieb/Abrechnung = Hainan Salzburg
+  Consulting Co., Ltd. Personenmarke = MOSA (Sascha Morocutti). Nicht vermischen.
+- **Logo:** `public/images/KI-Kompetenz-Logo-hell.png` / `-dunkel.png`, theme-abhängig im
+  Header (hell im Light-, dunkel im Dark-Mode). Immer über `optionalImage()`.
+- **Maskottchen = „KI-Campus Mentor":** IMMER dieselbe Eule (weiß, Brille,
+  KI-KOMPETENZ-Hoodie, Schaltkreis-Stirn). Web-fertig transparent:
+  `public/images/maskottchen-mentor.png` (zeigend) und `maskottchen-freundlich.png`
+  (zwinkernd). Weitere benannte Posen: `Bilder/01_eule_*`, `Bilder/maskottchen_*`.
+  **Nie eine andere/fremde Eule** oder ein anderes Maskottchen verwenden. Weißen
+  Hintergrund vor Web-Einbindung transparent machen (sonst weißer Kasten im Dark-Mode).
+- **Farbwelt:** `brand-*` (Navy/Blau) + `accent-*` (Türkis) — Quelle `tailwind.config.ts`,
+  nie Hex hardcoden. Ton: Praxisstil/du-Form laut SCHREIBSTIL oben.
+- **KI-Bilder kennzeichnen** (Hinweis im Bild + `/ki-transparenz`).
+- **Kurs-Pipeline & B2C-Abo:** Plan in `docs/KURSPLAN_UND_B2C.md` (10 Kurse, Privat-Abo).
+  Neue Kurse/Assets im bestehenden Muster (`seedCourse()`, Modulbilder-Konvention) bauen.
+
 ## RECHTLICHE LEITPLANKEN
 
 - KEINE staatlich/behördlich klingenden Aussagen. `lib/wording-guard.ts`

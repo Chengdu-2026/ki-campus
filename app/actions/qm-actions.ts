@@ -11,6 +11,21 @@ import { processFeedbackResponse } from "@/lib/qm/service";
 import { generateManagementReviewDraft } from "@/lib/qm/review";
 import type { ActionResult } from "@/app/actions/auth-actions";
 
+/**
+ * Mandanten-Härtung: Ein aus dem Formular übergebener ownerId darf nur gesetzt
+ * werden, wenn der Nutzer zur selben Firma gehört wie der QM-Datensatz. Sonst
+ * könnte ein Firmen-Admin einen fremden Mandanten-Nutzer als Verantwortlichen
+ * eintragen (→ Erinnerungs-Mails über die Mandantengrenze). companyId === null
+ * (Superadmin-/Plattformfälle) erlaubt jeden Nutzer.
+ */
+async function assertOwnerInScope(ownerId: string | undefined, companyId: string | null): Promise<boolean> {
+  if (!ownerId) return true;
+  const owner = await prisma.user.findUnique({ where: { id: ownerId }, select: { companyId: true } });
+  if (!owner) return false;
+  if (companyId === null) return true;
+  return owner.companyId === companyId;
+}
+
 /** Teilnehmer: Feedback absenden (nur eigenes, einmal je Kurs+Fragebogen). */
 export async function submitFeedback(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
   const user = await requireUser();
@@ -71,6 +86,43 @@ export async function submitFeedback(_prev: ActionResult | null, formData: FormD
   return { ok: true };
 }
 
+/** Teilnehmer: inhaltlichen Fehler/Verbesserung zu einer Lektion melden → QualityIssue im bestehenden QM. */
+export async function reportContentIssue(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const user = await requireUser();
+  if (!user.companyId) return { ok: false, error: "common.requiredField" };
+  const lessonId = String(formData.get("lessonId") ?? "");
+  const message = String(formData.get("message") ?? "").trim().slice(0, 2000);
+  if (message.length < 5) return { ok: false, error: "common.requiredField" };
+
+  const lesson = await prisma.lesson.findUnique({
+    where: { id: lessonId },
+    include: { translations: true, module: { include: { translations: true } } },
+  });
+  const lessonTitle = lesson?.translations.find((tr) => tr.locale === user.locale)?.title
+    ?? lesson?.translations[0]?.title ?? "Unbekannte Lektion";
+  const moduleTitle = lesson?.module.translations.find((tr) => tr.locale === user.locale)?.title
+    ?? lesson?.module.translations[0]?.title ?? "";
+  const courseId = lesson?.module.courseId ?? null;
+
+  const issue = await prisma.qualityIssue.create({
+    data: {
+      companyId: user.companyId,
+      courseId,
+      userId: user.id,
+      title: `Inhaltsmeldung: ${lessonTitle}`.slice(0, 200),
+      description: `Von Teilnehmer gemeldet.\nModul: ${moduleTitle}\nLektion: ${lessonTitle}${lessonId ? ` (${lessonId})` : ""}\n\n${message}`,
+      source: "USER_REPORT",
+      category: "CONTENT",
+      severity: "LOW",
+      status: "OPEN",
+    },
+  });
+  await audit({ action: "QM_CONTENT_REPORTED", userId: user.id, companyId: user.companyId, entityType: "QualityIssue", entityId: issue.id });
+  revalidatePath("/company/qm/complaints");
+  revalidatePath("/admin/qm/complaints");
+  return { ok: true };
+}
+
 const issueUpdateSchema = z.object({
   issueId: z.string().min(1),
   status: z.enum(["OPEN", "IN_REVIEW", "ACTION_DEFINED", "IN_PROGRESS", "EFFECTIVENESS_CHECK", "CLOSED", "REJECTED"]),
@@ -91,6 +143,9 @@ export async function updateQualityIssue(_prev: ActionResult | null, formData: F
   const issue = await prisma.qualityIssue.findUnique({ where: { id: parsed.data.issueId }, include: { correctiveActions: true } });
   if (!issue) return { ok: false, error: "common.requiredField" };
   assertCompanyScope(admin, issue.companyId);
+  if (!(await assertOwnerInScope(parsed.data.ownerId, issue.companyId))) {
+    return { ok: false, error: "Verantwortliche(r) muss zur selben Firma gehören." };
+  }
 
   if (parsed.data.status === "CLOSED") {
     const action = issue.correctiveActions[0];
@@ -158,6 +213,9 @@ export async function updateCorrectiveAction(_prev: ActionResult | null, formDat
   const action = await prisma.correctiveAction.findUnique({ where: { id: parsed.data.actionId }, include: { qualityIssue: true } });
   if (!action) return { ok: false, error: "common.requiredField" };
   assertCompanyScope(admin, action.companyId);
+  if (!(await assertOwnerInScope(parsed.data.ownerId, action.companyId))) {
+    return { ok: false, error: "Verantwortliche(r) muss zur selben Firma gehören." };
+  }
 
   const merged = {
     rootCause: parsed.data.rootCause ?? action.rootCause,

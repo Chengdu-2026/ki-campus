@@ -9,6 +9,9 @@
 export const featureVersions: Record<string, string> = {
   "superadmin-verwaltung": "V1.001",
   "tester-freigabe": "V1.001",
+  // Lernunterlage → „KI-Kompetenz-Handbuch": Pilot=V1, Handbuch-Format=V2.0,
+  // Pflegestand/Änderungsprotokoll (lebendes Dokument)=V2.1.
+  "handbuch": "V2.1",
 };
 
 /** Aktuelle Version eines Features (oder undefined, wenn nicht versioniert). */

@@ -36,6 +36,7 @@ model Company {
   invitations  Invitation[]
   certificates Certificate[]
   auditLogs    AuditLog[]
+  avvAcceptances AvvAcceptance[]
 }
 
 model Plan {
@@ -74,6 +75,7 @@ model User {
   invitationsSent Invitation[]     @relation("InvitedBy")
   resetTokens     PasswordResetToken[]
   auditLogs       AuditLog[]
+  avvAcceptances  AvvAcceptance[]  @relation("AvvAcceptedBy")
 }
 
 model Course {
@@ -706,4 +708,23 @@ model MaterialDownload {
   pdfHash      String?
 
   @@unique([userId, courseId])
+}
+
+model AvvAcceptance {
+  id              String   @id @default(cuid())
+  companyId       String
+  company         Company  @relation(fields: [companyId], references: [id])
+  acceptedById    String
+  acceptedBy      User     @relation("AvvAcceptedBy", fields: [acceptedById], references: [id])
+  avvVersion      String
+  avvContentHash  String?
+  signerName      String
+  signerBirthDate String?
+  signerPosition  String
+  signatureText   String
+  ipAddress       String?
+  userAgent       String?
+  acceptedAt      DateTime @default(now())
+
+  @@index([companyId, acceptedAt])
 }

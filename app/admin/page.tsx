@@ -41,6 +41,7 @@ export default async function AdminPage() {
     { href: "/admin/certificates", label: t("admin.certificates") },
     { href: "/admin/qm", label: t("qm.title") },
     { href: "/admin/content-audit", label: t("contentAudit.title") },
+    { href: "/admin/review-plan", label: t("admin.reviewPlan") },
     { href: "/admin/leads", label: t("themen.admin.title") },
     { href: "/admin/audit-log", label: t("admin.auditLog") },
     { href: "/admin/settings", label: t("admin.settings") },

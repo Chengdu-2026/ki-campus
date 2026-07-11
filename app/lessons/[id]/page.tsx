@@ -5,6 +5,9 @@ import { requireUser } from "@/lib/rbac";
 import { pickTranslation } from "@/lib/content";
 import { getT } from "@/lib/i18n";
 import { completeLesson } from "@/app/actions/lesson-actions";
+import { reportContentIssue } from "@/app/actions/qm-actions";
+import { ActionForm } from "@/components/forms/action-form";
+import { buildErrorMap } from "@/lib/i18n/error-map";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Hint, WarningHint } from "@/components/ui/hint";
@@ -148,6 +151,28 @@ export default async function LessonPage({ params }: { params: Promise<{ id: str
           {t("course.backToCourse")}
         </Link>
       </div>
+
+      <details className="rounded-xl border border-slate-200 p-4 dark:border-slate-700">
+        <summary className="cursor-pointer text-sm font-medium text-slate-600 dark:text-slate-300">{t("course.reportTitle")}</summary>
+        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{t("course.reportHint")}</p>
+        <ActionForm
+          action={reportContentIssue}
+          submitLabel={t("course.reportSubmit")}
+          successMessage={t("course.reportThanks")}
+          errorMap={buildErrorMap(user.locale)}
+          className="mt-3 space-y-3"
+        >
+          <input type="hidden" name="lessonId" value={lesson.id} />
+          <textarea
+            name="message"
+            required
+            minLength={5}
+            rows={3}
+            placeholder={t("course.reportPlaceholder")}
+            className="w-full rounded-lg border border-slate-300 p-3 text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+          />
+        </ActionForm>
+      </details>
     </article>
   );
 }

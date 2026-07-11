@@ -42,6 +42,9 @@
 - Changelog:
 
 ## 9. Rechtliche / AI-Act-Wording-Prüfung
+Hinweis: Verbotsbegriffe NICHT wörtlich auflisten (der Wording-Guard scannt auch
+docs/ und würde den Report selbst als Verstoß melden) — stattdessen auf
+lib/wording-guard.ts → FORBIDDEN_PHRASES verweisen.
 Gefundene riskante Begriffe: keine / Liste
 Bewertung: unkritisch / prüfen / dringend ändern
 

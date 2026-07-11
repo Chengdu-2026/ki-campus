@@ -8,7 +8,8 @@ existiert (Agent-Spec „KI-CAMPUS-LIVE-QA-AUDITOR"). „Sieht gut aus" zählt n
 
 **Umgebung:** localhost:3000 (next dev) · Stand V0.10.0 / Gesamtstand V1.008 ·
 Logins aus Seed: `sascha.morocutti@gmail.com` (Superadmin) · `hr@musterfirma.example`
-(Firmenadmin) · `anna.beispiel@musterfirma.example` (Teilnehmer).
+(Firmenadmin A) · `anna.beispiel@musterfirma.example` (Teilnehmer A) ·
+`hr@beta-bau.example` (Firmenadmin B, Firma „Beta Bau GmbH", für Mandanten-A/B-Test).
 
 | # | Prozess | Status | Letzter Lauf | Bericht | Offene Fehler |
 |---|---------|--------|--------------|---------|---------------|
@@ -58,7 +59,7 @@ Logins aus Seed: `sascha.morocutti@gmail.com` (Superadmin) · `hr@musterfirma.ex
 | 44 | Zahlungsprozess (falls aktiv) | 🔲 | — | — | nicht implementiert |
 | 45 | Rechnung / Zahlungsbestätigung | 🔲 | — | — | nicht implementiert |
 | 46 | Rollenrechte | 🔲 | — | — | — |
-| 47 | Mandantentrennung Firma A / B | 🔲 | — | — | — |
+| 47 | Mandantentrennung Firma A / B | 🟡 | 08.07. | task-4-durchlauf-mandanten-n6 | code-verifiziert; Live-A/B offen (kein Firma-B-Seed) |
 | 48 | Admin-Reifegrad / Versionsregister | 🔲 | — | — | — |
 | 49 | Handbuch / Hilfe | 🔲 | — | — | — |
 | 50 | Hover-Hints | 🔲 | — | — | — |
@@ -76,9 +77,9 @@ Logins aus Seed: `sascha.morocutti@gmail.com` (Superadmin) · `hr@musterfirma.ex
 | N1 | Superadmin: Firma bearbeiten (Stammdaten/Plan/Status) + AuditLog | ✅ 08.07. | superadmin-neue-features |
 | N2 | Superadmin: Nutzer bearbeiten (Rolle/Status/Name/E-Mail) + AuditLog | ✅ 08.07. | superadmin-neue-features |
 | N3 | Testzugang setzen (isTest/testExpiresAt) | ✅ 08.07. | superadmin-neue-features |
-| N4 | Testzugang: Zertifikat trägt „TESTZUGANG" | 🔲 offen | Task 4 |
+| N4 | Testzugang: Zertifikat trägt „TESTZUGANG" | ✅ 08.07. | n4-zertifikat-testzugang |
 | N5 | Testzugang: Verify-Seite zeigt Test-Status | ✅ 08.07. | superadmin-neue-features |
-| N6 | Testzugang: UI-Banner für Test-Firma | 🔲 offen | als Anna testen |
+| N6 | Testzugang: UI-Banner für Test-Firma | 🟡 code-verifiziert (Live als Anna offen) | task-4-durchlauf-mandanten-n6 |
 | N7 | Feature-Versions-Badges (V1.001) auf den neuen Seiten | ✅ 08.07. | superadmin-neue-features |
 | N8 | Cron `deactivate-expired-tests` (nur Logik, ohne UI) | ⬜ n/a | Unit-Test/Code |
 
@@ -87,7 +88,10 @@ Logins aus Seed: `sascha.morocutti@gmail.com` (Superadmin) · `hr@musterfirma.ex
   40 Datenschutz · 41 Impressum · 37 Wording-Guard (7 Seiten, kein Verbotsbegriff) ·
   48 Versionsregister (Footer V1.008, Feature-Badges V1.001) · N1/N2/N3/N5/N7 + Statistik-Ausschluss + AuditLog.
 - 🟡 **teilweise:** 42 AGB (P2 interner Hinweis öffentlich) · 4 Login (Seite ok; Anmeldung durch Eigentümer).
-- 🔲 **offen:** kompletter Teilnehmer-Durchlauf (13–34), N4 PDF-Stempel, N6 Banner, Mandantentrennung (47).
+- ✅ **N4** Zertifikat-PDF-TESTZUGANG-Stempel: Renderer-Beweis (PDF/PNG) + Route-Verdrahtung — n4-zertifikat-testzugang.
+- 🟡 **code-verifiziert (Live-Klick offen):** Teilnehmer-Durchlauf (13–28), N6 Banner, Mandantentrennung (47) — task-4-durchlauf-mandanten-n6.
+- 🔲 **offen (Live, Windows-Dev-Server):** Durchlauf-Screenshots, A/B-Zugriffsversuch (Firma-B-Seed nötig), N4/N6 in echter Test-Firma.
+- Fix V0.10.2: `toggleUserStatus` (+5 Geschwister) revalidieren jetzt `/admin/companies/[id]` (Stale behoben).
 - Funde: siehe docs/live-tests/2026-07-08/*/REPORT.md und TODO.md (P2/P3).
 
 ## Erste Prüfreihenfolge (Agent-Spec §15)

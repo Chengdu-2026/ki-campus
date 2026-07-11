@@ -4,6 +4,10 @@
  */
 export const appConfig = {
   appName: "KI-Kompetenz Campus",
+  // Version der Auftragsverarbeitungsvereinbarung (AVV). Bei jeder inhaltlichen
+  // Änderung des AVV-Textes hochzählen — die Zustimmung wird mit dieser Version
+  // und einem Inhalts-Hash gespeichert (Nachweis, WAS akzeptiert wurde).
+  avvVersion: "V1.0",
   // Inhalts-Versionsstand (Anzeige u. a. im Footer). Muss bei jeder inhaltlichen
   // Änderung an Kursen/Fragen zusammen mit dem ContentRevision-Register
   // (prisma/seed, /admin/versions) hochgezählt werden — Regel siehe CLAUDE.md.
@@ -22,7 +26,7 @@ export const appConfig = {
   contactEmail: "info@ki-nachweis.at",
   contactPhone: "+43 699 10050220",
   contactPhoneCn: "+86 191 8217 7220",
-  websiteUrl: "https://www.hainan.at",
+  websiteUrl: "https://www.ki-nachweis.at",
   contentResponsiblePerson: "Sascha Morocutti",
   contentResponsibleAddress: "Schulterzucker 2, 4742 Pram, Österreich",
   // Lokale Verortung (SEO/GEO): Pram, Oberösterreich
@@ -58,6 +62,9 @@ export const appConfig = {
   enableDarkMode: true,
   enableCompanyLogoOnCertificates: true,
   certificateNumberPrefix: "CERT",
+  // Getakteter Review-Workflow (docs/STYLEGUIDE_HANDBUCH.md): Prüfzyklus + Tages-Takt.
+  contentReviewCycleMonths: 6,
+  contentReviewMaxPerDay: 3,
 } as const;
 
 export type SupportedLocale = (typeof appConfig.supportedLocales)[number];

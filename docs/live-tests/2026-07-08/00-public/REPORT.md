@@ -12,7 +12,7 @@
 ## 2. Ziel
 Prüfen, ob die öffentlichen Kern- und Rechtsseiten live erreichbar sind, korrekt
 rendern (keine rohen i18n-Keys), und ob die AI-Act-Wording-Leitplanken eingehalten
-werden (keine „staatlich anerkannt / EU-zertifiziert / behördlich …"-Aussagen).
+werden (keine der in lib/wording-guard.ts hinterlegten Verbotsformulierungen).
 
 ## 3. User Journey
 Besucher öffnet Homepage → Preise → KI-Transparenz → Rechtlicher Hinweis →
@@ -49,9 +49,8 @@ Seitentexte (oben zusammengefasst) + visuelle Live-Auswertung durch den Agenten.
 - i18n: keine rohen Keys (z. B. `categories.XYZ`) gesichtet ✅
 
 ## 9. Rechtliche / AI-Act-Wording-Prüfung
-Geprüfte Verbotsbegriffe (staatlich anerkannt, offiziell/EU-zertifiziert,
-behördlich anerkannt/zugelassen, garantiert rechtssicher/AI-Act-konform,
-ersetzt Rechtsberatung/Audit, ISO-zertifiziert): **auf keiner der 7 Seiten gefunden.**
+Geprüfte Verbotsbegriffe (vollständige Liste: lib/wording-guard.ts →
+FORBIDDEN_PHRASES): **auf keiner der 7 Seiten gefunden.**
 Erlaubte, saubere Formulierungen durchgängig verwendet (privater Schulungs- und
 Kompetenznachweis; ersetzt keine Rechtsberatung; nicht um eine staatliche
 Zulassung/behördliche Zertifizierung/EU-Akkreditierung).

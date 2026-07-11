@@ -1,5 +1,53 @@
 # Agent Handover
 
+## STAND 2026-07-11 (Teil 8, Session 10.7. nachts → 11.7.) — ZUERST LESEN
+
+> Hinweis: Der Eigentümer hat am 10.7. separat gearbeitet; diese Teil-8-Session lief über
+> Nacht in den 11.7. Statische Deliverables tragen teils noch „2026-07-10" im Dateinamen
+> (z. B. `AUDIT_TEIL8_2026-07-10.md`) — inhaltlich derselbe Stand.
+
+**Riesen-Session. Alle Edits liegen im Host-Arbeitsbaum, NOCH NICHT gepusht.**
+`npm run db:generate` + `npm run db:init` + `npm run build` auf Windows offen (AVV = neue Tabelle!).
+
+**Gebaut & zurückgeschrieben (verifiziert tsc/Tests/Build im frischen Git-Klon):**
+1. **Audit + Stresstest** (`docs/AUDIT_TEIL8_2026-07-10.md`). Fixes: P1 Build-Breaker
+   (`QM_CONTENT_REPORTED` fehlte in `lib/audit.ts` → Build war kaputt), M1 QM-Owner-
+   Mandantengrenze (`assertOwnerInScope` in `qm-actions.ts`), M2 Reset-Token-Entwertung,
+   M3 `/api/cron` aus Middleware, H2 Rate-Limiting (`lib/rate-limit.ts`, fail-open).
+2. **24/7-USP + Maskottchen** auf der Homepage (`app/page.tsx`, i18n `home.always*`/
+   `home.mentor*`). Eule „KI-Campus Mentor" transparent: `public/images/maskottchen-mentor.png`
+   + `maskottchen-freundlich.png`. Branding fix verankert in `CLAUDE.md` (Abschnitt BRANDING)
+   + `QM_SYSTEM.md`.
+3. **FAQ** (`app/faq/page.tsx`): war komplett, aber Dev-Server-Crash ließ sie nicht rendern
+   (KEIN Code-Fehler — per Klon-Build bewiesen). Neue Eröffnungsfrage „Dürfen private Anbieter
+   das überhaupt? WIFI/Kammern" ergänzt (Art.-4-Positionierung). FAQ jetzt auch in eingeloggter
+   Nav (`components/layout/header.tsx`).
+4. **Kursplan 10 + B2C-Abo** freigegeben (`docs/KURSPLAN_UND_B2C.md`). Preise entschieden:
+   Privat 14,90 €/Mt (119 €/J), Solo/Freelancer 24,90 €/Mt (199 €/J). Prinzipien §0: nur online,
+   Büro-Praxisfälle, Fundstelle je Rechtsaussage, Witz bei trockenen Themen.
+5. **Musterlektion K8 Datenschutz** freigegeben (Ton „ganz gut"), Quellen klein als Fußnote unten
+   (`docs/MUSTERLEKTION_K8_DATENSCHUTZ.md`). Nächster Schritt: K8 komplett ausbauen (`SeedLesson`-
+   Format, Drop-in bereit). Offen (Eigentümer prüft): allgemeiner Datenschutz-Kurs vs. DSB-Kurs.
+6. **AVV** (Art. 28 DSGVO): Master-Vorlage `docs/AVV_MASTER_VORLAGE.md` (plattformübergreifend,
+   China/SCC-Warnblock oben, Campus-Fakten gefüllt) + **In-App-Accept-Flow gebaut**:
+   Model `AvvAcceptance` (schema+init.sql), Action `app/actions/avv-actions.ts`, Seite
+   `/company/avv`, Link im Firmen-Dashboard, i18n `avv.*`, `AVV_ACCEPTED` im AuditLog.
+   Speichert Name/Geburtsdatum/Position/IP/Signatur/Version/Content-Hash/Zeit. `appConfig.avvVersion="V1.0"`.
+
+**GO-LIVE-BLOCKER (vor Deploy zwingend, siehe Auditbericht):** K1 Seed-Superadmin-Passwort steht
+im Repo → env-gaten + rotieren. K2 `AUTH_SECRET` härten (Boot-Check). H1 Mail-Verifikation (erst
+wenn SMTP live). H3 Session-Invalidierung. **NICHT deployen, solange K1/K2 offen sind.**
+
+**AVV-China-Struktur (Eigentümer + Anwalt):** Auftragsverarbeiter = Hainan (China) → Drittland
+auf Verarbeiter-Ebene trotz DE-Servern. SCC oder EU-Entity klären, bevor AVV produktiv genutzt wird.
+
+**Hosting-Fakt (2026-07-10):** App/Daten bei Hostinger, Deutschland (EU). Node/Next-Tarif prüfen.
+
+**Nächste Happen (Eigentümer-Methode: 1 Musterlektion → Freigabe → skalieren):** K8 ausbauen ·
+AVV-PDF + Gate + Volltext-Seite · Deploy-Blocker abarbeiten · Bilder-Dedupe (Rename erledigt).
+
+---
+
 ## Projektziel
 Multi-Tenant B2B-SaaS „KI-Kompetenz Campus": Schulung → Test (30 Fragen, 75 %) →
 privater Schulungsnachweis (PDF + QR-Verify) → Firmen-Reporting.
@@ -16,6 +64,53 @@ Verbindliche Regeln: CLAUDE.md (Schreibstil, Recht, Versionierung, No-Touch).
   Dummy-Datei + PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1), binaries.prisma.sh
   ist gesperrt. Nach npm-Installationsabbrüchen native Pakete prüfen
   (@next/swc, @prisma/client waren einmal trunkiert → Bus error/Typfehler).
+
+## STAND 2026-07-08 (Teil 7, V0.11.0) — zuerst lesen
+
+Edits liegen im Host-Arbeitsbaum, **noch nicht gepusht**, `npm test`/`build` auf Windows offen.
+- **Handbuch-Rollout:** alle 17 Basic-Module im Handbuch-Format
+  (`lernunterlagen/_generator.py`, Feature `handbuch` V2.1 in `config/feature-versions.ts`),
+  Modul 5 = kuratiertes Referenz-Muster. Styleguide `docs/STYLEGUIDE_HANDBUCH.md`,
+  Backlog `docs/HANDBUCH_BACKLOG.md`. WICHTIG: Generator ist Sandbox-Herkunft
+  (per `cat > … <<'PYEOF'`), sonst trunkiert der Mount die .py beim Lesen durch python.
+- **Review-Cockpit** `/admin/review-plan` — REUSE der content-audit-Freigaben (kein Neubau);
+  Logik `lib/review-schedule.ts` (+ Tests), Config `contentReviewCycleMonths/MaxPerDay`.
+- **Teilnehmer-Fehlermeldung:** `reportContentIssue` (`app/actions/qm-actions.ts`) →
+  QualityIssue; UI-Block in `app/lessons/[id]/page.tsx`.
+- **Theme-Logo** in `components/layout/header.tsx` (hell/dunkel via optionalImage).
+- **Zertifikat-PDF** (`lib/certificate/pdf.ts`) komplett überarbeitet: Titel „Bescheinigung
+  der KI-Kompetenz nach Art. 4 EU AI Act" (2-zeilig, wrap 34), Daten-QR y `height-207` (≈−3 cm),
+  Verify-QR y `160.5` (≈+1,5 cm), Geburtsdatum (Zeile + QR-Payload), Logo Kopfzeile
+  (`public/images/KI-Kompetenz-Logo-dunkel.png`), Eule-Wasserzeichen
+  (`public/images/mascot-hero.png`, Opazität 0,06, ow=320), Disclaimer 6,5 pt + ISO-9001-
+  Dokumentenlenkungszeile (y46). Seed: Geburtsdaten Anna/Bernd/Clara. i18n `certificate.title*`.
+  Verifiziert per PyMuPDF-Proof (`lernunterlagen/img/_cert_v3.png`).
+
+NÄCHSTE SCHRITTE (Windows-Dev-Server):
+1. `npm test` + `npm run build` grün → committen/pushen.
+2. `npm run db:seed` (schreibt Geburtsdaten) → Zertifikat neu herunterladen und real prüfen.
+3. Eigentscheide einholen: Disclaimer-Rebrand „Zertifikat"→„Bescheinigung"?; globaler
+   `contentVersionLabel` V1.008→V1.009 + Register-Zeile beim Release; Task #25 Re-Zertifizierung.
+
+## STAND 2026-07-08 (Task 4, V0.10.2)
+
+Erledigt in dieser Session (Edits liegen im Host-Arbeitsbaum, noch nicht gepusht):
+- **N4 Zertifikat-PDF „TESTZUGANG": bestanden.** Route (`app/api/certificates/[id]/pdf/route.ts`
+  Z.51) übergibt `company.isTest`; Renderer (`lib/certificate/pdf.ts` Z.164–175) zeichnet
+  Wasserzeichen + rotes Banner. Beweis (PDF/PNG + cert-proof.mjs):
+  docs/live-tests/2026-07-08/n4-zertifikat-testzugang.
+- **Stale-Fix (P3): `toggleUserStatus`** revalidiert jetzt auch `/admin/companies/[id]`;
+  gleiche Lücke systematisch bei createInvitation/createParticipant/updateParticipant/
+  deleteUserGdpr/resetAttempts geschlossen (`app/actions/company-actions.ts`).
+- **Code-verifiziert (solide, aber Live-Klick offen):** Durchlauf (13–28), Mandantentrennung
+  (47), N6-Banner. Bericht: docs/live-tests/2026-07-08/task-4-durchlauf-mandanten-n6.
+
+NÄCHSTE SCHRITTE (auf dem Windows-Dev-Server, dort liegen die Edits bereits):
+1. `npm test` + `npm run build` → bestätigt den V0.10.2-Fix, dann committen/pushen.
+2. Firma-B-Seed idempotent in `prisma/seed` ergänzen (für den A/B-Mandantentest).
+3. Live: eine Firma auf isTest=true (Superadmin), Durchlauf als Anna klicken
+   (Lektionen→Test→Zertifikat→QR/Verify), N4-Stempel + N6-Banner sichten,
+   Cross-Tenant Firma-A→Firma-B-Zertifikat-PDF = 403 bestätigen → Katalog auf ✅.
 
 ## SOFORT-KONTEXT für den nächsten Agenten (CHAT-ÜBERGABE Teil 6 → Teil 7, Stand 2026-07-07)
 

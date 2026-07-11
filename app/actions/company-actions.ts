@@ -60,6 +60,7 @@ export async function createInvitation(_prev: ActionResult | null, formData: For
     });
   }
   revalidatePath("/company/invitations");
+  if (companyId) revalidatePath(`/admin/companies/${companyId}`);
   return { ok: true };
 }
 
@@ -116,6 +117,7 @@ export async function createParticipant(_prev: ActionResult | null, formData: Fo
   });
   await audit({ action: "USER_CREATED", userId: user.id, companyId, entityType: "User", entityId: created.id });
   revalidatePath("/company/users");
+  if (companyId) revalidatePath(`/admin/companies/${companyId}`);
   return { ok: true };
 }
 
@@ -162,6 +164,7 @@ export async function updateParticipant(_prev: ActionResult | null, formData: Fo
   });
   await audit({ action: "USER_UPDATED", userId: admin.id, companyId: target.companyId, entityType: "User", entityId: target.id });
   revalidatePath("/company/users");
+  if (target.companyId) revalidatePath(`/admin/companies/${target.companyId}`);
   return { ok: true };
 }
 
@@ -177,6 +180,8 @@ export async function toggleUserStatus(targetUserId: string): Promise<void> {
   await prisma.user.update({ where: { id: targetUserId }, data: { status: newStatus } });
   await audit({ action: newStatus === "ACTIVE" ? "USER_ACTIVATED" : "USER_DEACTIVATED", userId: admin.id, companyId: target.companyId, entityType: "User", entityId: targetUserId, metadata: { newStatus } });
   revalidatePath("/company/users");
+  // Superadmin-Firmenseite zeigt dieselbe Statusspalte — sonst bleibt sie bis Reload stale.
+  if (target.companyId) revalidatePath(`/admin/companies/${target.companyId}`);
 }
 
 /**
@@ -202,6 +207,7 @@ export async function deleteUserGdpr(targetUserId: string): Promise<void> {
   });
   await audit({ action: "USER_DELETED", userId: admin.id, companyId: target.companyId, entityType: "User", entityId: targetUserId, metadata: { anonymized: true } });
   revalidatePath("/company/users");
+  if (target.companyId) revalidatePath(`/admin/companies/${target.companyId}`);
 }
 
 /** Versuchs-Reset durch Admin — mit AuditLog. */
@@ -222,6 +228,7 @@ export async function resetAttempts(targetUserId: string, courseId: string): Pro
   });
   await audit({ action: "EXAM_ATTEMPTS_RESET", userId: admin.id, companyId: target.companyId, entityType: "User", entityId: targetUserId, metadata: { courseId } });
   revalidatePath("/company/progress");
+  if (target.companyId) revalidatePath(`/admin/companies/${target.companyId}`);
 }
 
 /** Erinnerung senden. */

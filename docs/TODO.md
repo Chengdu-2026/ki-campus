@@ -1,5 +1,79 @@
 # TODO
 
+## Teil 8 Abschluss (2026-07-11): FAQ, Kursplan, AVV, Maskottchen
+- [x] FAQ: Eröffnungsfrage WIFI/Kammern-Positionierung; FAQ in eingeloggte Nav.
+- [x] 24/7-USP + Maskottchen „KI-Campus Mentor" auf Homepage; Branding in CLAUDE.md + QM_SYSTEM.md.
+- [x] Kursplan 10 + B2C-Abo (`docs/KURSPLAN_UND_B2C.md`), Preise entschieden.
+- [x] Musterlektion K8 Datenschutz freigegeben (Quellen klein unten).
+- [x] AVV-Master-Vorlage + In-App-Accept-Flow (`/company/avv`, `AvvAcceptance`, IP/Signatur/Hash).
+- [x] Bilder dedupliziert + benannt (16 Dubletten → `Bilder/_to_delete/` — löschen musst DU).
+- [ ] **AKTIVIEREN (Windows):** `npm run db:generate` + `npm run db:init` (neue Tabelle) + `npm run build`.
+- [ ] **AVV-Struktur mit Anwalt:** China-Sitz → SCC oder EU-Entity (Priorität, siehe AVV-Master §0).
+- [ ] **K8 ausbauen** (nach Freigabe): allgemeiner Datenschutz-Kurs vs. DSB-Kurs entscheiden.
+- [ ] **AVV-Folge-Happen:** PDF-Nachweis · Accept-Gate vor Nutzung · AVV-Volltext-Seite.
+- [ ] **Hosting:** Hostinger DE — Node/Next-Tarif prüfen (Shared trägt Next evtl. nicht → VPS).
+- [ ] **DEPLOY erst nach** K1 (Seed-Passwort raus/rotieren) + K2 (AUTH_SECRET Boot-Check).
+
+## Teil 8 (2026-07-10): Audit-Fixes + grobe Mängel behoben
+- [x] **P1 Build-Breaker** `QM_CONTENT_REPORTED` in `AuditAction` (`lib/audit.ts`). tsc 0 · Build grün.
+- [x] **M1 Mandanten-Härtung** `assertOwnerInScope()` in QM-Update-Actions.
+- [x] **M2** Passwort-Reset entwertet alte, ungenutzte Tokens vor Neuausstellung.
+- [x] **M3** `/api/cron` aus Middleware ausgenommen (Crons extern per Bearer erreichbar).
+- [x] **H2** Rate-Limiting (Login, Passwort-Reset, TOTP) — In-Memory-Sliding-Window, fail-open.
+- [x] **24/7-USP** Homepage-Sektion + Maskottchen-Eule eingebaut.
+- [ ] **GO-LIVE-BLOCKER (nur du — Credentials/Deploy), Details `docs/AUDIT_TEIL8_2026-07-10.md`:**
+  - [ ] K1: Seed-Superadmin entkoppeln, Passwort aus `process.env`, Demo-Konten prod-gaten, rotieren.
+  - [ ] K2: starkes `AUTH_SECRET` per Boot-Check erzwingen.
+  - [ ] H1: E-Mail-Verifikation erzwingen — ERST wenn SMTP produktiv (sonst Registrierung tot).
+  - [ ] H3: Session-`maxAge` runter + Claims-Refresh aus DB (Invalidierung bei Entzug).
+- [ ] **Prozess:** `next build` in die Definition-of-Done.
+- [ ] **Bilder:** Rename-Tabelle freigeben + Zielordner Personal-Brand-Poster (#5–7); dann Dedupe.
+
+## Erledigt 2026-07-08 (Teil 7: Handbuch-Rollout, Review-Cockpit, QM-Fehlermeldung, Zertifikat-Redesign)
+- [x] Handbuch-Format auf alle 17 Basic-Module ausgerollt (Generator, Feature `handbuch` V2.1),
+      Modul 5 als Referenz-Muster; Styleguide v1 + Mentor-Backlog festgeschrieben.
+- [x] Review-Cockpit `/admin/review-plan` (REUSE content-audit): 3/Werktag, Mo–Fr, AT-Feiertage
+      übersprungen; `lib/review-schedule.ts` + Tests.
+- [x] Teilnehmer-Fehlermeldung in Lektionen → `reportContentIssue` → QualityIssue (REUSE QM).
+- [x] Theme-Logo in der Kopfzeile (hell/dunkel via optionalImage).
+- [x] Zertifikat-PDF neu: Titel „Bescheinigung … Art. 4 EU AI Act" (2-zeilig), QR-Positionen,
+      Geburtsdatum, Logo, Eule-Wasserzeichen, Kleinst-Disclaimer + Dokumentenlenkungszeile.
+      Seed: Geburtsdaten. Visuell per Proof-Render verifiziert.
+
+## OFFEN — Eigentscheid / Windows-Release (Teil 7)
+- [ ] **Windows verifizieren:** `npm test` + `npm run build` grün, dann `npm run db:seed`
+      (schreibt Geburtsdaten), Dev-Server, Zertifikat neu herunterladen und real prüfen.
+- [ ] **Eigentscheid Disclaimer:** „Dieses Zertifikat …" → „Diese Bescheinigung …"? (juristisch fixiert)
+- [ ] **Release-Versionierung:** globaler `contentVersionLabel` V1.008 → V1.009 + ContentRevision-
+      Register-Zeile beim Seed nachziehen (Footer=Register=Config).
+- [ ] **VersionBadge** optional auf `/admin/review-plan` + Lektions-„Fehler melden" platzieren.
+- [ ] **Task #25 Re-Zertifizierung** (Entscheidungen offen, siehe unten „Re-Zertifizierung").
+
+## Re-Zertifizierung / Auffrischung (Task #25 — Parameter ENTSCHIEDEN 2026-07-08)
+- Entschieden: **2 Jahre gültig** + Zeile „Jährliche Verlängerung" (leeres Feld,
+  Datum sobald erfolgt) · Auffrischungstest = **10 Fragen (verkürzt)** · Erinnerung an
+  **Teilnehmer UND Arbeitgeber** · Website im PDF = ki-nachweis.at · Disclaimer = „Bescheinigung".
+- [x] Gültigkeits-Anzeige + `certificateValidityMonths: 24` (Basic = 2 Jahre).
+- [ ] Auffrischungstest 10 Fragen: eigener verkürzter Exam-Modus (REUSE Exam/Attempt),
+      Zufallsauswahl aus dem bestehenden Pool; bestanden → Refresh-Action.
+- [x] **Schritt 1:** Reminder-Fenster-Helper `lib/recert-reminders.ts` (+ Tests,
+      14 Fälle, zeitzonensicher via UTC, Erinnerung an beide, Default-Vorlauf 6 Wochen).
+      Per Node-Port in UTC/Wien/LA verifiziert; `npm test` auf Windows noch bestätigen.
+- [ ] Erinnerungs-Cron: Helper an eine Cron-Route hängen (Bearer CRON_SECRET-Muster),
+      Empfänger benachrichtigen (SMTP noch nicht produktiv → erst Reporting-Flag/Entwurf).
+- [ ] Retention: Teilnehmer bleiben im System, verlängern laufend (Bindung/Umsatz).
+- [x] Eule + Logo aufs Zertifikat (erledigt Teil 7).
+- [x] Anzeige auf dem Zertifikat: „Gültig bis" = echtes Datum (2 Jahre), Zeile
+      „Jährliche Verlängerung" mit leerem Eintragfeld (Datum sobald erfolgt),
+      optionales Feld `refreshedAt` (Teil 7, per Proof verifiziert `_cert_v7.png`).
+- [x] Basic-Kurs `certificateValidityMonths: 24` im Seed (→ 2 Jahre Gültigkeit).
+- [ ] **Backend (Windows-Migration nötig):** Schema `Certificate.refreshedAt DateTime?`
+      + jährliche Verlängerungs-Action „Auffrischungstest bestanden" →
+      `refreshedAt = now`, ins AuditLog. Route übergibt dann `refreshedAt`.
+- [ ] **RISIKO/Reihenfolge:** `certificateValidityMonths=24` lässt neue Nachweise nach
+      2 Jahren ablaufen (`effectiveStatus=EXPIRED`). Vor Ablauf muss die
+      Verlängerungs-Action existieren, sonst Sackgasse (real erst in ~2 Jahren akut).
+
 ## Live-QA-Funde 2026-07-08 (KI-CAMPUS-LIVE-QA-AUDITOR) — behoben (V0.10.1)
 - [x] P2: interner Betreiber-Hinweis von öffentlicher `/agb` entfernt.
 - [x] P2: Audit-Log-UI zeigt jetzt `oldValue → newValue` bei Bearbeitungen.
@@ -13,9 +87,14 @@
       richtungsabhängig (`USER_ACTIVATED` / `USER_DEACTIVATED`). tsc 0 · Tests 111/111.
       (Live-Klick-Bestätigung durch Browser-Tool-Flakiness auf Submit-Buttons verhindert;
       Fix ist code-/typgeprüft.)
-- [ ] Klein/optional: `toggleUserStatus` revalidiert nur `/company/users` — auf der
-      Superadmin-Firmenseite `/admin/companies/[id]` bleibt der Status bis zum Reload stehen.
-- [ ] Live-Test offen: N4 Zertifikat-PDF-TESTZUGANG-Stempel, N6 Testzugang-Banner (als Anna).
+- [x] Behoben (V0.10.2): `toggleUserStatus` revalidiert jetzt auch `/admin/companies/[id]`;
+      gleiche Stale-Lücke systematisch bei createInvitation/createParticipant/updateParticipant/
+      deleteUserGdpr/resetAttempts geschlossen. NOCH verifizieren (Windows): `npm test` + `npm run build`.
+- [x] N4 Zertifikat-PDF-TESTZUGANG-Stempel: bestanden (Renderer-Beweis + Route-Verdrahtung).
+      Bericht: docs/live-tests/2026-07-08/n4-zertifikat-testzugang.
+- [ ] Live-Rest (Windows-Dev-Server): kompletter Durchlauf als Anna, A/B-Mandantentrennung
+      (Firma B jetzt geseedet: hr@beta-bau.example), N4-Stempel + N6-Banner in Test-Firma sichtbar.
+      Details/Runbook: docs/live-tests/2026-07-08/task-4-durchlauf-mandanten-n6/REPORT.md.
 
 ## Erledigt am 2026-07-07 (Teil 6: Superadmin-Verwaltung V2 + Tester-Freigabe, V0.10.0)
 - [x] KLARSTELLUNG: „Teil-3-Merge Superadmin-Paket" war gegenstandslos — Paket war

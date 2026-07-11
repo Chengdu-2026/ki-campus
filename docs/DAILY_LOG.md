@@ -1,6 +1,150 @@
 # Tagesabschluss
 
 ## Datum
+2026-07-11 (Teil 8 Abschluss — Session lief 10.7. nachts → 11.7.)
+
+## Heute erledigt (Fortsetzung Teil 8)
+- **FAQ** repariert-diagnostiziert (Code war ok, Dev-Server-Crash) + WIFI/Kammern-Eröffnungsfrage;
+  FAQ in eingeloggte Nav.
+- **24/7-USP + Maskottchen** auf Homepage; Branding in `CLAUDE.md` + `QM_SYSTEM.md` verankert.
+- **Kursplan 10 + B2C-Abo** freigegeben, Preise entschieden (Privat 14,90 / Solo 24,90 €/Mt).
+- **Musterlektion K8 Datenschutz** freigegeben; Quellen klein als Fußnote.
+- **AVV**: Master-Vorlage (`docs/AVV_MASTER_VORLAGE.md`) + In-App-Accept-Flow `/company/avv`
+  (`AvvAcceptance`: Name/Geburtsdatum/Position/IP/Signatur/Version/Hash, auditiert).
+- **Bilder** dedupliziert (16 → `_to_delete/`) + 20 benannt.
+
+## Verifikation
+- tsc 0 · i18n grün · Wording (eigene Dateien) sauber — im frischen Git-Klon.
+- OFFEN (Windows): `db:generate` + `db:init` (AVV-Tabelle) + `build`; danach `/company/avv` live.
+
+## Offen / Eigentümer
+- Deploy-Blocker K1/K2/H1/H3 (Auditbericht) vor Go-Live. AVV-China-Struktur mit Anwalt.
+- Push + Backup lokal (Campus-Repo `ki-campus`). 10.7.-Arbeit des Eigentümers ist separat, unangetastet.
+
+---
+
+## Datum
+2026-07-10 (Teil 8: Vollaudit + Stresstest, Build-Breaker-Fix, Mandanten-Härtung, 24/7-USP)
+
+## Heute erledigt
+- **Vollaudit + Stresstest** (frischer Sandbox-Klon, volle Kette tsc/vitest/build +
+  Sicherheits-Code-Audit + Live-Smoke). Bericht: `docs/AUDIT_TEIL8_2026-07-10.md`.
+- **FIX P1 Build-Breaker:** `QM_CONTENT_REPORTED` fehlte in `AuditAction` (`lib/audit.ts`)
+  → `tsc`/`next build` scheiterten (der als „grün" gemeldete Teil-7-Stand baute NICHT).
+  Ergänzt; danach tsc 0, Tests 128/128, Build grün (93 Routen).
+- **FIX M1 Mandanten-Härtung:** `updateQualityIssue`/`updateCorrectiveAction` übernahmen
+  `ownerId` aus dem Formular ohne Firmenprüfung → fremder Mandanten-Nutzer als
+  Verantwortlicher möglich (Erinnerungs-Mail über Mandantengrenze). Helper
+  `assertOwnerInScope()` an beiden Stellen (`app/actions/qm-actions.ts`).
+- **Schritt 2 — 24/7-USP:** Homepage-Sektion „Immer verfügbar. Immer aktuell." (3 Karten:
+  Lernen rund um die Uhr / Wissensdatenbank wächst laufend / Nachweise bleiben aktuell).
+  Wording-guard-konform (kein SLA-Versprechen). i18n `home.always*`, Vorlese-Funktion,
+  live per Hot-Reload verifiziert.
+- **Bilder-Audit:** `Bilder/` = 48 PNG, 13 Duplikat-Gruppen, 20 echte Unikate. Kein
+  Blind-Rename (Duplikate + Cross-Projekt). Kontaktbogen + Benennungstabelle an Eigentümer.
+
+## Sicherheitsbefunde (Details im Auditbericht) — vor Go-Live
+- K1 Seed-Superadmin-Passwort im Repo (env-gaten, rotieren) · K2 AUTH_SECRET-Härtung ·
+  H1 E-Mail-Verifikation erzwingen · H2 Rate-Limiting · H3 Session-Invalidierung ·
+  M2 Reset-Token entwerten · M3 `/api/cron` aus Middleware (Cron sonst extern nicht auslösbar).
+
+## Offen / Eigentümer
+- K1/K2/H1–H3: Betriebs-/Deploy-Entscheidungen (Credentials fasse ich nicht an).
+- Bilder-Rename: Freigabe + Zielordner für die Personal-Brand-Poster (#5–7) abwarten.
+- `contentVersionLabel` V1.008 → V1.009 beim nächsten Seed nachziehen.
+
+## Verifikation
+- tsc 0 · vitest 128/128 · `next build` exit 0 (93 Routen) — nach den Fixes, in Sandbox-Klon.
+- Live-Smoke auf localhost:3000: Zertifikatsliste + neue Homepage-Sektion sichtbar.
+
+---
+
+## Datum
+2026-07-08 (Teil 7: Handbuch-Rollout, Review-Cockpit, QM-Fehlermeldung, Zertifikat-Redesign)
+
+## Heute erledigt
+- **Handbuch-Format** auf alle 17 Basic-Module ausgerollt (Generator
+  `lernunterlagen/_generator.py`, Feature `handbuch` V2.1), Modul 5 als
+  kuratiertes Referenz-Muster. Styleguide v1 festgeschrieben
+  (`docs/STYLEGUIDE_HANDBUCH.md`), Mentor-Backlog `docs/HANDBUCH_BACKLOG.md`.
+- **Review-Cockpit** `/admin/review-plan` gebaut — REUSE der content-audit-
+  Freigaben statt Neubau; getakteter Prüfplan 3/Werktag, Mo–Fr, österr.
+  Feiertage übersprungen (`lib/review-schedule.ts` + Tests).
+- **Teilnehmer-Fehlermeldung** in Lektionen → `reportContentIssue` legt
+  QualityIssue an (REUSE QM-Modell), erscheint im QM-Workflow.
+- **Theme-Logo** in der Kopfzeile (hell/dunkel via `optionalImage`).
+- **Zertifikat-PDF** komplett überarbeitet (`lib/certificate/pdf.ts`): Titel
+  „Bescheinigung der KI-Kompetenz nach Art. 4 EU AI Act" (2-zeilig), QR-Positionen
+  (oben −3 cm, unten +1,5 cm), Geburtsdatum (Zeile + Daten-QR), Logo in der
+  Kopfzeile, Eule als großes Wasserzeichen (ow 430, Opazität 0,11, ~1 cm nach
+  rechts). Unterer Fußbereich (Echtheit + Disclaimer + Dokumentenlenkung +
+  KI-Hinweis) komplett in EINEM Kasten über die volle Breite, Fließtext im
+  **Blocksatz** (neue Funktion `drawJustified`). **Gültigkeit + Verlängerung**
+  sichtbar: „Gültig bis" = echtes Datum (Basic 2 Jahre), Zeile „Jährliche
+  Verlängerung" mit leerem Eintragfeld (Datum sobald erfolgt), optional `refreshedAt`.
+- **Disclaimer-Rebrand** (Eigentümer-Freigabe): `certificate.disclaimer` +
+  `verify.testHint` → „Diese Bescheinigung … Sie dient …"; rechtliche
+  Verneinungen unverändert. **Website** `appConfig.websiteUrl` → ki-nachweis.at.
+- **Seed:** Geburtsdaten Anna/Bernd/Clara + `certificateValidityMonths: 24` (Basic = 2 Jahre).
+- **Wording-Guard-Fix:** `docs/STYLEGUIDE_HANDBUCH.md` + `docs/HANDBUCH_BACKLOG.md`
+  neutralisiert (Verbotsliste referenziert statt zitiert) → Scan wieder grün.
+- **Auffrischung entschieden:** Test = 10 Fragen (verkürzt), Erinnerung an
+  Teilnehmer UND Arbeitgeber.
+- Verifiziert per PyMuPDF-Proof-Renders `lernunterlagen/img/_cert_v3…v6.png`
+  (2 Jahre gültig + leeres Verlängerungsfeld, Blocksatz, Kasten, Eule, Website, Disclaimer).
+
+## Offen
+- **Windows:** `npm test` + `npm run build` grün, dann `npm run db:seed`
+  (Geburtsdaten + 12-Monats-Gültigkeit), Zertifikat neu herunterladen und real prüfen.
+- Globaler `contentVersionLabel` V1.008 → V1.009 + ContentRevision-Register-Zeile
+  beim Windows-Release nachziehen (Footer=Register=Config-Regel).
+- **Task #25 Backend** (Parameter entschieden): Schema `Certificate.refreshedAt`
+  (Windows-Migration), 10-Fragen-Auffrischungstest (REUSE Exam/Attempt),
+  Refresh-Action (`validUntil = heute + 24 M`), Erinnerungs-Cron an beide
+  (SMTP nicht produktiv → erst Reporting-Flag). Zuerst testbarer Fenster-Helper.
+- **Reihenfolge-Risiko:** `certificateValidityMonths=24` → neue Nachweise laufen
+  nach 2 Jahren ab; Verlängerungs-Action muss vor Ablauf existieren (real erst in ~2 Jahren akut).
+
+## Verifikation
+- Zertifikat in mehreren Zuständen visuell per PyMuPDF geprüft (alle Vorgaben sichtbar,
+  Blocksatz korrekt, letzte Zeile linksbündig).
+- `npm test` + `npm run build` auf Windows: **grün bestätigt** (Sascha, 2026-07-08).
+
+## Nachtrag (Abend): Task #25 Schritt 1
+- Reminder-Fenster-Logik gebaut: `lib/recert-reminders.ts` + `tests/recert-reminders.test.ts`
+  (14 Fälle). Erinnerung an Teilnehmer UND Arbeitgeber, Default-Vorlauf 6 Wochen.
+- Bug gefunden & behoben: `daysUntil` rechnete mit lokalen Datumsfeldern → auf Wien (UTC+2)
+  wäre der Test gekippt. Auf UTC-Datumsgrenzen umgestellt; per Node-Port in UTC/Wien/LA je 14/14 grün.
+- Offen: `npm test` auf Windows bestätigen; dann Schema `refreshedAt` (Migration),
+  10-Fragen-Auffrischungstest, Verlängerungs-Action, Erinnerungs-Cron.
+
+---
+
+# Tagesabschluss
+
+## Datum
+2026-07-08 (Task 4: N4-Beweis, Code-Audit Durchlauf/Mandanten/N6, Stale-Fix, V0.10.2)
+
+## Heute (Rolle KI-CAMPUS-LIVE-QA-AUDITOR)
+- N4 (Zertifikat-PDF „TESTZUGANG"): **bestanden**. Route (`.../pdf/route.ts` Z.51) übergibt
+  `company.isTest`; Renderer (`pdf.ts` Z.164–175) zeichnet Wasserzeichen + rotes Banner.
+  Beweis: Zeichenlogik verbatim ausgeführt → 2 PDFs + PNGs (Test vs. Normal) in
+  docs/live-tests/2026-07-08/n4-zertifikat-testzugang (inkl. reproduzierbarem cert-proof.mjs).
+- Durchlauf (13–28), Mandantentrennung (47), N6-Banner: **code-verifiziert** und solide
+  (exam-actions Gates/Ownership/Grading; issue.ts „kein Zertifikat ohne Bestehen";
+  assertCompanyScope überall; PDF-Route sameCompany→403; Banner im Root-Layout rollenübergreifend).
+  Bericht: docs/live-tests/2026-07-08/task-4-durchlauf-mandanten-n6.
+- Fix (V0.10.2): `toggleUserStatus` + 5 Geschwister revalidieren jetzt `/admin/companies/[id]`.
+- Firma-B-Seed ergänzt (Beta Bau GmbH, `hr@beta-bau.example`, Plan BASIC, +2 Teilnehmer,
+  idempotent) → A/B-Mandantentest möglich nach `npm run db:seed`.
+- BLOCKER Live: Seed hat nur EINE Firma (kein Firma B) und demo-company ist isTest=false;
+  App/Tests in Agent-Sandbox nicht lauffähig (win32-node_modules). Live-Rest → Windows-Dev-Server.
+- OFFEN: Durchlauf-Screenshots als Anna, A/B-Zugriffsversuch (Firma-B-Seed), N4/N6 live,
+  `npm test`+`npm run build`.
+
+---
+
+## Datum
 2026-07-08 (Live-QA-Audit im Browser + Fix Passwort-Auge, V0.10.1)
 
 ## Heute (Rolle KI-CAMPUS-LIVE-QA-AUDITOR, localhost:3000)

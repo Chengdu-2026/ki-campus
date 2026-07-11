@@ -13,6 +13,15 @@ und keine behördliche oder staatliche Anerkennung entsteht. Zertifizierung
 setzt immer ein externes Audit durch eine akkreditierte Stelle voraus —
 das Modul liefert dafür lediglich die dokumentierte Prozessbasis.
 
+## Branding-Konsistenz als Qualitätsmerkmal (ab 2026-07-10)
+
+Markenkonsistenz ist Teil der Qualitätsprüfung. Bei Content-Audit/Review und vor jedem
+Release wird mitgeprüft, ob Ausgaben die Branding-Regeln aus `CLAUDE.md` (Abschnitt
+BRANDING) einhalten: richtiges Logo (theme-abhängig), immer dieselbe Maskottchen-Eule
+(„KI-Campus Mentor", nie eine fremde), Farbwelt `brand-*`/`accent-*`, Praxis-Ton,
+Kennzeichnung KI-generierter Bilder. Eine Branding-Abweichung wird wie eine inhaltliche
+Abweichung als QualityIssue (Kategorie CONTENT) behandelt und über CAPA nachgezogen.
+
 ## Rollen
 
 | Rolle | Rechte im QM-Modul |

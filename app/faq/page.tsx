@@ -32,6 +32,20 @@ const CATEGORIES: FaqCategory[] = [
     title: "Gesetz & Pflichten: Was verlangt der EU AI Act wirklich?",
     items: [
       {
+        q: "Dürfen private Anbieter wie dieser überhaupt einen KI-Kompetenznachweis ausstellen — oder ist das WIFI, Kammern oder Behörden vorbehalten?",
+        a: "Ja, das dürfen sie — ausdrücklich. Art. 4 EU AI Act verpflichtet Unternehmen, für KI-Kompetenz zu sorgen, überlässt ihnen aber vollständig das Wie. Die Verordnung benennt für KI-Kompetenz-Schulungen keine zuständige Stelle, kein Monopol und kein Akkreditierungsverfahren — es gibt schlicht keine gesetzlich bestimmte Institution, die das exklusiv ausstellen dürfte. Damit steht der Markt jedem qualifizierten Bildungsanbieter offen: Kammern und ihre Institute (etwa WIFI oder bfi) genauso wie privaten Akademien, TÜV-Akademien oder spezialisierten Plattformen wie dieser. Entscheidend zur Einordnung: Auch ein WIFI- oder bfi-Kurszertifikat ist ein privatrechtlicher Schulungsnachweis, kein Hoheitsakt — die Rechtsnatur des Papiers ist dieselbe. Der Unterschied liegt nicht darin, wer „darf“, sondern in Inhalt, Prüfung und Dokumentation. Was hingegen niemand ausstellen darf, ist ein Zertifikat, das sich fälschlich als amtlich, hoheitlich oder behördlich ausgibt — weil das Gesetz eine solche Kategorie für KI-Kompetenz gar nicht kennt. (WIFI, bfi und TÜV dienen hier nur dem Vergleich; eine Verbindung zu diesen Einrichtungen besteht nicht.)",
+        sources: [
+          {
+            label: "Art. 4 VO (EU) 2024/1689 (Pflicht zur KI-Kompetenz — Wahl der Mittel beim Unternehmen)",
+            quote:
+              "Der Normtext verpflichtet Anbieter und Betreiber, „Maßnahmen“ zu ergreifen, benennt aber weder eine zuständige Schulungs- oder Prüfstelle noch ein Zertifizierungs- oder Akkreditierungsverfahren für KI-Kompetenz.",
+            url: ART("4"),
+          },
+          { label: "Art. 3 Nr. 56 VO (EU) 2024/1689 (Definition „KI-Kompetenz“ — inhaltlich, nicht formgebunden)", url: ART("3") },
+          { label: "Volltext der Verordnung (EUR-Lex, amtlich, deutsch)", url: EURLEX_DE },
+        ],
+      },
+      {
         q: "Verlangt das Gesetz eine staatliche Prüfung oder ein behördliches Zertifikat für KI-Kompetenz?",
         a: "Nein. Art. 4 der Verordnung (EU) 2024/1689 (EU AI Act) schreibt weder eine staatliche Prüfung noch eine behördliche Zertifizierung oder Akkreditierung vor. Das Gesetz verlangt von Anbietern und Betreibern lediglich, Maßnahmen zu ergreifen, um „nach besten Kräften“ ein ausreichendes Maß an KI-Kompetenz ihres Personals sicherzustellen. Wie das geschieht — interne Schulungen, externe Kurse oder Plattformen wie diese — bleibt dem Unternehmen überlassen. Ein amtliches Zertifizierungsverfahren für KI-Kompetenz existiert nicht. Das ist in der beruflichen Weiterbildung der Normalfall: Auch die Zertifikate etablierter Bildungsinstitute wie WIFI, bfi oder privater Akademien sind privatrechtliche Schulungsnachweise und keine behördlichen Dokumente.",
         sources: [

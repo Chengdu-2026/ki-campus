@@ -4,9 +4,11 @@ import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { randomUUID } from "crypto";
 import { prisma } from "@/lib/prisma";
+import { headers } from "next/headers";
 import { audit } from "@/lib/audit";
 import { sendMail } from "@/lib/mail";
 import { appConfig } from "@/config/app";
+import { isRateLimited, recordHit, clientIp } from "@/lib/rate-limit";
 
 const passwordSchema = z.string().min(10, "passwordPolicy");
 
@@ -69,8 +71,27 @@ export async function requestPasswordReset(_prev: ActionResult | null, formData:
   const email = String(formData.get("email") ?? "").toLowerCase().trim();
   if (!email) return { ok: false, error: "common.requiredField" };
 
+  // Rate-Limit gegen Mail-Bombing (H2): pro IP und pro Ziel-E-Mail. Immer gleiche
+  // Antwort (kein Enumerations-Orakel) — bei Überschreitung wird nur nichts versendet.
+  const ip = clientIp({ headers: await headers() });
+  const HOUR = 3600 * 1000;
+  if (
+    (ip !== "unknown" && isRateLimited(`reset:ip:${ip}`, 5, 15 * 60 * 1000)) ||
+    isRateLimited(`reset:mail:${email}`, 5, HOUR)
+  ) {
+    return { ok: true };
+  }
+  if (ip !== "unknown") recordHit(`reset:ip:${ip}`, 15 * 60 * 1000);
+  recordHit(`reset:mail:${email}`, HOUR);
+
   const user = await prisma.user.findUnique({ where: { email } });
   if (user && user.status === "ACTIVE") {
+    // M2: alte, noch ungenutzte Reset-Tokens dieses Nutzers entwerten, damit nicht
+    // mehrere gültige Reset-Links gleichzeitig existieren.
+    await prisma.passwordResetToken.updateMany({
+      where: { userId: user.id, usedAt: null },
+      data: { usedAt: new Date() },
+    });
     const token = randomUUID().replace(/-/g, "");
     await prisma.passwordResetToken.create({
       data: { userId: user.id, token, expiresAt: new Date(Date.now() + 3600 * 1000) },

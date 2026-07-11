@@ -154,12 +154,65 @@ async function main() {
 
   const participants = [] as { id: string; email: string; firstName: string; lastName: string }[];
   const participantData = [
-    { email: "anna.beispiel@musterfirma.example", firstName: "Anna", lastName: "Beispiel" },
-    { email: "bernd.tester@musterfirma.example", firstName: "Bernd", lastName: "Tester" },
-    { email: "clara.demo@musterfirma.example", firstName: "Clara", lastName: "Demo" },
+    { email: "anna.beispiel@musterfirma.example", firstName: "Anna", lastName: "Beispiel", birthDate: new Date("1990-05-14") },
+    { email: "bernd.tester@musterfirma.example", firstName: "Bernd", lastName: "Tester", birthDate: new Date("1985-11-03") },
+    { email: "clara.demo@musterfirma.example", firstName: "Clara", lastName: "Demo", birthDate: new Date("1992-07-21") },
   ];
   for (const p of participantData) {
     const user = await prisma.user.upsert({
+      where: { email: p.email },
+      update: { birthDate: p.birthDate },
+      create: {
+        email: p.email,
+        passwordHash: hash("Teilnehmer#2026"),
+        firstName: p.firstName,
+        lastName: p.lastName,
+        birthDate: p.birthDate,
+        role: "PARTICIPANT",
+        companyId: demoCompany.id,
+        emailVerifiedAt: new Date(),
+      },
+    });
+    participants.push(user);
+  }
+
+  // ---------- Zweite Firma (Mandantentrennung A/B, Katalog 47) ----------
+  // Normale ACTIVE-Firma (isTest=false) für den sauberen Cross-Tenant-Test.
+  // Für N4/N6-Live einfach eine der Firmen im Superadmin auf Testzugang stellen.
+  const companyB = await prisma.company.upsert({
+    where: { id: "demo-company-b" },
+    update: {},
+    create: {
+      id: "demo-company-b",
+      name: "Beta Bau GmbH",
+      address: "Musterweg 5, 4020 Linz, Österreich",
+      uid: "ATU87654321",
+      contactName: "Bruno Bauer",
+      email: "hr@beta-bau.example",
+      planKey: "BASIC",
+    },
+  });
+
+  await prisma.user.upsert({
+    where: { email: "hr@beta-bau.example" },
+    update: {},
+    create: {
+      email: "hr@beta-bau.example",
+      passwordHash: hash("Firmenadmin#2026"),
+      firstName: "Bruno",
+      lastName: "Bauer",
+      role: "COMPANY_ADMIN",
+      companyId: companyB.id,
+      emailVerifiedAt: new Date(),
+    },
+  });
+
+  const participantDataB = [
+    { email: "dieter.beta@beta-bau.example", firstName: "Dieter", lastName: "Beta" },
+    { email: "erika.beta@beta-bau.example", firstName: "Erika", lastName: "Beta" },
+  ];
+  for (const p of participantDataB) {
+    await prisma.user.upsert({
       where: { email: p.email },
       update: {},
       create: {
@@ -168,18 +221,19 @@ async function main() {
         firstName: p.firstName,
         lastName: p.lastName,
         role: "PARTICIPANT",
-        companyId: demoCompany.id,
+        companyId: companyB.id,
         emailVerifiedAt: new Date(),
       },
     });
-    participants.push(user);
   }
-  console.log("Nutzer & Unternehmen: ok");
+  console.log("Nutzer & Unternehmen: ok (inkl. Firma B)");
 
   // ---------- Kurse ----------
   interface CourseSeedDef {
     slug: string;
     teachingUnits: number;
+    /** Gültigkeitsdauer des ausgestellten Nachweises in Monaten (null = unbefristet). */
+    certificateValidityMonths?: number;
     title: string;
     subtitle: string;
     description: string;
@@ -190,12 +244,13 @@ async function main() {
   async function seedCourse(def: CourseSeedDef) {
     const dbCourse = await prisma.course.upsert({
       where: { slug: def.slug },
-      update: { teachingUnits: def.teachingUnits },
+      update: { teachingUnits: def.teachingUnits, certificateValidityMonths: def.certificateValidityMonths ?? null },
       create: {
         slug: def.slug,
         version: 1,
         defaultLocale: LOCALE,
         teachingUnits: def.teachingUnits,
+        certificateValidityMonths: def.certificateValidityMonths ?? null,
         publishedAt: new Date(),
         translations: {
           create: {
@@ -316,6 +371,7 @@ async function main() {
   const course = await seedCourse({
     slug: "ki-kompetenz-basic",
     teachingUnits: 6,
+    certificateValidityMonths: 24,
     title: "KI-Kompetenz Basic nach Art. 4 EU AI Act",
     subtitle: "Privater Schulungs- und Kompetenznachweis für den verantwortungsvollen Umgang mit KI im Unternehmen",
     description: "Grundlagenschulung für alle Mitarbeitenden: was KI ist, wie generative KI funktioniert, wo Risiken liegen (Datenschutz, Informationssicherheit, Urheberrecht), wie man KI sicher nutzt, Vorfälle meldet und was Art. 4 EU AI Act für Unternehmen bedeutet.",
@@ -659,7 +715,7 @@ async function main() {
   console.log("Versionsregister: ok (Inhalt V1.003–V1.007 + Features superadmin-verwaltung/tester-freigabe V1.001)");
 
   console.log("Seed abgeschlossen.");
-  console.log("Logins: sascha.morocutti@gmail.com / Morocutti#Admin2026 | hr@musterfirma.example / Firmenadmin#2026 | anna.beispiel@musterfirma.example / Teilnehmer#2026");
+  console.log("Logins: sascha.morocutti@gmail.com / Morocutti#Admin2026 | hr@musterfirma.example / Firmenadmin#2026 | anna.beispiel@musterfirma.example / Teilnehmer#2026 | hr@beta-bau.example / Firmenadmin#2026 (Firma B) | dieter.beta@beta-bau.example / Teilnehmer#2026 (Firma B)");
 }
 
 main()

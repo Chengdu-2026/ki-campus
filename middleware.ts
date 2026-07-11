@@ -19,7 +19,10 @@ function isPublic(pathname: string): boolean {
   if (pathname.startsWith("/verify/")) return true;
   if (pathname.startsWith("/invite/")) return true;
   if (pathname.startsWith("/passwort-reset/")) return true;
-  if (pathname.startsWith("/api/auth")) return true;
+  // API-Routen sichern sich selbst ab (auth()/Bearer/öffentlicher Demo-Endpoint).
+  // Wichtig: /api/cron/* wird per Authorization: Bearer aufgerufen (ohne Session-Cookie)
+  // — würde es die Middleware abfangen, liefen externe Scheduler ins Login-Redirect (M3).
+  if (pathname.startsWith("/api/")) return true;
   if (pathname.startsWith("/_next") || pathname.includes(".")) return true;
   return false;
 }

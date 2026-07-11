@@ -484,3 +484,20 @@ CREATE TABLE IF NOT EXISTS "ContentReviewChecklistAnswer" (
   "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 CREATE UNIQUE INDEX IF NOT EXISTS "ContentReviewChecklistAnswer_result_item_key" ON "ContentReviewChecklistAnswer"("checklistResultId","checklistItemId");
+CREATE TABLE IF NOT EXISTS "AvvAcceptance" (
+  "id" TEXT PRIMARY KEY,
+  "companyId" TEXT NOT NULL,
+  "acceptedById" TEXT NOT NULL,
+  "avvVersion" TEXT NOT NULL,
+  "avvContentHash" TEXT,
+  "signerName" TEXT NOT NULL,
+  "signerBirthDate" TEXT,
+  "signerPosition" TEXT NOT NULL,
+  "signatureText" TEXT NOT NULL,
+  "ipAddress" TEXT,
+  "userAgent" TEXT,
+  "acceptedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY ("companyId") REFERENCES "Company"("id"),
+  FOREIGN KEY ("acceptedById") REFERENCES "User"("id")
+);
+CREATE INDEX IF NOT EXISTS "AvvAcceptance_company_idx" ON "AvvAcceptance"("companyId","acceptedAt");

@@ -5,7 +5,7 @@ import { appConfig } from "@/config/app";
 import { getT } from "@/lib/i18n";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ShieldCheck, BookOpen, QrCode, Volume2, ChevronDown } from "lucide-react";
+import { ShieldCheck, BookOpen, QrCode, Volume2, ChevronDown, Clock, TrendingUp, History } from "lucide-react";
 import { optionalImage } from "@/lib/assets";
 import { ReadAloud } from "@/components/read-aloud";
 
@@ -25,6 +25,8 @@ export default async function HomePage() {
   });
   const heroImage = optionalImage("images/hero.jpg");
   const dashboardImage = optionalImage("images/dashboard.jpg");
+  const mascotMentor = optionalImage("images/maskottchen-mentor.png");
+  const mascotFriendly = optionalImage("images/maskottchen-freundlich.png");
 
   const benefits = [
     { icon: ShieldCheck, title: t("home.benefit1Title"), text: t("home.benefit1Text") },
@@ -38,6 +40,10 @@ export default async function HomePage() {
     t("home.heroText"),
     t("home.heroDisclaimer"),
     ...benefits.flatMap((b) => [b.title, b.text]),
+    t("home.mentorTitle"),
+    t("home.mentorText"),
+    t("home.alwaysTitle"),
+    t("home.alwaysText"),
     t("home.forWhomTitle"),
     t("home.forWhomText"),
   ].join(". ");
@@ -75,6 +81,32 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* KI-Campus Mentor — Maskottchen stellt sich vor (Bild optional, Seite läuft auch ohne) */}
+      {mascotMentor && (
+        <section className="mx-auto max-w-4xl">
+          <div className="flex flex-col items-center gap-6 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900 sm:flex-row sm:gap-8 sm:p-8">
+            <img
+              src={mascotMentor}
+              alt="KI-Campus Mentor: freundliche Eule mit Brille und KI-Kompetenz-Campus-Hoodie (KI-generiertes Maskottchen)"
+              className="h-40 w-auto shrink-0 drop-shadow-md sm:h-48"
+            />
+            <div>
+              <Badge variant="accent" className="mb-2">{t("home.mentorBadge")}</Badge>
+              <h2 className="text-2xl font-semibold text-brand-900 dark:text-white">{t("home.mentorTitle")}</h2>
+              <p className="mt-2 text-slate-600 dark:text-slate-300">{t("home.mentorText")}</p>
+              <ul className="mt-4 space-y-2">
+                {[t("home.mentorPoint1"), t("home.mentorPoint2"), t("home.mentorPoint3")].map((p) => (
+                  <li key={p} className="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-200">
+                    <span aria-hidden="true" className="mt-1 h-2 w-2 shrink-0 rounded-full bg-accent-500" />
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className="grid gap-6 md:grid-cols-3">
         {benefits.map(({ icon: Icon, title, text }) => (
           <Card key={title}>
@@ -85,6 +117,34 @@ export default async function HomePage() {
             </CardHeader>
           </Card>
         ))}
+      </section>
+
+      {/* Immer verfügbar / lebende Wissensdatenbank — USP (kein SLA-Versprechen, Selbstlern-Verfügbarkeit) */}
+      <section className="mx-auto max-w-4xl rounded-2xl border border-accent-500/40 bg-gradient-to-br from-brand-50 to-white p-6 dark:border-accent-500/30 dark:from-slate-900 dark:to-slate-900">
+        <div className="flex flex-col items-center gap-2">
+          {mascotFriendly && (
+            <img
+              src={mascotFriendly}
+              alt="KI-Campus Mentor zwinkert (KI-generiertes Maskottchen)"
+              className="h-20 w-auto drop-shadow-sm"
+            />
+          )}
+          <h2 className="text-center text-2xl font-semibold text-brand-900 dark:text-white">{t("home.alwaysTitle")}</h2>
+        </div>
+        <p className="mx-auto mt-2 max-w-2xl text-center text-slate-600 dark:text-slate-300">{t("home.alwaysText")}</p>
+        <div className="mt-6 grid gap-5 md:grid-cols-3">
+          {[
+            { icon: Clock, title: t("home.always1Title"), text: t("home.always1Text") },
+            { icon: TrendingUp, title: t("home.always2Title"), text: t("home.always2Text") },
+            { icon: History, title: t("home.always3Title"), text: t("home.always3Text") },
+          ].map(({ icon: Icon, title, text }) => (
+            <div key={title} className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-950">
+              <Icon className="mb-2 h-7 w-7 text-accent-500" aria-hidden="true" />
+              <h3 className="font-semibold text-brand-900 dark:text-white">{title}</h3>
+              <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{text}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Problem: Schmerz vor Lösung (SEO-/Conversion-Report Kap. 9) */}

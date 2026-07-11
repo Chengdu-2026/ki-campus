@@ -43,6 +43,7 @@ export default async function CompanyPage() {
     { href: "/company/certificates", label: t("company.certificatesTitle") },
     { href: "/company/export", label: t("company.exportTitle") },
     { href: "/company/qm", label: t("qm.title") },
+    { href: "/company/avv", label: t("company.avvLink") },
   ];
 
   return (

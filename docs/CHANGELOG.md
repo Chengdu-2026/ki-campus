@@ -1,5 +1,150 @@
 # Changelog
 
+## [0.12.0] — 2026-07-11 (Teil 8 Abschluss: FAQ, Kursplan, AVV, Maskottchen)
+
+### Hinzugefügt
+- **AVV-Accept-Flow (Art. 28 DSGVO):** Model `AvvAcceptance` (`prisma/schema.prisma` +
+  `init.sql` synchron), Action `app/actions/avv-actions.ts`, Seite `/company/avv`, Link im
+  Firmen-Dashboard, i18n `avv.*`. Speichert Name, Geburtsdatum, Position, IP, digitale
+  Signatur, User-Agent, akzeptierte `appConfig.avvVersion` (V1.0) und SHA-256-Content-Hash;
+  auditiert (`AVV_ACCEPTED`). `appConfig.avvVersion` neu.
+- **AVV-Master-Vorlage** `docs/AVV_MASTER_VORLAGE.md` (plattformübergreifend, China/SCC-
+  Warnblock, Campus-Fakten gefüllt).
+- **Homepage:** Sektion „Immer verfügbar. Immer aktuell." (24/7-USP) + Maskottchen „KI-Campus
+  Mentor" (`public/images/maskottchen-mentor.png`, `maskottchen-freundlich.png`, transparent).
+- **FAQ:** neue Eröffnungsfrage „Dürfen private Anbieter das überhaupt? (WIFI/Kammern)" mit
+  Art.-4-Beleg. FAQ zusätzlich in die eingeloggte Navigation (`components/layout/header.tsx`).
+- **Pläne/Docs:** `docs/KURSPLAN_UND_B2C.md` (10 Kurse + B2C-Abo, Preise entschieden),
+  `docs/MUSTERLEKTION_K8_DATENSCHUTZ.md` (freigegeben).
+
+### Geändert / verankert
+- **CLAUDE.md:** Abschnitt BRANDING (Eule-Mentor immer dieselbe, Logo, Farbwelt) fix verankert.
+- **QM_SYSTEM.md:** Branding-Konsistenz als Qualitätsmerkmal (Abweichung = QualityIssue/CAPA).
+- **i18n `de.ts`:** `home.always*`, `home.mentor*`, `avv.*`, `company.avvLink`.
+
+### Bilder
+- `Bilder/` dedupliziert (16 Duplikate → `Bilder/_to_delete/`), 20 Unikate benannt (Schema
+  `handout*/uebersicht*/mosa_*/brand_*/maskottchen_*`).
+
+### Offen (Windows)
+- **Migration nötig:** `npm run db:generate` + `npm run db:init` (legt `AvvAcceptance`-Tabelle an),
+  dann `npm run build`. Danach `/company/avv` live.
+- Go-Live-Blocker K1/K2/H1/H3 (Auditbericht) — vor Deploy.
+
+## [0.11.1] — 2026-07-10 (Teil 8: Audit-Fixes + 24/7-USP)
+
+### Behoben
+- **Build-Breaker (P1):** `QM_CONTENT_REPORTED` fehlte in der `AuditAction`-Union
+  (`lib/audit.ts`) — `app/actions/qm-actions.ts:105` nutzt den Wert. Folge: `tsc` und
+  `next build` scheiterten (der als grün gemeldete Teil-7-Stand war nicht deploybar).
+  Wert ergänzt. Danach tsc 0, `next build` grün (93 Routen).
+- **Mandanten-Härtung (M1):** `updateQualityIssue` und `updateCorrectiveAction`
+  (`app/actions/qm-actions.ts`) setzten die aus dem Formular gelieferte `ownerId` ohne
+  Prüfung, ob der Nutzer zur Firma des Datensatzes gehört. Neuer Helper
+  `assertOwnerInScope()` (REUSE an beiden Stellen) lehnt fremde `ownerId` ab.
+
+### Hinzugefügt
+- **Homepage-Sektion „Immer verfügbar. Immer aktuell."** (`app/page.tsx`): drei Karten
+  (Lernen rund um die Uhr / Wissensdatenbank wächst laufend / Nachweise bleiben aktuell).
+  i18n `home.alwaysTitle/alwaysText/always1..3*` in `lib/i18n/de.ts`, in die Vorlese-
+  Funktion aufgenommen. Bewusst ohne Uptime-/SLA-Zusage (wording-guard-konform).
+- **Auditbericht** `docs/AUDIT_TEIL8_2026-07-10.md` (Sicherheitsbefunde K1–M3, Belege,
+  priorisierte Go-Live-Blocker, Bilder-Dedupe-/Benennungsvorschlag).
+
+### Offen (bewusst)
+- Sicherheits-Blocker vor Go-Live (K1 Seed-Passwort, K2 AUTH_SECRET, H1 Mail-Verifikation,
+  H2 Rate-Limiting, H3 Session-Invalidierung) — Betriebs-/Deploy-Entscheidungen.
+- `contentVersionLabel` V1.008 → V1.009 beim nächsten Seed.
+
+## [0.11.0] — 2026-07-08 (Handbuch-Rollout, Review-Cockpit, QM-Fehlermeldung, Zertifikat-Redesign)
+
+### Hinzugefügt
+- **Lernunterlagen → „KI-Kompetenz-Handbuch"** (Feature `handbuch` V2.1): alle
+  17 Basic-Module im Handbuch-Format (Boxen, fette Stichwörter, Markierungen,
+  Maskottchen-Mentor, hochgestellte Abkürzungs-Nummern aus `lib/glossary.ts`,
+  A4 mit Rändern 2 cm links / 1 cm sonst, Trust-Badges, QR zur Anmeldung +
+  „ausgegeben für"-Canary). Modul 5 = kuratiertes Referenz-Muster (Cheat-Sheet,
+  Entscheidungsbaum, Ja/Nein-Tabelle, Quiz, Workbook, Wenn-dann-Index).
+  Generator: `lernunterlagen/_generator.py`. Styleguide: `docs/STYLEGUIDE_HANDBUCH.md`.
+- **Review-Cockpit** `/admin/review-plan` (REUSE content-audit-Freigaben statt
+  Neubau): getakteter Prüfplan max. 3 Module/Werktag, Mo–Fr, österr. Feiertage
+  übersprungen. Reine Logik in `lib/review-schedule.ts` (+ Tests). Config:
+  `contentReviewCycleMonths: 6`, `contentReviewMaxPerDay: 3`.
+- **Teilnehmer-Fehlermeldung** in Lektionen (`app/lessons/[id]/page.tsx`):
+  `reportContentIssue` legt eine `QualityIssue` an (Quelle USER_REPORT, Kategorie
+  CONTENT) → landet im QM-Workflow. REUSE des bestehenden QualityIssue-Modells.
+- **Theme-abhängiges Logo** in der Kopfzeile (`components/layout/header.tsx`):
+  hell/dunkel via `optionalImage`, Fallback „KI"-Kachel.
+
+### Geändert
+- **Zertifikat-PDF** (`lib/certificate/pdf.ts`) auf Eigentümer-Vorgabe:
+  - Titel → „Bescheinigung der KI-Kompetenz nach Art. 4 EU AI Act" (zweizeilig).
+  - Daten-QR ~3 cm tiefer, Verify-QR ~1,5 cm höher.
+  - Geburtsdatum ergänzt (Zeile + Daten-QR-Payload).
+  - Firmenlogo in der Kopfzeile + Maskottchen als großes dezentes Wasserzeichen
+    (ow=430, Opazität 0,11) — beide optional via `existsSync`.
+  - Disclaimer-Box in Kleinstschrift (6,5 pt) + Dokumentenlenkungs-Zeile
+    „Dokumentenlenkung (ISO-9001-orientiert) · Rev. <Version> · Nr. <…> · Stand <…>".
+  - Unterer Textbereich komplett in EINEM Kasten (Echtheit + Disclaimer +
+    Dokumentenlenkung + KI-Hinweis) über die volle Breite; Fließtext im Blocksatz
+    (neue Funktion `drawJustified`, breitengemessener Umbruch). Eule-Wasserzeichen
+    ~1 cm nach rechts (x + 28).
+  - Gültigkeit + Verlängerung sichtbar: „Gültig bis" zeigt echtes Datum (Basic =
+    2 Jahre über `Course.certificateValidityMonths`), neue Zeile „Jährliche
+    Verlängerung" mit leerem Eintragfeld (Datum, sobald erfolgt — optionales Feld
+    `refreshedAt`). Gültig-bis zusätzlich im Daten-QR.
+  - i18n-Titel (`certificate.title/titleOfficer/titlePrompting`) → „Bescheinigung …";
+    neue Keys `certificate.refresh/refreshRequired/refreshedOn`.
+- Seed: Geburtsdatum für Anna/Bernd/Clara + `certificateValidityMonths: 24` für
+  den Basic-Kurs = 2 Jahre gültig (`prisma/seed/index.ts`).
+
+### Entschieden/erledigt (Eigentümer-Freigabe 2026-07-08)
+- Disclaimer-Rebrand: `certificate.disclaimer` + `verify.testHint` → „Diese
+  **Bescheinigung** … Sie dient als …" (Grammatik angepasst; rechtliche
+  Verneinungen unverändert). Auf Freigabe des Eigentümers.
+- `appConfig.websiteUrl` → `https://www.ki-nachweis.at` (Zertifikat-KI-Hinweis,
+  Verify-Seite, Impressum-Fallback; SEO/Canonical/Sitemap NICHT betroffen).
+- Wording-Guard-Scan grün: `docs/STYLEGUIDE_HANDBUCH.md` + `docs/HANDBUCH_BACKLOG.md`
+  neutralisiert (Verbotsliste referenziert statt zitiert).
+- Modell entschieden: **2 Jahre gültig** + Zeile „Jährliche Verlängerung" mit
+  leerem Feld (Datum wird eingetragen, sobald erfolgt). Auffrischungstest =
+  **10 Fragen (verkürzt)**, Erinnerung an **Teilnehmer UND Arbeitgeber**.
+
+### Offen (bewusst)
+- Globaler `contentVersionLabel` (Footer) + ContentRevision-Register-Zeile für
+  diesen Release beim Windows-Seed nachziehen (Footer=Register=Config).
+- Task #25 Backend: Schema `Certificate.refreshedAt` (Windows-Migration),
+  10-Fragen-Auffrischungstest, jährliche Verlängerungs-Action (setzt `refreshedAt`),
+  Erinnerungs-Cron an beide. **Schritt 1 gebaut:** Reminder-Fenster-Helper
+  `lib/recert-reminders.ts` + `tests/recert-reminders.test.ts` (zeitzonensicher via
+  UTC, Erinnerung an beide, Default 6 Wochen Vorlauf) — Schema/Action/Cron folgen.
+
+## [0.10.2] — 2026-07-08 (Task 4: N4-Beweis + Stale-Fix)
+
+### Behoben
+- `toggleUserStatus` revalidierte nur `/company/users`; auf `/admin/companies/[id]`
+  blieb Status bis Reload stale. Fix: zusätzlich ``/admin/companies/${companyId}``
+  revalidiert. Dieselbe Lücke systematisch geschlossen bei `createInvitation`,
+  `createParticipant`, `updateParticipant`, `deleteUserGdpr`, `resetAttempts`
+  (`app/actions/company-actions.ts`).
+
+### Hinzugefügt (Testdaten)
+- Zweite Firma „Beta Bau GmbH" (`demo-company-b`, Plan BASIC) + Admin
+  `hr@beta-bau.example` + 2 Teilnehmer, idempotent in `prisma/seed/index.ts` —
+  ermöglicht den Mandanten-A/B-Test (Katalog 47). Aktivierung: `npm run db:seed`.
+
+### Verifiziert (QA)
+- N4 (Zertifikat-PDF „TESTZUGANG"): **bestanden**. Renderer `lib/certificate/pdf.ts`
+  zeichnet Wasserzeichen + rotes Banner bei `isTest`; Route übergibt
+  `company.isTest`; Beweis-PDFs/PNGs unter docs/live-tests/2026-07-08/n4-zertifikat-testzugang.
+- Teilnehmer-Durchlauf (13–28), Mandantentrennung (47), N6-Banner: **code-verifiziert**
+  (Isolation strukturell via Session-Scope + `assertCompanyScope`; Banner im Root-Layout
+  rollenübergreifend). Live-Klick-Nachweis offen (Windows-Dev-Server).
+
+### Hinweis
+- `npm test` + `npm run build` sind auf dem Windows-Dev-Server auszuführen (bestätigt den
+  Fix). In der Linux-Agent-Sandbox nicht lauffähig (win32-node_modules, Mount-Artefakte).
+
 ## [0.10.1] — 2026-07-08 (Live-QA-Funde behoben)
 
 ### Behoben / Hinzugefügt
