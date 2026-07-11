@@ -3,10 +3,10 @@ import { prisma } from "@/lib/prisma";
 import { pickTranslation } from "@/lib/content";
 import { appConfig } from "@/config/app";
 import { getT } from "@/lib/i18n";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Clock, BookOpen, ClipboardCheck, Award, Volume2 } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Clock, BookOpen, ClipboardCheck, Award, Volume2, ChevronDown } from "lucide-react";
 import { ReadAloud } from "@/components/read-aloud";
+import { optionalImage } from "@/lib/assets";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -110,76 +110,114 @@ export default async function CurriculumPage() {
           { icon: Award, value: "Zertifikat", sub: "mit QR-Verifikation" },
         ];
 
+        // Kurs als Aufklapper: erster Kurs offen, Rest zu — statt einer endlosen Liste
         return (
-          <section key={course.id} className="space-y-6" aria-label={courseTr?.title}>
-            <div className="mx-auto max-w-3xl text-center">
-              <p className="text-sm font-semibold text-accent-600 dark:text-accent-400">
-                {t("home.courseNumber", { number: courseIndex + 1 })}
-              </p>
-              <h2 className="mt-1 text-2xl font-bold text-brand-900 dark:text-white">{courseTr?.title}</h2>
-              <p className="mt-2 text-slate-600 dark:text-slate-300">{courseTr?.subtitle}</p>
-            </div>
+          <details
+            key={course.id}
+            open={courseIndex === 0}
+            className="group rounded-2xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900"
+          >
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-6 [&::-webkit-details-marker]:hidden">
+              <span>
+                <span className="block text-sm font-semibold text-accent-600 dark:text-accent-400">
+                  {t("home.courseNumber", { number: courseIndex + 1 })}
+                </span>
+                <span className="mt-0.5 block text-xl font-bold text-brand-900 dark:text-white">{courseTr?.title}</span>
+                <span className="mt-1 block text-sm text-slate-500 dark:text-slate-400">{courseTr?.subtitle}</span>
+              </span>
+              <ChevronDown className="h-6 w-6 shrink-0 text-slate-400 transition-transform group-open:rotate-180" aria-hidden="true" />
+            </summary>
 
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {stats.map(({ icon: Icon, value, sub }) => (
-                <Card key={course.id + value}>
-                  <CardContent className="flex items-center gap-3 p-5">
-                    <Icon className="h-8 w-8 shrink-0 text-accent-500" aria-hidden="true" />
-                    <div>
-                      <p className="font-semibold text-brand-900 dark:text-white">{value}</p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400">{sub}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <div className="space-y-5">
-              {course.modules.map((mod) => {
-                const modTr = pickTranslation(mod.translations, appConfig.defaultLocale);
-                const modMinutes = mod.lessons.reduce((s, l) => s + l.durationMinutes, 0);
-                return (
-                  <Card key={mod.id}>
-                    <CardHeader>
-                      <CardTitle className="flex flex-wrap items-center gap-3 text-base">
-                        <span aria-hidden="true" className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-100 text-sm font-semibold text-brand-800 dark:bg-brand-800 dark:text-brand-100">
-                          {mod.order}
-                        </span>
-                        <Link href={`/schulung/${mod.slug}`} className="hover:text-accent-600 hover:underline dark:hover:text-accent-400">
-                          {modTr?.title}
-                        </Link>
-                        <Badge variant="neutral">{t("course.duration", { minutes: modMinutes })}</Badge>
-                      </CardTitle>
-                      <CardDescription>
-                        {modTr?.description}{" "}
-                        <Link href={`/schulung/${mod.slug}`} className="whitespace-nowrap font-medium text-accent-600 hover:underline dark:text-accent-400">
-                          {t("moduleDetail.openDetail")} →
-                        </Link>
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="divide-y divide-slate-100 dark:divide-slate-800">
-                        {mod.lessons.map((lesson) => {
-                          const lessonTr = pickTranslation(lesson.translations, appConfig.defaultLocale);
-                          return (
-                            <li key={lesson.id} className="py-3">
-                              <div className="flex items-start justify-between gap-4">
-                                <div>
-                                  <p className="font-medium text-slate-800 dark:text-slate-200">{lessonTr?.title}</p>
-                                  <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{lessonTr?.goal}</p>
-                                </div>
-                                <span className="shrink-0 text-xs text-slate-400">{t("course.duration", { minutes: lesson.durationMinutes })}</span>
-                              </div>
-                            </li>
-                          );
-                        })}
-                      </ul>
+            <div className="space-y-6 px-6 pb-6">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {stats.map(({ icon: Icon, value, sub }) => (
+                  <Card key={course.id + value}>
+                    <CardContent className="flex items-center gap-3 p-4">
+                      <Icon className="h-7 w-7 shrink-0 text-accent-500" aria-hidden="true" />
+                      <div>
+                        <p className="text-sm font-semibold text-brand-900 dark:text-white">{value}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">{sub}</p>
+                      </div>
                     </CardContent>
                   </Card>
-                );
-              })}
+                ))}
+              </div>
+
+              {/* Kompakte Modul-Kacheln mit Foto — schnell scanbar, Klick öffnet das Modul */}
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {course.modules.map((mod) => {
+                  const modTr = pickTranslation(mod.translations, appConfig.defaultLocale);
+                  const modMinutes = mod.lessons.reduce((s, l) => s + l.durationMinutes, 0);
+                  const modImage = optionalImage(`modules/${mod.slug}.png`);
+                  return (
+                    <Link
+                      key={mod.id}
+                      href={`/schulung/${mod.slug}`}
+                      className="group/tile flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 transition hover:border-accent-500 hover:shadow-sm dark:border-slate-700 dark:bg-slate-950 dark:hover:border-accent-500"
+                    >
+                      {modImage ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={modImage}
+                          alt=""
+                          aria-hidden="true"
+                          loading="lazy"
+                          className="h-16 w-24 shrink-0 rounded-lg border border-slate-200 object-cover dark:border-slate-700"
+                        />
+                      ) : (
+                        <span aria-hidden="true" className="flex h-16 w-24 shrink-0 items-center justify-center rounded-lg bg-brand-100 text-lg font-bold text-brand-800 dark:bg-brand-800 dark:text-brand-100">
+                          {mod.order}
+                        </span>
+                      )}
+                      <span className="min-w-0">
+                        <span className="block truncate text-xs font-semibold text-accent-600 dark:text-accent-400">
+                          Modul {mod.order} · {t("course.duration", { minutes: modMinutes })}
+                        </span>
+                        <span className="mt-0.5 block text-sm font-medium leading-snug text-slate-900 group-hover/tile:text-accent-600 dark:text-slate-100 dark:group-hover/tile:text-accent-400">
+                          {modTr?.title}
+                        </span>
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+
+              {/* Volle Lektionsliste bleibt erhalten (Transparenz + SEO) — aber zusammengeklappt */}
+              <details className="rounded-xl border border-slate-200 dark:border-slate-700">
+                <summary className="cursor-pointer list-none px-4 py-3 text-sm font-semibold text-brand-900 hover:text-accent-600 dark:text-slate-100 dark:hover:text-accent-400 [&::-webkit-details-marker]:hidden">
+                  Alle Lektionen mit Lernziel &amp; Dauer anzeigen ▾
+                </summary>
+                <div className="space-y-5 px-4 pb-4">
+                  {course.modules.map((mod) => {
+                    const modTr = pickTranslation(mod.translations, appConfig.defaultLocale);
+                    return (
+                      <div key={mod.id}>
+                        <p className="font-semibold text-brand-900 dark:text-white">
+                          Modul {mod.order}: {modTr?.title}
+                        </p>
+                        <ul className="mt-1 divide-y divide-slate-100 dark:divide-slate-800">
+                          {mod.lessons.map((lesson) => {
+                            const lessonTr = pickTranslation(lesson.translations, appConfig.defaultLocale);
+                            return (
+                              <li key={lesson.id} className="py-2.5">
+                                <div className="flex items-start justify-between gap-4">
+                                  <div>
+                                    <p className="text-sm font-medium text-slate-800 dark:text-slate-200">{lessonTr?.title}</p>
+                                    <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{lessonTr?.goal}</p>
+                                  </div>
+                                  <span className="shrink-0 text-xs text-slate-400">{t("course.duration", { minutes: lesson.durationMinutes })}</span>
+                                </div>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    );
+                  })}
+                </div>
+              </details>
             </div>
-          </section>
+          </details>
         );
       })}
 

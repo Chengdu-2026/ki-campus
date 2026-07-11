@@ -18,6 +18,18 @@ export default async function PricingPage() {
       <div className="mx-auto mb-10 max-w-2xl text-center">
         <h1 className="text-3xl font-bold text-brand-900 dark:text-white">{t("pricing.title")}</h1>
         <p className="mt-2 text-slate-600 dark:text-slate-300">{t("pricing.subtitle", { fee: appConfig.examRetakeFeeEur })}</p>
+        {/* USPs — gleiches Wording wie Hero: Verfügbarkeit, lebende Wissensdatenbank, Kurse auf Wunsch */}
+        <div className="mt-5 flex flex-wrap justify-center gap-2.5">
+          <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+            <span aria-hidden="true">🕐</span> <b className="text-accent-600 dark:text-accent-400">24/7</b> verfügbar
+          </span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+            <span aria-hidden="true">📈</span> ständig <b className="text-accent-600 dark:text-accent-400">wachsende</b> Wissensdatenbank
+          </span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+            <span aria-hidden="true">🧩</span> neue Kurse auf <b className="text-accent-600 dark:text-accent-400">Kundenwunsch</b> — auf Anfrage
+          </span>
+        </div>
       </div>
       <div className="grid gap-6 md:grid-cols-3">
         {plans.map((plan) => (
