@@ -23,7 +23,6 @@ export function navItemsFor(role: string | null, t: (k: string) => string): NavI
     { href: "/courses", label: t("nav.courses") },
     { href: "/certificates", label: t("nav.certificates") },
     { href: "/practice", label: t("nav.practice") },
-    { href: "/faq", label: t("nav.faq") },
   ];
   if (role === "COMPANY_ADMIN" || role === "TRAINER") items.push({ href: "/company", label: t("nav.company") });
   if (role === "SUPERADMIN") items.push({ href: "/admin", label: t("nav.admin") });
@@ -41,19 +40,22 @@ export async function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
+      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-4 px-4">
         <Link href={session ? "/dashboard" : "/"} className="flex items-center gap-2 font-semibold text-brand-900 dark:text-slate-100">
           {logoLight && logoDark ? (
             <>
+              {/* Logo trägt die volle Wortmarke — App-Name daneben wäre doppelt */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={logoLight} alt={appConfig.appName} className="h-9 w-auto rounded-md dark:hidden" />
+              <img src={logoLight} alt={appConfig.appName} className="h-14 w-auto rounded-md dark:hidden" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={logoDark} alt="" aria-hidden="true" className="hidden h-9 w-auto rounded-md dark:block" />
+              <img src={logoDark} alt="" aria-hidden="true" className="hidden h-14 w-auto rounded-md dark:block" />
             </>
           ) : (
-            <span aria-hidden="true" className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-700 text-sm font-bold text-white dark:bg-accent-500 dark:text-brand-900">KI</span>
+            <>
+              <span aria-hidden="true" className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-700 text-sm font-bold text-white dark:bg-accent-500 dark:text-brand-900">KI</span>
+              <span className="hidden sm:inline">{appConfig.appName}</span>
+            </>
           )}
-          <span className="hidden sm:inline">{appConfig.appName}</span>
         </Link>
 
         <nav aria-label="Hauptnavigation" className="hidden items-center gap-1 md:flex">

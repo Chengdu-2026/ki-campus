@@ -23,7 +23,7 @@ export default async function HomePage() {
     },
     orderBy: { createdAt: "asc" },
   });
-  const heroImage = optionalImage("images/hero.jpg");
+  const heroOwl = optionalImage("brand/mentor/hero-eule.png");
   const dashboardImage = optionalImage("images/dashboard.jpg");
   const mascotMentor = optionalImage("images/maskottchen-mentor.png");
   const mascotFriendly = optionalImage("images/maskottchen-freundlich.png");
@@ -34,10 +34,15 @@ export default async function HomePage() {
     { icon: QrCode, title: t("home.benefit3Title"), text: t("home.benefit3Text") },
   ];
 
+  // Hero-Texte (freigegebenes Wording, Markensystem V2.0 — Produktmarke KI-Kompetenz Campus)
+  const heroTitlePlain = "KI-Pflicht erfüllt. Team geschult. Nachweis in der Hand.";
+  const heroTextPlain =
+    "Online-Schulung mit echten Büro-Fallbeispielen — rechtlich fundiert, verständlich und mit prüffähigem Kompetenznachweis nach Art. 4 EU AI Act.";
+
   // Vorlese-Text der Startseite (Barrierefreiheit — Start nur per Klick, nie automatisch)
   const readAloudText = [
-    t("home.heroTitle"),
-    t("home.heroText"),
+    heroTitlePlain,
+    heroTextPlain,
     t("home.heroDisclaimer"),
     ...benefits.flatMap((b) => [b.title, b.text]),
     t("home.mentorTitle"),
@@ -50,36 +55,58 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-16 py-6">
-      <section className="mx-auto max-w-3xl text-center">
-        <Badge variant="accent" className="mb-4">Art. 4 EU AI Act · AI Literacy</Badge>
-        <h1 className="text-4xl font-bold tracking-tight text-brand-900 dark:text-white sm:text-5xl">
-          {t("home.heroTitle")}
-        </h1>
-        <p className="mt-5 text-lg text-slate-600 dark:text-slate-300">{t("home.heroText")}</p>
-        <p className="mt-3 text-sm font-medium text-slate-500 dark:text-slate-400">{t("home.heroDisclaimer")}</p>
-        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <Link href="/register" className="inline-flex h-12 items-center justify-center rounded-lg bg-brand-700 px-8 text-base font-medium text-white hover:bg-brand-600 dark:bg-accent-500 dark:text-brand-900 dark:hover:bg-accent-400">
-            {t("home.ctaStart")}
-          </Link>
-          <Link href="/login" className="inline-flex h-12 items-center justify-center rounded-lg border border-slate-300 px-8 text-base font-medium hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800">
-            {t("home.ctaLogin")}
-          </Link>
-        </div>
-        <div className="mt-6 flex justify-center">
-          <ReadAloud text={readAloudText} label={t("moduleDetail.readAloud")} />
+      {/* Hero im Handbuch-Look: Navy-Verlauf, Hoodie-Eule (Produktmarke), Cyan-Akzente.
+          Bewusst in beiden Farbmodi dunkel — der Rest der Seite folgt weiter dem Hell/Dunkel-Umschalter. */}
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-900 to-brand-800 px-6 py-12 text-white shadow-xl ring-1 ring-brand-800 sm:px-10 sm:py-14">
+        <div aria-hidden="true" className="pointer-events-none absolute -right-16 top-1/2 h-[26rem] w-[26rem] -translate-y-1/2 rounded-full bg-accent-500/20 blur-3xl" />
+        <div className="relative grid items-center gap-10 md:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <Badge variant="accent" className="mb-4">Art. 4 EU AI Act · AI Literacy</Badge>
+            <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+              KI-Pflicht erfüllt. Team geschult.{" "}
+              <span className="text-accent-400">Nachweis in der Hand.</span>
+            </h1>
+            <p className="mt-5 max-w-xl text-lg text-slate-200">{heroTextPlain}</p>
+            <p className="mt-3 text-sm font-medium text-slate-400">{t("home.heroDisclaimer")}</p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <span className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-slate-100">
+                <span aria-hidden="true">🕐</span> <b className="text-accent-400">24/7</b> verfügbar
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-slate-100">
+                <span aria-hidden="true">📈</span> ständig <b className="text-accent-400">wachsende</b> Wissensdatenbank
+              </span>
+            </div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/register" className="inline-flex h-12 items-center justify-center rounded-lg bg-accent-500 px-8 text-base font-bold text-brand-900 shadow-lg shadow-accent-500/30 hover:bg-accent-400">
+                {t("home.ctaStart")}
+              </Link>
+              <Link href="/login" className="inline-flex h-12 items-center justify-center rounded-lg border border-white/30 px-8 text-base font-medium text-white hover:bg-white/10">
+                {t("home.ctaLogin")}
+              </Link>
+            </div>
+            <div className="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold text-slate-300">
+              <span>🇪🇺 Art. 4 EU AI Act</span>
+              <span>🇦🇹 Österreich</span>
+              <span>🔒 DSGVO</span>
+              <span>📄 Audit-tauglich</span>
+              <span>🎓 Kompetenznachweis</span>
+            </div>
+            <div className="mt-6">
+              <ReadAloud text={readAloudText} label={t("moduleDetail.readAloud")} />
+            </div>
+          </div>
+          {heroOwl && (
+            <div className="relative mx-auto w-56 sm:w-64 md:w-full md:max-w-sm">
+              {/* KI-generiertes Maskottchen — Kennzeichnung unter /ki-transparenz */}
+              <img
+                src={heroOwl}
+                alt="KI-Campus Mentor: Eule im KI-Kompetenz-Campus-Hoodie mit EU-Tablet (KI-generiertes Maskottchen)"
+                className="w-full drop-shadow-[0_22px_38px_rgba(0,0,0,0.5)]"
+              />
+            </div>
+          )}
         </div>
       </section>
-
-      {heroImage && (
-        <section>
-          {/* KI-generiertes Illustrationsbild — Kennzeichnung im Bild und unter /ki-transparenz */}
-          <img
-            src={heroImage}
-            alt="Illustration: Team arbeitet mit einem KI-Schulungs-Dashboard (KI-generiertes Bild)"
-            className="w-full rounded-2xl border border-slate-200 shadow-sm dark:border-slate-700"
-          />
-        </section>
-      )}
 
       {/* KI-Campus Mentor — Maskottchen stellt sich vor (Bild optional, Seite läuft auch ohne) */}
       {mascotMentor && (
