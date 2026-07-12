@@ -398,3 +398,32 @@ geprüft und freigegeben".
 - Übungsmodus kursübergreifend (Kursauswahl)
 - Leadmaschine ausbauen: CSV-Export, Quellen-Tracking (source je Kampagne),
   Double-Opt-in-Mail sobald SMTP produktiv
+
+---
+
+## 6. Produktlinien-Expansion (Kursfamilien) & Enterprise-API — Status: GEPLANT (2026-07-11)
+
+Maßgeblich: `docs/MASTERPLAN_PRODUKTLINIEN.md` (Entscheidungen + Rollout) und
+`docs/ENTERPRISE_API_SPEC.md` (API V1). Kurzfassung fürs Repo:
+
+- **Kursfamilien:** `Course.familyKey` (`KI` | `SAFETY` …) + Familien-Registry in
+  `config/app.ts` (Muster courseCertificateTitleKeys erweitern); Entitlement über
+  neues Model `CompanyFamilyAddon` (companyId, familyKey, status, activatedAt) —
+  Familie KI im Plan enthalten (Bestandsschutz), weitere Familien per Add-on.
+  Recert über vorhandene `certificateValidityMonths` + Erinnerungs-Crons.
+  init.sql synchron halten.
+- **Externe fachliche Freigabe je Familie:** Model `ExternalReviewApproval`
+  (Reviewer + Qualifikation, geprüfte Version + contentHash, Prüfprotokoll-PDF,
+  Status FREIGEGEBEN/MIT_AUFLAGEN/ABGELEHNT) — hash-gebunden wie Content-Audit,
+  Erfassung durch Superadmin, KEINE neuen Rollen. SFK-Freigabe = Go-Live-Gate
+  der Sicherheits-Familie.
+- **Enterprise-API V1** (Bau erst nach S1-Pilot): Modelle `ApiKey` +
+  `WebhookEndpoint`; Endpoints participants / certificates / compliance-status;
+  Webhook-Events certificate.issued / certificate.expiring / exam.failed.
+  Erster Konsument: StaffFlow (nur API, nie DB, StaffFlow-Repo bleibt unangetastet).
+- **Preisstruktur:** Sicherheits-Add-on je Plan (Vorschlag BASIC +49 € / BUSINESS
+  +99 €/Monat, Jahresrabatt wie Plan) — Zahlen-Freigabe Eigentümer offen.
+- **Bau-Trigger:** Nichts hiervon vor Freigabe Musterlektion S1-9.1 + SFK-Gate;
+  Reihenfolge Masterplan §9. Feature-Flags erst beim Bau setzen (nie vorab „live").
+  Bei Familienstart: Konsistenz-Checkliste CLAUDE.md (Preisseite, FAQ, Zahlwörter,
+  Sitemap, Glossar) im selben Arbeitspaket.

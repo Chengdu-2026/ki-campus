@@ -90,7 +90,7 @@ Datum: 2026-07-11 · Session: „KI Schulung Teil 8" · Letzte Commits: 410d917,
 - **Branding (fix, CLAUDE.md + Brand-Sheet V2.0)**: Produktflächen = Campus-Logo + Hoodie-Eule;
   MOSA Works nur persönlich (Mini-Eule); Adler nur HSC/Recht/Impressum; Pflichtzeile
   „Developed & operated by Hainan Salzburg Consulting Co., Ltd."; Palette Navy/Blau/Cyan/Weiß.
-- **Wording-Guard**: nie „staatlich anerkannt/behördlich/zertifiziert/garantiert rechtssicher";
+- **Wording-Guard**: keine Behauptungen staatlicher/behördlicher Anerkennung oder Zertifizierung, keine Rechtssicherheits-Garantien;
   Disclaimer „privater Schulungs-/Unterweisungsnachweis"; Quellen klein in Fußzeile.
 - **Bridge-Regeln (hart erarbeitet!)**: Textdateien NUR als ZIP → `device_commit_files` ins Projektroot →
   MD5-Vergleich → User entpackt lokal (`Expand-Archive … -Force`). Große Textdateien (>65 KB, z. B. de.ts)
@@ -132,7 +132,7 @@ AUFGABEN IN REIHENFOLGE:
    KURSPLAN_SICHERHEIT.md Kap. 5 (Marke/SFK/Preis/Land). Danach S1 modulweise ausformulieren.
 
 REGELN: Content immer erst Gliederung + 1 Musterlektion → Freigabe → skalieren. Wording-Guard
-(nie „staatlich anerkannt" etc.). Textdateien zum Gerät NUR als ZIP ins Projektroot + MD5-Check +
+(keine Anerkennungs-Behauptungen etc.). Textdateien zum Gerät NUR als ZIP ins Projektroot + MD5-Check +
 lokal Expand-Archive; de.ts (>65 KB) nur in-VM via git show + python editieren. git commit immer
 mit -m. Fehler ungefragt ausbessern. Antworten mit Fett-Struktur. Hell/Dunkel-Modus nie brechen.
 ```

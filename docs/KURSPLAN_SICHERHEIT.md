@@ -1,6 +1,6 @@
 # Produktlinie „Sicherheitsunterweisung" — Konzept V1.0
 
-Stand: 2026-07-11 · Status: **Gliederung zur Freigabe** (Arbeitsmethode: erst Gliederung + 1 Musterlektion, dann skalieren)
+Stand: 2026-07-11 · Status: **Gliederung zur Freigabe · Kap.-5-Entscheidungen GETROFFEN (2026-07-11, siehe Masterplan)**
 
 ---
 
@@ -36,7 +36,7 @@ Konsequenz für uns:
    → Bewusst NICHT unser Produkt (V1), nur Abgrenzungshinweis im Kurs.
 
 **Wording-Vorgaben** (analog Art.-4-Produkt, wandert in den Wording-Guard):
-- „Privater Schulungs- und Unterweisungsnachweis" — niemals „behördlich/staatlich anerkannt".
+- „Privater Schulungs- und Unterweisungsnachweis" — niemals Formulierungen, die eine staatliche oder behördliche Anerkennung behaupten.
 - Standard-Disclaimer je Kurs: *„Dieser Kurs unterstützt den Arbeitgeber bei der Unterweisungspflicht
   nach §§ 12, 14 ASchG. Die betriebsspezifische Unterweisung und erforderliche Praxisteile verbleiben
   in der Verantwortung des Arbeitgebers. Ergänzungs-Checkliste im Lieferumfang."*
@@ -93,20 +93,21 @@ Werkstatt KFZ, Ladungssicherung. Aufwand je Kurs sinkt mit jedem gebauten (Templ
   (jährliche Nachunterweisung = Standard-Empfehlung) → Recert-Erinnerung automatisch.
 - NEU je Kurs: **Arbeitgeber-Ergänzungs-Checkliste (PDF)** für den betriebsspezifischen Teil.
 
-## 5. Offene Entscheidungen (brauchen Sascha)
+## 5. Entscheidungen (Eigentümer, 2026-07-11 — Details: `docs/MASTERPLAN_PRODUKTLINIEN.md`)
 
-1. **Marke/Domäne**: „KI-Kompetenz Campus" passt nicht als Absender für Arbeitssicherheit.
-   Optionen: (a) Dachmarke „Kompetenz Campus" mit Produktlinien KI + Sicherheit,
-   (b) eigene Produktmarke (z. B. „Sicherheits-Campus") auf derselben Plattform,
-   (c) V1 einfach als zusätzliche Kursfamilie im bestehenden System, Branding später.
-   → Empfehlung: **(c) jetzt, (a) strategisch prüfen** — kein Rebranding-Projekt vor dem ersten Umsatz.
-2. **SFK-Review**: externe Sicherheitsfachkraft als Content-Reviewer (Budget ~ einmalig je Kurs).
-   Ohne das kein Go-Live — Haftungsthema.
-3. **Preismodell**: (a) Aufpreis-Kursfamilie zu bestehenden Paketen (+X €/Monat),
-   (b) eigenständiges Produkt mit eigenen Paketen, (c) „Alles-drin"-Preiserhöhung.
-   → Empfehlung: **(a)**, hält die Art.-4-Preise stabil und macht Upsell messbar.
-4. **Zielland-Reihenfolge**: Start Österreich (ASchG); Deutschland (ArbSchG/DGUV) als V2 —
-   Rechtsquellen unterscheiden sich, Struktur bleibt.
+1. **Marke/Domäne: ENTSCHIEDEN (c).** Jetzt zusätzliche Kursfamilie im bestehenden
+   System, kein Rebranding. Rebranding-PRÜFUNG erst bei Trigger: ≥ 10 zahlende
+   Add-on-Firmenkunden ODER Add-on-MRR ≥ 1.000 € über 3 Monate (Masterplan §6,
+   inkl. Markenrecherche-Checkliste — „Kompetenz Campus" ist markenrechtlich
+   voraussichtlich schwach).
+2. **SFK-Review: BESTÄTIGT als Go-Live-Gate.** Ohne dokumentierte SFK-Freigabe kein
+   Verkauf. Offen nur Budget: SFK anfragen, Kostenrahmen einholen. Dokumentation
+   künftig über `ExternalReviewApproval` (Masterplan §4, hash-gebunden).
+3. **Preismodell: ENTSCHIEDEN (a) — Add-on je Plan.** Vorschlag: BASIC +49 €/Monat,
+   BUSINESS +99 €/Monat, ENTERPRISE auf Anfrage; Jahresrabatt wie Plan (−10/−15 %).
+   Zahlen-Freigabe durch Eigentümer offen (Masterplan §5 mit Marktankern).
+4. **Zielland-Reihenfolge: BESTÄTIGT.** Start Österreich (ASchG); Deutschland
+   (ArbSchG/DGUV) als V2 — Struktur bleibt, Rechtsquellen tauschen.
 
 ## 6. Rollout (nach Freigabe dieser Gliederung)
 

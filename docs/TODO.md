@@ -1,5 +1,18 @@
 # TODO
 
+## Teil 9 (2026-07-11 abends): Push + Masterplan Produktlinien + API-Spec
+- [x] Tagesabschluss committet + gepusht (`f319c08`, main == origin/main über Refs verifiziert).
+- [x] 4 Entscheidungen Sicherheits-Produktlinie (Scope/Marke/StaffFlow/Preise) →
+      `docs/MASTERPLAN_PRODUKTLINIEN.md` (NEU); `docs/KURSPLAN_SICHERHEIT.md` Kap. 5 aktualisiert.
+- [x] Enterprise-API V1 spezifiziert (`docs/ENTERPRISE_API_SPEC.md`, NEU) — Bau erst nach S1-Pilot.
+- [x] ROADMAP §6 (Kursfamilien + API, geplant); S1-Assets gesichtet: 10/10 Modulbilder
+      (`Bilder/S1_*.png`) + `Sicherheis Eule Transparent.png` — Design unverändert fortführen.
+- [ ] **Preis-Freigabe (nur du):** Sicherheits-Add-on BASIC +49 / BUSINESS +99 €/Monat (Masterplan §5).
+- [ ] **SFK anfragen** (Kostenrahmen je Kurs) — Go-Live-Gate S1 (Masterplan §4).
+- [ ] **Musterlektion S1-9.1 freigeben** → dann S1 modulweise ausformulieren (24 Lektionen).
+- [ ] Bei S1-Go-Live: `familyKey`/`CompanyFamilyAddon`/`ExternalReviewApproval` bauen
+      (ROADMAP §6) + Konsistenz-Checkliste (Preisseite, FAQ, Zahlwörter, Sitemap).
+
 ## Teil 8 Abschluss (2026-07-11): FAQ, Kursplan, AVV, Maskottchen
 - [x] FAQ: Eröffnungsfrage WIFI/Kammern-Positionierung; FAQ in eingeloggte Nav.
 - [x] 24/7-USP + Maskottchen „KI-Campus Mentor" auf Homepage; Branding in CLAUDE.md + QM_SYSTEM.md.

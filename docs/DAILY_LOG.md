@@ -1,6 +1,37 @@
 # Tagesabschluss
 
 ## Datum
+2026-07-11 abends (Teil 9: Tagesabschluss-Push + Masterplan Produktlinien)
+
+## Heute erledigt
+- **Tagesabschluss committet + gepusht** (`f319c08`): Sicherheits-Konzept S1–S5,
+  Kurs S1 komplett gegliedert + Musterlektion 9.1, Übergabe Teil 9. Push über Refs
+  verifiziert (main == origin/main); Commit enthielt nur A-Einträge (nichts überschrieben).
+- **4 Entscheidungen Produktlinie Sicherheit** nach Berater-Feedback + Rückfragen:
+  Scope = Unterweisungs-Compliance OHNE EHS-SaaS · Dachmarke = Schwellen-Entscheid ·
+  StaffFlow = API-Spec jetzt, Bau nach S1-Pilot · Preise = Add-on-Vorschlag
+  (BASIC +49 / BUSINESS +99 €/Monat) → `docs/MASTERPLAN_PRODUKTLINIEN.md` (NEU).
+- **Enterprise-API V1 spezifiziert** (`docs/ENTERPRISE_API_SPEC.md`, NEU): ApiKey/
+  Scopes/Rate-Limit, participants/certificates/compliance-status, Webhooks,
+  StaffFlow-Blueprint (nur API, nie DB), DSGVO-/Datenminimierungs-Regeln.
+- **KURSPLAN_SICHERHEIT Kap. 5** → ENTSCHIEDEN; **ROADMAP §6** (Kursfamilien + API);
+  TODO/AGENT_HANDOVER/CHANGELOG fortgeschrieben.
+- **S1-Bilder vom Eigentümer gesichtet:** 10/10 Modulbilder (`Bilder/S1_*.png`) +
+  `Sicherheis Eule Transparent.png` — Design-System unverändert fortführen.
+
+## Verifikation
+- Neue/geänderte Docs gegen Wording-Guard-Verbotsliste geprüft (Scan im Container).
+- **Fund + Fix:** f319c08 hätte npm test rot gemacht (Verbotsphrasen wörtlich zitiert in
+  KURSPLAN_SICHERHEIT + Übergabe Teil 9, 3 Stellen; „niemals/nie“ deckt der Guard nicht ab) — umformuliert.
+- Transport als ZIP + MD5-Vergleich; `npm test` lokal nach Entpacken (Windows) OFFEN.
+
+## Offen / Eigentümer
+- Preis-Freigabe Add-on (Masterplan §5) · SFK-Kostenrahmen einholen ·
+  Musterlektion S1-9.1 freigeben · danach S1 ausformulieren.
+
+---
+
+## Datum
 2026-07-11 (Teil 8 Abschluss — Session lief 10.7. nachts → 11.7.)
 
 ## Heute erledigt (Fortsetzung Teil 8)

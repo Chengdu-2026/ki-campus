@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.12.1] — 2026-07-11 (Teil 9: Produktlinien-Masterplan + Enterprise-API-Spec — nur Doku)
+
+### Hinzugefügt
+- **`docs/MASTERPLAN_PRODUKTLINIEN.md`:** Kursfamilien-Zielbild + 4 Eigentümer-
+  Entscheidungen (V1 Sicherheit = Unterweisungs-Compliance ohne EHS-SaaS; Dachmarke
+  nur mit Trigger; StaffFlow über Enterprise-API nach S1-Pilot; Add-on-Preisvorschlag
+  BASIC +49 / BUSINESS +99 €/Monat mit Marktankern), Kursfamilien-Architektur-Spec
+  (`familyKey`, `CompanyFamilyAddon`), Reviewer-Matrix + `ExternalReviewApproval`-Spec,
+  Rechts-Gates, Rollout-Reihenfolge, harte Abgrenzungen (kein Staplerschein/Kran,
+  Erste Hilfe nur Basics).
+- **`docs/ENTERPRISE_API_SPEC.md`:** API V1 — ApiKey/WebhookEndpoint-Modelle, Scopes,
+  Rate-Limit, Endpoints (participants, certificates, compliance-status), Webhook-Events,
+  StaffFlow-Blueprint, Sicherheits-/DSGVO-Abschnitt. Bau erst nach S1-Pilot.
+
+### Behoben
+- **npm test wäre rot gewesen (Repo-Scan umfasst docs/):** `KURSPLAN_SICHERHEIT.md` und `UEBERGABE_…Teil9.md` (Commit f319c08) zitierten Verbotsphrasen wörtlich; „niemals/nie“ ist kein abgedecktes Negationsmuster des Wording-Guards. Zitate umformuliert (Bedeutung unverändert), alle docs/ wieder sauber.
+
+### Geändert (nur Dokumentation)
+- `docs/KURSPLAN_SICHERHEIT.md` Kap. 5: 4 offene Entscheidungen → ENTSCHIEDEN
+  (Verweis Masterplan; SFK-Budget bleibt offen).
+- `docs/ROADMAP.md`: neuer §6 Produktlinien-Expansion & Enterprise-API (Status: geplant).
+- `docs/TODO.md`, `docs/AGENT_HANDOVER.md`, `docs/DAILY_LOG.md` fortgeschrieben.
+- Kein Code, kein Schema, keine öffentlichen Seiten — `contentVersionLabel` unverändert.
+
 ## [0.12.0] — 2026-07-11 (Teil 8 Abschluss: FAQ, Kursplan, AVV, Maskottchen)
 
 ### Hinzugefügt

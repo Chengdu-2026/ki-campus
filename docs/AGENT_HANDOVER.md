@@ -1,6 +1,39 @@
 # Agent Handover
 
-## STAND 2026-07-11 (Teil 8, Session 10.7. nachts → 11.7.) — ZUERST LESEN
+## STAND 2026-07-11 ABEND (Teil 9: Push + Produktlinien-Masterplan) — ZUERST LESEN
+
+**Repo-Stand:** `f319c08` gepusht (main == origin/main, über Refs verifiziert) —
+Sicherheits-Konzept S1–S5, Kurs S1 (10 Module/24 Lektionen, Musterlektion 9.1),
+Übergabe Teil 9. Achtung Bridge: VM-Mount zeigt teils stale Sichten — Verifikation
+nur via MD5 oder User-Terminal (Regel aus Teil 8 gilt weiter).
+
+**Neu in diesem Paket (NUR Doku — kein Code, kein Schema, keine Seiten):**
+- `docs/MASTERPLAN_PRODUKTLINIEN.md` — 4 Eigentümer-Entscheidungen (2026-07-11):
+  V1 Sicherheit = **Unterweisungs-Compliance ohne EHS-SaaS** · Dachmarke nur mit
+  Trigger (§6) · StaffFlow über Enterprise-API nach S1-Pilot · Preis-Add-on
+  BASIC +49 / BUSINESS +99 €/Monat (**Zahlen-Freigabe offen**). Harte Abgrenzungen:
+  kein Staplerschein/Kran, Erste Hilfe nur Basics, Praxisteile „vor Ort erforderlich".
+- `docs/ENTERPRISE_API_SPEC.md` — API V1 (Keys/Scopes/Rate-Limit, participants/
+  certificates/compliance-status, Webhooks, StaffFlow-Blueprint). **NICHT bauen
+  vor S1-Pilot.**
+- `docs/KURSPLAN_SICHERHEIT.md` Kap. 5 → ENTSCHIEDEN · `docs/ROADMAP.md` §6 neu ·
+  TODO/DAILY_LOG/CHANGELOG fortgeschrieben.
+
+**S1-Assets liegen bereit (Eigentümer, 11.7. abends):** 10/10 Modulbilder
+`Bilder/S1_1-…png` … `S1_10-…png` (Modul 6 = `S1 Persönliche Schutzausrüstung.png`)
++ `Bilder/Sicherheis Eule Transparent.png`. **Design-System unverändert fortführen**
+(Handbuch-Layout, dieselbe Campus-Eule; Einbindung später nach Modulbilder-Konvention
+`public/modules/<slug>.png` über `optionalImage()`).
+
+**Nächste Schritte (Reihenfolge):** 1) Musterlektion S1-9.1 Freigabe (Eigentümer) →
+2) S1 modulweise ausformulieren → 3) SFK anfragen (Kostenrahmen, Go-Live-Gate) →
+4) Preis-Freigabe Add-on → 5) erst dann Kursfamilien-Technik (ROADMAP §6).
+Parallel weiter gültig: Deploy-Blocker K1/K2, K8-Ausbau, AVV-Follow-ups
+(siehe Teil-8-Stand unten).
+
+---
+
+## STAND 2026-07-11 (Teil 8, Session 10.7. nachts → 11.7.)
 
 > Hinweis: Der Eigentümer hat am 10.7. separat gearbeitet; diese Teil-8-Session lief über
 > Nacht in den 11.7. Statische Deliverables tragen teils noch „2026-07-10" im Dateinamen
